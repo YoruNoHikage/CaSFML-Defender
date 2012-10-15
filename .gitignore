@@ -10,3 +10,13 @@
 *.lai
 *.la
 *.a
+
+# Code::Block project files
+*.cbp
+*.depend
+*.layout
+
+# librairies files
+*.dll
+
+bin/
