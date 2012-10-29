@@ -1,22 +1,21 @@
 #ifndef CHARACTER_HPP
 #define CHARACTER_HPP
 
+#include "../visiblegameobject.hpp"
 #include "../weapons/weapon.hpp"
 
-class Character
+class Character : public VisibleGameObject
 {
     public:
-        Character(sf::Texture &texture, sf::Texture &textureWeapon, sf::Texture &textureBullet);
-        void attack(sf::Vector2i position);
-        sf::Sprite getSprite();
-        Weapon* getWeapon();
-        int setPosition(float x, float y);
-        ~Character();
+        Character();
+        virtual ~Character();
+
+        virtual void load(std::string filename);
+        virtual void update(sf::Time elapsedTime);
+        virtual void draw(sf::RenderWindow& window);
 
     private:
-        sf::Sprite sprite;
-        Weapon *weapon;
+        Weapon _weapon; // change later into a pointer with a weaponManager
 };
-
 
 #endif

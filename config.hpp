@@ -1,11 +1,19 @@
 #ifndef CONFIG_HPP
 #define CONFIG_HPP
 
-#define PATH_IMAGES "data/images/"
+#include <iostream>
+#include <map>
+#include <cassert>
+#include <cmath>
+#include <list>
 
-#define WINDOW_WIDTH 1024
-#define WINDOW_HEIGHT 614
-#define SCALE 0.8f
+#include "SFML/Window.hpp"
+#include "SFML/Graphics.hpp"
+
+#define WINDOW_WIDTH 800
+#define WINDOW_HEIGHT 600
+
+#define IMAGES_PATH "data/images/"
 
 #endif
 

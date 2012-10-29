@@ -1,22 +1,23 @@
 #ifndef WEAPON_HPP
 #define WEAPON_HPP
 
-#include "bullet.hpp"
+#include "../visiblegameobject.hpp"
 
-class Weapon
+class Weapon : public VisibleGameObject
 {
     public:
-        Weapon(sf::Texture &texture, sf::Texture &textureBullet);
-        void throwBullet(int angle = 0);
-        sf::Sprite getSprite();
-        Bullet* getBullet();
-        ~Weapon();
+        Weapon();
+        virtual ~Weapon();
+
+        virtual void load(std::string filename);
+
+        virtual void update(sf::Time elapsedTime);
+
+        void setAngle(float angle);
+        float getAngle() const;
 
     private:
-        sf::Sprite sprite;
-        Bullet *bullet;
+        float _angle;
 };
 
-
 #endif
-

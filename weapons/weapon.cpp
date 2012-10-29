@@ -1,35 +1,49 @@
-#include <iostream>
-#include <SFML/Graphics.hpp>
-
 #include "../config.hpp"
+
+#include "../game.hpp"
 #include "weapon.hpp"
 
-Weapon::Weapon(sf::Texture &texture, sf::Texture &textureBullet)
+Weapon::Weapon() : _angle(0)
 {
-    sprite.setTexture(texture);
-    sprite.setScale(SCALE, SCALE);
-
-    bullet = new Bullet(textureBullet);
-}
-
-void Weapon::throwBullet(int angle)
-{
-    //verify if there are bullets
-    // add bullet to a vector
-    bullet->move();
-}
-
-sf::Sprite Weapon::getSprite()
-{
-    return sprite;
-}
-
-Bullet* Weapon::getBullet()
-{
-    return bullet;
 }
 
 Weapon::~Weapon()
 {
-    delete bullet;
+}
+
+void Weapon::load(std::string filename)
+{
+    VisibleGameObject::load(filename);
+    if(isLoaded())
+        getSprite().setOrigin(getSprite().getGlobalBounds().width / 2, getSprite().getGlobalBounds().height / 2);
+}
+
+void Weapon::setAngle(float angle)
+{
+    _angle = angle;
+}
+
+void Weapon::update(sf::Time elapsedTime)
+{
+    VisibleGameObject::update(elapsedTime);
+
+    // calcul the angle between the mouse's position and the object
+    float deltaX = sf::Mouse::getPosition(Game::getWindow()).x - getPosition().x;
+    float deltaY = sf::Mouse::getPosition(Game::getWindow()).y - getPosition().y;
+
+    if(deltaX == 0)
+        _angle = 0;
+    else
+        _angle = (std::atan(deltaY / deltaX) / (M_PI * 2)) * 360;
+
+    if(isLoaded())
+    {
+        if(deltaX < 0) // force the angle to be between pi / 2 and -pi / 2
+            getSprite().rotate(_angle - getSprite().getRotation());
+    }
+}
+
+float Weapon::getAngle() const
+{
+    return _angle;
 }

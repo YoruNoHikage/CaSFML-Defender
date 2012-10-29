@@ -1,41 +1,35 @@
-#include <iostream>
-#include <SFML/Graphics.hpp>
-
 #include "../config.hpp"
-#include "../weapons/weapon.hpp"
+
 #include "character.hpp"
 
-Character::Character(sf::Texture &texture, sf::Texture &textureWeapon, sf::Texture &textureBullet)
+Character::Character()
 {
-    sprite.setTexture(texture);
-    sprite.setScale(SCALE, SCALE);
-
-    weapon = new Weapon(textureWeapon, textureBullet);
-}
-
-void Character::attack(sf::Vector2i position)
-{
-    std::cout << "A l'attaque" << std::endl;
-    // angle with position of the mouse
-    weapon->throwBullet(/*angle*/);
-}
-
-sf::Sprite Character::getSprite()
-{
-    return sprite;
-}
-
-Weapon* Character::getWeapon()
-{
-    return weapon;
-}
-
-int Character::setPosition(float x, float y)
-{
-    sprite.setPosition(x, y);
+    load(IMAGES_PATH"character.png");
+    assert(isLoaded());
+    getSprite().setOrigin(getSprite().getGlobalBounds().width / 2, getSprite().getGlobalBounds().height / 2);
 }
 
 Character::~Character()
 {
-    delete weapon;
+}
+
+// implements these methods in a mother class to inherit here and with enemies
+
+void Character::load(std::string filename)
+{
+    VisibleGameObject::load(filename);
+    _weapon.load(IMAGES_PATH"weapon.png");
+    _weapon.setPosition(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+}
+
+void Character::update(sf::Time elapsedTime)
+{
+    VisibleGameObject::update(elapsedTime);
+    _weapon.update(elapsedTime);
+}
+
+void Character::draw(sf::RenderWindow& window)
+{
+    VisibleGameObject::draw(window);
+    _weapon.draw(window);
 }
