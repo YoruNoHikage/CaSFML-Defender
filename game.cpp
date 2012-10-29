@@ -15,7 +15,6 @@ void Game::start()
     _gameState = Game::ShowingSplash;
 
     Character *character = new Character();
-    character->setPosition(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
 
     _gameObjectManager.add("Character", character);
 

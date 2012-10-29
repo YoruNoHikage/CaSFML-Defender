@@ -20,6 +20,7 @@ void VisibleGameObject::load(std::string filename)
     {
         _filename = filename;
         _sprite.setTexture(_texture);
+        _sprite.setScale(SCALE, SCALE);
         _isLoaded = true;
 
     }

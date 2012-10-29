@@ -10,8 +10,10 @@
 #include "SFML/Window.hpp"
 #include "SFML/Graphics.hpp"
 
-#define WINDOW_WIDTH 800
-#define WINDOW_HEIGHT 600
+#define WINDOW_WIDTH 1280
+#define WINDOW_HEIGHT 768
+
+#define SCALE 1.f
 
 #define IMAGES_PATH "data/images/"
 

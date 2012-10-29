@@ -15,7 +15,11 @@ void Weapon::load(std::string filename)
 {
     VisibleGameObject::load(filename);
     if(isLoaded())
+    {
+        // PROBLEM TO SOLVE : Fix the origin center when the scale isn't 1.f
         getSprite().setOrigin(getSprite().getGlobalBounds().width / 2, getSprite().getGlobalBounds().height / 2);
+        getSprite().setPosition(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+    }
 }
 
 void Weapon::setAngle(float angle)
@@ -33,7 +37,7 @@ void Weapon::update(sf::Time elapsedTime)
 
     if(deltaX == 0)
         _angle = 0;
-    else
+    else // rotate to be in the cursor's direction
         _angle = (std::atan(deltaY / deltaX) / (M_PI * 2)) * 360;
 
     if(isLoaded())

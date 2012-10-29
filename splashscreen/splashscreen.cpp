@@ -11,6 +11,7 @@ void SplashScreen::show(sf::RenderWindow& window)
     }
 
     sf::Sprite sprite(texture);
+    sprite.setScale(SCALE, SCALE);
 
     window.draw(sprite);
 
