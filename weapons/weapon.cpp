@@ -31,18 +31,18 @@ void Weapon::update(sf::Time elapsedTime)
 {
     VisibleGameObject::update(elapsedTime);
 
-    // calcul the angle between the mouse's position and the object
+    // computes the angle between the mouse's position and the object
     float deltaX = sf::Mouse::getPosition(Game::getWindow()).x - getPosition().x;
     float deltaY = sf::Mouse::getPosition(Game::getWindow()).y - getPosition().y;
 
     if(deltaX == 0)
         _angle = 0;
-    else // rotate to be in the cursor's direction
+    else // rotates to be in the cursor's direction
         _angle = (std::atan(deltaY / deltaX) / (M_PI * 2)) * 360;
 
     if(isLoaded())
     {
-        if(deltaX < 0) // force the angle to be between pi / 2 and -pi / 2
+        if(deltaX < 0) // forces the angle to be between pi / 2 and -pi / 2
             getSprite().rotate(_angle - getSprite().getRotation());
     }
 }

@@ -6,6 +6,7 @@
 #include <cassert>
 #include <cmath>
 #include <list>
+#include <cstdlib>
 
 #include "SFML/Window.hpp"
 #include "SFML/Graphics.hpp"

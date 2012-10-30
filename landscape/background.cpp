@@ -4,13 +4,19 @@
 
 Background::Background()
 {
-    //temporary
-    _clouds.push_back(new Cloud());
 }
 
 Background::~Background()
 {
     std::for_each(_clouds.begin(), _clouds.end(), CloudDeallocator());
+}
+
+void Background::generateClouds()
+{
+    while(_clouds.size() < 3)
+    {
+        _clouds.push_back(new Cloud());
+    }
 }
 
 void Background::update(sf::Time elapsedTime)
@@ -20,12 +26,14 @@ void Background::update(sf::Time elapsedTime)
         if((*it)->hasToBeRemoved())
         {
             delete *it;
-            _clouds.erase(it);
+            it = _clouds.erase(it);
+            //it--;
             std::cout << "Cloud deleted" << std::endl;
         }
         else
             (*it)->update(elapsedTime);
     }
+    generateClouds();
 }
 
 void Background::draw(sf::RenderWindow& window)

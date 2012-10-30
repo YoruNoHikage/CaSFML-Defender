@@ -9,6 +9,8 @@ class Background : public VisibleGameObject
         Background();
         ~Background();
 
+        void generateClouds();
+
         virtual void update(sf::Time elapsedTime);
         virtual void draw(sf::RenderWindow& window);
 

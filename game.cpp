@@ -31,6 +31,8 @@ void Game::start()
 
     _gameObjectManager.add("Ground", ground);
 
+    std::srand(time(NULL));
+
     while(!isExiting())
     {
         gameLoop();
