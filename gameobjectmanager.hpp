@@ -18,7 +18,17 @@ class GameObjectManager
         void drawAll(sf::RenderWindow& window);
 
     private:
-        std::map<std::string, VisibleGameObject*> _gameObjects;
+
+        // TO DO : Try to organize in the opposite
+        struct OrderAsList // ranks the elements in the std::map in the opposite of the addition's order
+        {
+            bool operator()(const std::string& a, const std::string& b) const
+            {
+                return true;
+            }
+        };
+
+        std::map<std::string, VisibleGameObject*, OrderAsList> _gameObjects;
 
         struct GameObjectDeallocator
         {
@@ -27,6 +37,8 @@ class GameObjectManager
                 delete p.second;
             }
         };
+
+
 };
 
 #endif

@@ -45,9 +45,9 @@ void GameObjectManager::updateAll(sf::Time elapsedTime)
 	while(itr != _gameObjects.end())
 	{
 		itr->second->update(elapsedTime);
+		std::cout << itr->first << std::endl;
 		itr++;
 	}
-
 }
 
 void GameObjectManager::drawAll(sf::RenderWindow& window)
