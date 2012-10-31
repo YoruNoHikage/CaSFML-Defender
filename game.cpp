@@ -4,6 +4,7 @@
 #include "splashscreen/splashscreen.hpp"
 #include "characters/character.hpp"
 #include "landscape/background.hpp"
+#include "castle.hpp"
 
 void Game::start()
 {
@@ -15,21 +16,21 @@ void Game::start()
     _gameState = Game::ShowingSplash;
 
     Character *character = new Character();
-
     _gameObjectManager.add("Character", character);
 
-    Background *background = new Background();
-    background->load(IMAGES_PATH"background.png");
-    background->setPosition(0, 0);
-
-    _gameObjectManager.add("Background", background);
+    Castle *castle = new Castle();
+    _gameObjectManager.add("Castle", castle);
 
     VisibleGameObject *ground = new VisibleGameObject(); // maybe change to another object who inherit from visiblegameobject
     ground->load(IMAGES_PATH"ground.png");
     if(ground->isLoaded())
         ground->setPosition(0, WINDOW_HEIGHT - 100); // change that into the constructor
-
     _gameObjectManager.add("Ground", ground);
+
+    Background *background = new Background();
+    background->load(IMAGES_PATH"background.png");
+    background->setPosition(0, 0);
+    _gameObjectManager.add("Background", background);
 
     std::srand(time(NULL));
 
