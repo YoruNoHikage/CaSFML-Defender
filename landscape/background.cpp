@@ -27,8 +27,6 @@ void Background::update(sf::Time elapsedTime)
         {
             delete *it;
             it = _clouds.erase(it);
-            //it--;
-            std::cout << "Cloud deleted" << std::endl;
         }
         else
             (*it)->update(elapsedTime);
