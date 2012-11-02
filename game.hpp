@@ -1,7 +1,10 @@
 #ifndef GAME_HPP
 #define GAME_HPP
 
-#include "gameobjectmanager.hpp"
+#include "splashscreen/splashscreen.hpp"
+#include "characters/character.hpp"
+#include "landscape/background.hpp"
+#include "castle.hpp"
 
 class Game
 {
@@ -17,6 +20,9 @@ class Game
 
         static void showSplashScreen();
 
+        static void updateAll();
+        static void drawAll();
+
         enum GameState { Uninitialized, ShowingSplash, Paused, ShowingMenu, Playing, Exiting };
 
         static GameState _gameState;
@@ -24,7 +30,10 @@ class Game
         static sf::Event _currentEvent;
         static sf::Clock _clock;
 
-        static GameObjectManager _gameObjectManager;
+        static Character _character;
+        static Castle _castle;
+        static VisibleGameObject _ground;
+        static Background _background;
 };
 
 #endif

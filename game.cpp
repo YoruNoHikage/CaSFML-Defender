@@ -1,10 +1,6 @@
 #include "config.hpp"
 
 #include "game.hpp"
-#include "splashscreen/splashscreen.hpp"
-#include "characters/character.hpp"
-#include "landscape/background.hpp"
-#include "castle.hpp"
 
 void Game::start()
 {
@@ -15,22 +11,12 @@ void Game::start()
 
     _gameState = Game::ShowingSplash;
 
-    Character *character = new Character();
-    _gameObjectManager.add("Character", character);
+    _ground.load(IMAGES_PATH"ground.png");
+    if(_ground.isLoaded())
+        _ground.setPosition(0, WINDOW_HEIGHT - 100); // change that into the constructor
 
-    Castle *castle = new Castle();
-    _gameObjectManager.add("Castle", castle);
-
-    VisibleGameObject *ground = new VisibleGameObject(); // maybe change to another object who inherit from visiblegameobject
-    ground->load(IMAGES_PATH"ground.png");
-    if(ground->isLoaded())
-        ground->setPosition(0, WINDOW_HEIGHT - 100); // change that into the constructor
-    _gameObjectManager.add("Ground", ground);
-
-    Background *background = new Background();
-    background->load(IMAGES_PATH"background.png");
-    background->setPosition(0, 0);
-    _gameObjectManager.add("Background", background);
+    _background.load(IMAGES_PATH"background.png");
+    _background.setPosition(0, 0);
 
     std::srand(time(NULL));
 
@@ -61,9 +47,8 @@ void Game::gameLoop()
         case Game::Playing:
             _mainWindow.clear();
 
-            sf::Time elapsed = _clock.restart();
-            _gameObjectManager.updateAll(elapsed);
-            _gameObjectManager.drawAll(_mainWindow);
+            updateAll();
+            drawAll();
 
             _mainWindow.display();
 
@@ -82,6 +67,23 @@ void Game::showSplashScreen()
     _gameState = Game::Playing;
 }
 
+void Game::updateAll()
+{
+    sf::Time elapsed = _clock.restart();
+    _background.update(elapsed);
+    _ground.update(elapsed); // useless but...
+    _castle.update(elapsed);
+    _character.update(elapsed);
+}
+
+void Game::drawAll()
+{
+    _background.draw(_mainWindow);
+    _ground.draw(_mainWindow);
+    _castle.draw(_mainWindow);
+    _character.draw(_mainWindow);
+}
+
 sf::RenderWindow& Game::getWindow()
 {
     return _mainWindow;
@@ -97,4 +99,7 @@ sf::RenderWindow Game::_mainWindow;
 sf::Event Game::_currentEvent;
 sf::Clock Game::_clock;
 
-GameObjectManager Game::_gameObjectManager;
+Character Game::_character;
+Castle Game::_castle;
+VisibleGameObject Game::_ground;
+Background Game::_background;
