@@ -11,6 +11,8 @@ class Weapon : public VisibleGameObject
 
         virtual void load(std::string filename);
 
+        void shoot(sf::Time elapsedTime, sf::Vector2i location);
+
         virtual void update(sf::Time elapsedTime);
 
         void setAngle(float angle);
@@ -18,6 +20,7 @@ class Weapon : public VisibleGameObject
 
     private:
         float _angle;
+        sf::Time _rechargingTime, _elapsedTime;
 };
 
 #endif

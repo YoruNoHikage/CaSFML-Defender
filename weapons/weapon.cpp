@@ -3,7 +3,7 @@
 #include "../game.hpp"
 #include "weapon.hpp"
 
-Weapon::Weapon() : _angle(0)
+Weapon::Weapon() : _angle(0), _rechargingTime(sf::seconds(0.2f)), _elapsedTime(sf::seconds(0))
 {
 }
 
@@ -27,9 +27,22 @@ void Weapon::setAngle(float angle)
     _angle = angle;
 }
 
+void Weapon::shoot(sf::Time elapsedTime, sf::Vector2i location)
+{
+    if(_elapsedTime > _rechargingTime) // if the weapon is not recharged, it's not possible to shoot
+    {
+        Shot *newShot = new Shot(location);
+        Game::addShot(newShot);
+
+        _elapsedTime = sf::seconds(0);
+    }
+}
+
 void Weapon::update(sf::Time elapsedTime)
 {
     VisibleGameObject::update(elapsedTime);
+
+    _elapsedTime += elapsedTime; // keeps elapsedTime in memory
 
     // computes the angle between the mouse's position and the object
     float deltaX = sf::Mouse::getPosition(Game::getWindow()).x - getPosition().x;
