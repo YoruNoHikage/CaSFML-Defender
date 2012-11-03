@@ -5,14 +5,20 @@
 #include "characters/character.hpp"
 #include "landscape/background.hpp"
 #include "castle.hpp"
+#include "weapons/shot.hpp"
 
 class Game
 {
-
     public:
+        Game();
+        ~Game();
+
         static void start();
         static sf::RenderWindow& getWindow();
         const static sf::Event& getCurrentEvent();
+        static std::list<Shot*> getShots();
+
+        static void addShot(Shot* shot);
 
     private:
         static bool isExiting();
@@ -34,6 +40,15 @@ class Game
         static Castle _castle;
         static VisibleGameObject _ground;
         static Background _background;
+        static std::list<Shot*> _shots;
+
+        struct ShotsDeallocator
+        {
+            void operator()(const Shot* p) const
+            {
+                delete p;
+            }
+        };
 };
 
 #endif

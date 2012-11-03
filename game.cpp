@@ -2,6 +2,15 @@
 
 #include "game.hpp"
 
+Game::Game()
+{
+}
+
+Game::~Game()
+{
+    std::for_each(_shots.begin(), _shots.end(), ShotsDeallocator());
+}
+
 void Game::start()
 {
     if(_gameState != Uninitialized)
@@ -17,6 +26,8 @@ void Game::start()
 
     _background.load(IMAGES_PATH"background.png");
     _background.setPosition(0, 0);
+
+    _shots.clear();
 
     std::srand(time(NULL));
 
@@ -74,6 +85,10 @@ void Game::updateAll()
     _ground.update(elapsed); // useless but...
     _castle.update(elapsed);
     _character.update(elapsed);
+    for(std::list<Shot*>::const_iterator itr = _shots.begin() ; itr != _shots.end() ; ++itr)
+    {
+        (*itr)->update(elapsed);
+    }
 }
 
 void Game::drawAll()
@@ -82,6 +97,10 @@ void Game::drawAll()
     _ground.draw(_mainWindow);
     _castle.draw(_mainWindow);
     _character.draw(_mainWindow);
+    for(std::list<Shot*>::const_iterator itr = _shots.begin() ; itr != _shots.end() ; ++itr)
+    {
+        (*itr)->draw(_mainWindow);
+    }
 }
 
 sf::RenderWindow& Game::getWindow()
@@ -94,6 +113,16 @@ const sf::Event& Game::getCurrentEvent()
     return _currentEvent;
 }
 
+std::list<Shot*> Game::getShots()
+{
+    return _shots;
+}
+
+void Game::addShot(Shot* shot)
+{
+    _shots.push_back(shot);
+}
+
 Game::GameState Game::_gameState = Uninitialized;
 sf::RenderWindow Game::_mainWindow;
 sf::Event Game::_currentEvent;
@@ -103,3 +132,4 @@ Character Game::_character;
 Castle Game::_castle;
 VisibleGameObject Game::_ground;
 Background Game::_background;
+std::list<Shot*> Game::_shots;
