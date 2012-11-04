@@ -9,7 +9,8 @@ class Cloud : public VisibleGameObject
         Cloud();
         ~Cloud();
 
-        virtual void update(sf::Time elapsedTime);
+        void load(std::string filename);
+        void update(sf::Time elapsedTime);
         bool hasToBeRemoved();
 
     private:

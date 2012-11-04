@@ -5,10 +5,6 @@
 
 Character::Character()
 {
-    load(IMAGES_PATH"character.png");
-    assert(isLoaded());
-    getSprite().setOrigin(getSprite().getGlobalBounds().width / 2, getSprite().getGlobalBounds().height / 2);
-    getSprite().setPosition(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
 }
 
 Character::~Character()
@@ -20,6 +16,9 @@ Character::~Character()
 void Character::load(std::string filename)
 {
     VisibleGameObject::load(filename);
+    assert(isLoaded());
+    getSprite().setOrigin(getSprite().getGlobalBounds().width / 2, getSprite().getGlobalBounds().height / 2);
+    getSprite().setPosition(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
     _weapon.load(IMAGES_PATH"weapon.png");
 }
 

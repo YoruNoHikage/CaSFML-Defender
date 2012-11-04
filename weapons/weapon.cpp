@@ -32,6 +32,7 @@ void Weapon::shoot(sf::Time elapsedTime, sf::Vector2i location)
     if(_elapsedTime > _rechargingTime) // if the weapon is not recharged, it's not possible to shoot
     {
         Shot *newShot = new Shot(location);
+        newShot->load(IMAGES_PATH"shot.png");
         Game::addShot(newShot);
 
         _elapsedTime = sf::seconds(0);

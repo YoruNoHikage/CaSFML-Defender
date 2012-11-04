@@ -20,7 +20,7 @@ class VisibleGameObject
 
     private:
         sf::Sprite _sprite;
-        sf::Texture _texture;
+        sf::Texture *_texture;
         std::string _filename;
         bool _isLoaded;
 };

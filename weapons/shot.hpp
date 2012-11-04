@@ -9,6 +9,7 @@ class Shot : public VisibleGameObject
         Shot(sf::Vector2i location);
         ~Shot();
 
+        void load(std::string filename);
         void update(sf::Time elapsedTime);
 
     private:

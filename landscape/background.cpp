@@ -15,7 +15,9 @@ void Background::generateClouds()
 {
     while(_clouds.size() < 3)
     {
-        _clouds.push_back(new Cloud());
+        Cloud *newCloud = new Cloud();
+        _clouds.push_back(newCloud);
+        newCloud->load(IMAGES_PATH"cloud.png");
     }
 }
 

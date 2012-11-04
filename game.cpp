@@ -16,10 +16,16 @@ void Game::start()
     if(_gameState != Uninitialized)
         return;
 
+    ImageManager *im = new ImageManager(); // no delete, problem here ?
+    Locator::provideImageManager(im);
+
     _mainWindow.create(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Patate en frite");
 
     _gameState = Game::ShowingSplash;
 
+    _castle.load(IMAGES_PATH"castle.png");
+
+    _character.load(IMAGES_PATH"character.png");
     _ground.load(IMAGES_PATH"ground.png");
     if(_ground.isLoaded())
         _ground.setPosition(0, WINDOW_HEIGHT - 100); // change that into the constructor

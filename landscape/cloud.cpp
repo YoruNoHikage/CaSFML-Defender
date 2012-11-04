@@ -4,8 +4,15 @@
 
 Cloud::Cloud() : _velocity((rand() % (10 - (-10) + 1) - 10)), _appeared(false)
 {
-    load(IMAGES_PATH"cloud.png");
+}
 
+Cloud::~Cloud()
+{
+}
+
+void Cloud::load(std::string filename)
+{
+    VisibleGameObject::load(filename);
     if(isLoaded())
     {
         int y = rand() % (WINDOW_HEIGHT - 100 - (int)getSprite().getGlobalBounds().height) + 1; // TO DO : put the ground's height instead of 100
@@ -18,10 +25,6 @@ Cloud::Cloud() : _velocity((rand() % (10 - (-10) + 1) - 10)), _appeared(false)
         int scale = rand() % 2 + 1;
         getSprite().setScale(scale, scale);
     }
-}
-
-Cloud::~Cloud()
-{
 }
 
 void Cloud::update(sf::Time elapsedTime)

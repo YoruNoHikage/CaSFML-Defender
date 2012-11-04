@@ -11,6 +11,11 @@
 #include "SFML/Window.hpp"
 #include "SFML/Graphics.hpp"
 
+// tools
+#include "tools/imagemanager.hpp"
+
+#include "tools/locator.hpp"
+
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 768
 

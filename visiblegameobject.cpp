@@ -11,7 +11,9 @@ VisibleGameObject::~VisibleGameObject()
 
 void VisibleGameObject::load(std::string filename)
 {
-    if(!_texture.loadFromFile(filename))
+    ImageManager *im = Locator::getImageManager();
+    _texture = im->getTexture(filename);
+    if(_texture == NULL)
     {
         _filename = "";
         _isLoaded = false;
@@ -19,10 +21,9 @@ void VisibleGameObject::load(std::string filename)
     else
     {
         _filename = filename;
-        _sprite.setTexture(_texture);
+        _sprite.setTexture(*_texture);
         _sprite.setScale(SCALE, SCALE);
         _isLoaded = true;
-
     }
 }
 
@@ -54,7 +55,6 @@ bool VisibleGameObject::isLoaded() const
 {
     return _isLoaded;
 }
-
 
 sf::Sprite& VisibleGameObject::getSprite()
 {

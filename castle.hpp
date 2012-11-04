@@ -9,6 +9,8 @@ class Castle : public VisibleGameObject
         Castle();
         ~Castle();
 
+        void load(std::string filename);
+
     private:
         int life;
 };

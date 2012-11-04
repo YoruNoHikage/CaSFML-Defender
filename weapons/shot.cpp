@@ -2,9 +2,17 @@
 
 #include "shot.hpp"
 
-Shot::Shot(sf::Vector2i location) : _location(location), _velocity(0.5f), _damage(1)
+Shot::Shot(sf::Vector2i location) : _velocity(0.5f), _location(location), _damage(1)
 {
-    load(IMAGES_PATH"shot.png");
+}
+
+Shot::~Shot()
+{
+}
+
+void Shot::load(std::string filename)
+{
+    VisibleGameObject::load(filename);
     assert(isLoaded());
     getSprite().setOrigin(getSprite().getGlobalBounds().width / 2, getSprite().getGlobalBounds().height / 2);
     getSprite().setPosition(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
@@ -12,10 +20,6 @@ Shot::Shot(sf::Vector2i location) : _location(location), _velocity(0.5f), _damag
     _deltaY = getSprite().getPosition().y - _location.y;
     _deltaX = getSprite().getPosition().x - _location.x;
     _coeff = _deltaY / _deltaX; // director coefficient
-}
-
-Shot::~Shot()
-{
 }
 
 void Shot::update(sf::Time elapsedTime)
