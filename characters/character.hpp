@@ -14,6 +14,8 @@ class Character : public VisibleGameObject
         virtual void update(sf::Time elapsedTime);
         virtual void draw(sf::RenderWindow& window);
 
+        Weapon* getWeapon();
+
         void attack(sf::Time elapsedTime, sf::Vector2i location);
 
     private:

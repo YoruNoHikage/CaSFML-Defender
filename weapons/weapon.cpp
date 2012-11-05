@@ -18,7 +18,6 @@ void Weapon::load(std::string filename)
     {
         // PROBLEM TO SOLVE : Fix the origin center when the scale isn't 1.f
         getSprite().setOrigin(getSprite().getGlobalBounds().width / 2, getSprite().getGlobalBounds().height / 2);
-        getSprite().setPosition(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
     }
 }
 
@@ -29,9 +28,10 @@ void Weapon::setAngle(float angle)
 
 void Weapon::shoot(sf::Time elapsedTime, sf::Vector2i location)
 {
-    if(_elapsedTime > _rechargingTime) // if the weapon is not recharged, it's not possible to shoot
+    if(_elapsedTime > _rechargingTime // if the weapon is not recharged, it's not possible to shoot
+       && location.x <= getPosition().x) // and, of course, it's not possible to shoot behind the character
     {
-        Shot *newShot = new Shot(location);
+        Shot *newShot = new Shot(location, this);
         newShot->load(IMAGES_PATH"shot.png");
         Game::addShot(newShot);
 

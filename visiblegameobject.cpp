@@ -44,6 +44,11 @@ void VisibleGameObject::setPosition(float x, float y)
         _sprite.setPosition(x, y);
 }
 
+sf::FloatRect VisibleGameObject::getDimension() const
+{
+    return _sprite.getGlobalBounds();
+}
+
 sf::Vector2f VisibleGameObject::getPosition() const
 {
     if(_isLoaded)

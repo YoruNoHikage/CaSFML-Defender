@@ -13,6 +13,7 @@ class VisibleGameObject
 
         virtual void setPosition(float x, float y);
         virtual sf::Vector2f getPosition() const;
+        virtual sf::FloatRect getDimension() const;
         virtual bool isLoaded() const;
 
     protected:

@@ -1,13 +1,15 @@
 #include "../config.hpp"
 
+#include "weapon.hpp"
 #include "shot.hpp"
 
-Shot::Shot(sf::Vector2i location) : _velocity(0.5f), _location(location), _damage(1)
+Shot::Shot(sf::Vector2i location, Weapon *weapon) : _velocity(0.5f), _location(location), _weapon(weapon), _damage(1)
 {
 }
 
 Shot::~Shot()
 {
+    std::cout << "shot deleted" << std::endl;
 }
 
 void Shot::load(std::string filename)
@@ -15,7 +17,7 @@ void Shot::load(std::string filename)
     VisibleGameObject::load(filename);
     assert(isLoaded());
     getSprite().setOrigin(getSprite().getGlobalBounds().width / 2, getSprite().getGlobalBounds().height / 2);
-    getSprite().setPosition(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+    getSprite().setPosition(_weapon->getPosition().x - _weapon->getDimension().width / 2, _weapon->getPosition().y);
 
     _deltaY = getSprite().getPosition().y - _location.y;
     _deltaX = getSprite().getPosition().x - _location.x;
@@ -30,4 +32,14 @@ void Shot::update(sf::Time elapsedTime)
         x = -x;
 
     getSprite().move(x, x * _coeff);
+}
+
+bool Shot::hasToBeRemoved()
+{
+    if(getPosition().x > WINDOW_WIDTH + getDimension().width
+       || getPosition().x + getDimension().width < 0
+       || getPosition().y > WINDOW_HEIGHT + getDimension().height
+       || getPosition().y + getDimension().height < 0)
+        return true;
+    return false;
 }

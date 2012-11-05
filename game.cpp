@@ -26,9 +26,17 @@ void Game::start()
     _castle.load(IMAGES_PATH"castle.png");
 
     _character.load(IMAGES_PATH"character.png");
+    if(_character.isLoaded())
+    {
+        _character.setPosition(_castle.getPosition().x + _castle.getDimension().width / 2 - _character.getDimension().width / 2,
+                               _castle.getPosition().y - _character.getDimension().height * 3/4);
+        Weapon *weapon = _character.getWeapon();
+        weapon->setPosition(_character.getPosition().x, _character.getPosition().y + weapon->getDimension().height);
+    }
+
     _ground.load(IMAGES_PATH"ground.png");
     if(_ground.isLoaded())
-        _ground.setPosition(0, WINDOW_HEIGHT - 100); // change that into the constructor
+        _ground.setPosition(0, WINDOW_HEIGHT - _ground.getDimension().height);
 
     _background.load(IMAGES_PATH"background.png");
     _background.setPosition(0, 0);
@@ -89,11 +97,17 @@ void Game::updateAll()
     sf::Time elapsed = _clock.restart();
     _background.update(elapsed);
     _ground.update(elapsed); // useless but...
-    _castle.update(elapsed);
     _character.update(elapsed);
-    for(std::list<Shot*>::const_iterator itr = _shots.begin() ; itr != _shots.end() ; ++itr)
+    _castle.update(elapsed);
+    for(std::list<Shot*>::iterator itr = _shots.begin() ; itr != _shots.end() ; ++itr)
     {
-        (*itr)->update(elapsed);
+        if((*itr)->hasToBeRemoved())
+        {
+            delete *itr;
+            itr = _shots.erase(itr);
+        }
+        else
+            (*itr)->update(elapsed);
     }
 }
 
@@ -101,8 +115,8 @@ void Game::drawAll()
 {
     _background.draw(_mainWindow);
     _ground.draw(_mainWindow);
-    _castle.draw(_mainWindow);
     _character.draw(_mainWindow);
+    _castle.draw(_mainWindow);
     for(std::list<Shot*>::const_iterator itr = _shots.begin() ; itr != _shots.end() ; ++itr)
     {
         (*itr)->draw(_mainWindow);
