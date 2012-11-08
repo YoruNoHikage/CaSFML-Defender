@@ -1,7 +1,7 @@
 #include "config.hpp"
 #include "visiblegameobject.hpp"
 
-VisibleGameObject::VisibleGameObject() : _isLoaded(false)
+VisibleGameObject::VisibleGameObject() : _isLoaded(false), _isAlive(true)
 {
 }
 
@@ -37,6 +37,15 @@ void VisibleGameObject::update(sf::Time elapsedTime)
 {
 }
 
+bool VisibleGameObject::collide(VisibleGameObject &object)
+{
+    return _hitbox->collide(object.getHitbox());
+}
+
+void VisibleGameObject::die()
+{
+    _isAlive = false;
+}
 
 void VisibleGameObject::setPosition(float x, float y)
 {
@@ -61,7 +70,17 @@ bool VisibleGameObject::isLoaded() const
     return _isLoaded;
 }
 
+bool VisibleGameObject::isAlive() const
+{
+    return _isAlive;
+}
+
 sf::Sprite& VisibleGameObject::getSprite()
 {
     return _sprite;
+}
+
+Hitbox* VisibleGameObject::getHitbox()
+{
+    return _hitbox;
 }

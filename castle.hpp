@@ -11,6 +11,8 @@ class Castle : public VisibleGameObject
 
         void load(std::string filename);
 
+        void update(sf::Time elapsedTime);
+
     private:
         int life;
 };

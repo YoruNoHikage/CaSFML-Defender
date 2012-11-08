@@ -24,11 +24,13 @@ void Game::start()
     _gameState = Game::ShowingSplash;
 
     _castle.load(IMAGES_PATH"castle.png");
+    if(_castle.isLoaded())
+            _castle.setPosition(WINDOW_WIDTH - _castle.getDimension().width, WINDOW_HEIGHT - _castle.getDimension().height - 50);
 
     _character.load(IMAGES_PATH"character.png");
     if(_character.isLoaded())
     {
-        _character.setPosition(_castle.getPosition().x + _castle.getDimension().width / 2 - _character.getDimension().width / 2,
+        _character.setPosition(_castle.getPosition().x + 10,
                                _castle.getPosition().y - _character.getDimension().height * 3/4);
         Weapon *weapon = _character.getWeapon();
         weapon->setPosition(_character.getPosition().x, _character.getPosition().y + weapon->getDimension().height);
@@ -36,7 +38,11 @@ void Game::start()
 
     _ground.load(IMAGES_PATH"ground.png");
     if(_ground.isLoaded())
+    {
         _ground.setPosition(0, WINDOW_HEIGHT - _ground.getDimension().height);
+        if(_castle.isLoaded())
+            _castle.setPosition(WINDOW_WIDTH - _castle.getDimension().width, WINDOW_HEIGHT - _castle.getDimension().height - _ground.getDimension().height / 2);
+    }
 
     _background.load(IMAGES_PATH"background.png");
     _background.setPosition(0, 0);
@@ -109,6 +115,18 @@ void Game::updateAll()
         else
             (*itr)->update(elapsed);
     }
+
+    checkAllCollisions();
+}
+
+void Game::checkAllCollisions()
+{
+    // collision between shots and the castle
+    for(std::list<Shot*>::const_iterator itr = _shots.begin() ; itr != _shots.end() ; ++itr)
+    {
+        if((*itr)->collide(_ground))
+            (*itr)->die();
+    }
 }
 
 void Game::drawAll()
@@ -150,6 +168,6 @@ sf::Clock Game::_clock;
 
 Character Game::_character;
 Castle Game::_castle;
-VisibleGameObject Game::_ground;
+Ground Game::_ground;
 Background Game::_background;
 std::list<Shot*> Game::_shots;

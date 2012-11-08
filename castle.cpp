@@ -6,13 +6,22 @@ Castle::Castle() : life(100)
 {
 }
 
+Castle::~Castle()
+{
+    delete _hitbox;
+}
+
 void Castle::load(std::string filename)
 {
     VisibleGameObject::load(filename);
     assert(isLoaded());
-    getSprite().setPosition(WINDOW_WIDTH - getSprite().getGlobalBounds().width, WINDOW_HEIGHT - getSprite().getGlobalBounds().height - 50); // TO DO : write ground's height instead of 50
+
+    _hitbox = new BoundingBoxHitbox(getDimension());
 }
 
-Castle::~Castle()
+void Castle::update(sf::Time elapsedTime)
 {
+    VisibleGameObject::update(elapsedTime);
+
+    _hitbox->setPosition(getPosition().x, getPosition().y); // TO FIX : change that because the castle never moves
 }

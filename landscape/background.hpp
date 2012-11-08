@@ -1,5 +1,5 @@
-#ifndef BACKGROUND_CPP
-#define BACKGROUND_CPP
+#ifndef BACKGROUND_HPP
+#define BACKGROUND_HPP
 
 #include "cloud.hpp"
 

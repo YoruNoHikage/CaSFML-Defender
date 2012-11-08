@@ -4,6 +4,7 @@
 #include "splashscreen/splashscreen.hpp"
 #include "characters/character.hpp"
 #include "landscape/background.hpp"
+#include "landscape/ground.hpp"
 #include "castle.hpp"
 #include "weapons/shot.hpp"
 
@@ -27,6 +28,7 @@ class Game
         static void showSplashScreen();
 
         static void updateAll();
+        static void checkAllCollisions();
         static void drawAll();
 
         enum GameState { Uninitialized, ShowingSplash, Paused, ShowingMenu, Playing, Exiting };
@@ -38,7 +40,7 @@ class Game
 
         static Character _character;
         static Castle _castle;
-        static VisibleGameObject _ground;
+        static Ground _ground;
         static Background _background;
         static std::list<Shot*> _shots;
 

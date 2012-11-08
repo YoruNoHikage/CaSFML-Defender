@@ -7,6 +7,7 @@
 #include <cmath>
 #include <list>
 #include <cstdlib>
+#include <typeinfo>
 
 #include "SFML/Window.hpp"
 #include "SFML/Graphics.hpp"
