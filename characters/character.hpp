@@ -11,15 +11,15 @@ class Character : public VisibleGameObject
         virtual ~Character();
 
         virtual void load(std::string filename);
+        virtual void load(std::string filename, std::string fWeapon);
         virtual void update(sf::Time elapsedTime);
         virtual void draw(sf::RenderWindow& window);
+        virtual void attack(sf::Time elapsedTime);
 
-        Weapon* getWeapon();
-
-        void attack(sf::Time elapsedTime, sf::Vector2i location);
+        virtual Weapon* getWeapon();
 
     private:
-        Weapon _weapon; // change later into a pointer with a weaponManager
+        Weapon *_weapon; // player can change it and enemies can lose it
 };
 
 #endif
