@@ -12,7 +12,7 @@ VisibleGameObject::~VisibleGameObject()
 void VisibleGameObject::load(std::string filename)
 {
     ImageManager *im = Locator::getImageManager();
-    _texture = im->getTexture(filename);
+    _texture = im->getTexture(IMAGES_PATH + filename);
     if(_texture == NULL)
     {
         _filename = "";
@@ -44,7 +44,6 @@ bool VisibleGameObject::collide(VisibleGameObject &object)
 
 void VisibleGameObject::die()
 {
-    _isAlive = false;
 }
 
 void VisibleGameObject::setPosition(float x, float y)

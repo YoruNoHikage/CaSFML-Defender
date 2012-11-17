@@ -11,7 +11,7 @@ class Weapon : public VisibleGameObject
 
         virtual void load(std::string filename);
 
-        void shoot(sf::Time elapsedTime, sf::Vector2i location);
+        void shoot(sf::Time elapsedTime, sf::Vector2f location);
 
         virtual void update(sf::Time elapsedTime);
 

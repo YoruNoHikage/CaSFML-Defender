@@ -5,13 +5,14 @@
 
 #include "../hitbox/circlehitbox.hpp"
 
-Shot::Shot(sf::Vector2i location, Weapon *weapon) : _velocity(0.5f), _location(location), _weapon(weapon), _damage(1)
+Shot::Shot(sf::Vector2f location, Weapon *weapon) : _velocity(0.5f), _location(location), _weapon(weapon), _damage(1)
 {
 }
 
 Shot::~Shot()
 {
-    delete _hitbox;
+    if(_hitbox != NULL)
+        delete _hitbox;
 }
 
 void Shot::load(std::string filename)
@@ -51,4 +52,9 @@ bool Shot::hasToBeRemoved()
        || getPosition().y + getDimension().height < 0)
         return true;
     return false;
+}
+
+void Shot::die()
+{
+    _isAlive = false;
 }
