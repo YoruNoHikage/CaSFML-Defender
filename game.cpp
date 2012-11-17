@@ -9,6 +9,7 @@ Game::Game()
 Game::~Game()
 {
     std::for_each(_shots.begin(), _shots.end(), ShotsDeallocator());
+    if(_enemy != NULL) delete _enemy;
 }
 
 void Game::start()
@@ -16,27 +17,28 @@ void Game::start()
     if(_gameState != Uninitialized)
         return;
 
-    ImageManager *im = new ImageManager(); // no delete, problem here ?
+    ImageManager *im = new ImageManager(); // deleted in the Locator destructor
     Locator::provideImageManager(im);
 
     _mainWindow.create(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Patate en frite");
 
     _gameState = Game::ShowingSplash;
 
-    _castle.load(IMAGES_PATH"castle.png");
+    _castle.load("castle.png");
     if(_castle.isLoaded())
             _castle.setPosition(WINDOW_WIDTH - _castle.getDimension().width, WINDOW_HEIGHT - _castle.getDimension().height - 50);
 
-    _character.load(IMAGES_PATH"character.png");
-    if(_character.isLoaded())
+    _player.load("character.png", "weapon.png");
+    if(_player.isLoaded())
     {
-        _character.setPosition(_castle.getPosition().x + 10,
-                               _castle.getPosition().y - _character.getDimension().height * 3/4);
-        Weapon *weapon = _character.getWeapon();
-        weapon->setPosition(_character.getPosition().x, _character.getPosition().y + weapon->getDimension().height);
+        _player.setPosition(_castle.getPosition().x + 10,
+                               _castle.getPosition().y - _player.getDimension().height * 3/4);
+        Weapon *weapon = _player.getWeapon();
+        if(weapon != NULL)
+            weapon->setPosition(_player.getPosition().x, _player.getPosition().y + weapon->getDimension().height);
     }
 
-    _ground.load(IMAGES_PATH"ground.png");
+    _ground.load("ground.png");
     if(_ground.isLoaded())
     {
         _ground.setPosition(0, WINDOW_HEIGHT - _ground.getDimension().height);
@@ -44,12 +46,22 @@ void Game::start()
             _castle.setPosition(WINDOW_WIDTH - _castle.getDimension().width, WINDOW_HEIGHT - _castle.getDimension().height - _ground.getDimension().height / 2);
     }
 
-    _background.load(IMAGES_PATH"background.png");
+    _background.load("background.png");
     _background.setPosition(0, 0);
+
+    _enemy = new Enemy();
+    _enemy->load("enemy.png");
+    if(_enemy->isLoaded())
+    {
+        if(_ground.isLoaded())
+            _enemy->setPosition(50, WINDOW_HEIGHT - _ground.getDimension().height / 2 - _enemy->getDimension().height);
+    }
 
     _shots.clear();
 
     std::srand(time(NULL));
+
+    _mainWindow.setVerticalSyncEnabled(true);
 
     while(!isExiting())
     {
@@ -103,7 +115,8 @@ void Game::updateAll()
     sf::Time elapsed = _clock.restart();
     _background.update(elapsed);
     _ground.update(elapsed); // useless but...
-    _character.update(elapsed);
+    _player.update(elapsed);
+    if(_enemy != NULL) _enemy->update(elapsed);
     _castle.update(elapsed);
     for(std::list<Shot*>::iterator itr = _shots.begin() ; itr != _shots.end() ; ++itr)
     {
@@ -116,6 +129,15 @@ void Game::updateAll()
             (*itr)->update(elapsed);
     }
 
+    if(_enemy != NULL)
+    {
+        if(!_enemy->isAlive())
+        {
+            delete _enemy;
+            _enemy = NULL;
+        }
+    }
+
     checkAllCollisions();
 }
 
@@ -124,8 +146,29 @@ void Game::checkAllCollisions()
     // collision between shots and the castle
     for(std::list<Shot*>::const_iterator itr = _shots.begin() ; itr != _shots.end() ; ++itr)
     {
+        if(_enemy != NULL)
+        {
+            if((*itr)->collide(*_enemy))
+            {
+                (*itr)->die();
+                _enemy->die();
+            }
+        }
+
         if((*itr)->collide(_ground))
             (*itr)->die();
+    }
+
+    if(_enemy != NULL)
+    {
+       if(!_enemy->isNearToCastle())
+        {
+            // collision between enemies and the castle
+            if(_enemy->collide(_castle))
+            {
+                _enemy->nearToCastle();
+            }
+        }
     }
 }
 
@@ -133,7 +176,8 @@ void Game::drawAll()
 {
     _background.draw(_mainWindow);
     _ground.draw(_mainWindow);
-    _character.draw(_mainWindow);
+    _player.draw(_mainWindow);
+    if(_enemy != NULL) _enemy->draw(_mainWindow);
     _castle.draw(_mainWindow);
     for(std::list<Shot*>::const_iterator itr = _shots.begin() ; itr != _shots.end() ; ++itr)
     {
@@ -166,7 +210,8 @@ sf::RenderWindow Game::_mainWindow;
 sf::Event Game::_currentEvent;
 sf::Clock Game::_clock;
 
-Character Game::_character;
+Player Game::_player;
+Enemy* Game::_enemy;
 Castle Game::_castle;
 Ground Game::_ground;
 Background Game::_background;

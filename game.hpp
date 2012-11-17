@@ -2,7 +2,8 @@
 #define GAME_HPP
 
 #include "splashscreen/splashscreen.hpp"
-#include "characters/character.hpp"
+#include "characters/player.hpp"
+#include "characters/enemy.hpp"
 #include "landscape/background.hpp"
 #include "landscape/ground.hpp"
 #include "castle.hpp"
@@ -38,11 +39,12 @@ class Game
         static sf::Event _currentEvent;
         static sf::Clock _clock;
 
-        static Character _character;
+        static Player _player;
         static Castle _castle;
         static Ground _ground;
         static Background _background;
         static std::list<Shot*> _shots;
+        static Enemy *_enemy;
 
         struct ShotsDeallocator
         {
