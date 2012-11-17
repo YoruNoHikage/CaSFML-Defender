@@ -11,6 +11,8 @@ struct Circle
 bool circVsPoint(int x, int y, Circle circ);
 bool circVsCirc(Circle circ);
 bool circVsRect(Circle circ, sf::Rect<float> rect);
+bool AABBvSAABB(sf::Rect<float> rect1, sf::Rect<float> rect2);
+bool segmentProjection(Circle circ, float Ax, float Ay, float Bx, float By);
 
 class Hitbox
 {

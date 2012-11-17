@@ -19,11 +19,8 @@ bool circVsRect(Circle circ, sf::Rect<float> rect)
     // we compute the circle's boundingbox
     sf::Rect<float> circleBox(circ.x - circ.radius, circ.y - circ.radius, circ.radius * 2, circ.radius * 2);
 
-    // boundingbox vs boundingbox (to put in a external function if possible)
-    if((rect.left >= circleBox.left + circleBox.width)
-	|| (rect.left + rect.width <= circleBox.top)
-	|| (rect.top >= circleBox.top + circleBox.height)
-	|| (rect.top + rect.height <= circleBox.top))
+    // boundingbox vs boundingbox
+	if(!AABBvSAABB(circleBox, rect))
         return false;
 
     // point vs circle
@@ -31,15 +28,38 @@ bool circVsRect(Circle circ, sf::Rect<float> rect)
     || circVsPoint(rect.left + rect.width, rect.top, circ) || circVsPoint(rect.left + rect.width, rect.top + rect.height, circ))
         return true;
 
-    //point vs boundingbox (the same)
+    //point vs boundingbox (external function please)
     if(circ.x >= rect.left && circ.x < rect.left + rect.width
     && circ.y >= rect.top && circ.y < rect.top + rect.height)
         return true;
 
     //projection on a segment
-    if(!(((circ.x - rect.left) * (rect.left - rect.left) + (circ.y - rect.top) * (rect.top + rect.height - rect.top)) * ((circ.x - rect.left) * (rect.left - rect.left) + (circ.y - rect.top + rect.height) * (rect.top + rect.height - rect.top)) > 0)
-    || !(((circ.x - rect.left) * (rect.left + rect.width - rect.left) + (circ.y - rect.top) * (rect.top - rect.top)) * ((circ.x - rect.left + rect.width) * (rect.left + rect.width - rect.left) + (circ.y - rect.top) * (rect.top - rect.top)) > 0))
+    if(segmentProjection(circ, rect.left, rect.top, rect.left, rect.top + rect.height)
+    || segmentProjection(circ, rect.left, rect.top, rect.left + rect.width, rect.top))
         return true;
 
     return false;
+}
+
+bool AABBvSAABB(sf::Rect<float> rect1, sf::Rect<float> rect2)
+{
+   return !((rect2.left >= rect1.left + rect1.width)
+	|| (rect2.left + rect2.width <= rect1.left)
+	|| (rect2.top >= rect1.top + rect1.height)
+	|| (rect2.top + rect2.height <= rect1.top));
+}
+
+bool segmentProjection(Circle circ, float Ax, float Ay, float Bx, float By)
+{
+    float ACx = circ.x - Ax;
+    float ACy = circ.y - Ay;
+    float ABx = Bx - Ax;
+    float ABy = By - Ay;
+    float BCx = circ.x - Bx;
+    float BCy = circ.y - By;
+    float s1 = (ACx * ABx) + (ACy * ABy);
+    float s2 = (BCx * ABx) + (BCy * ABy);
+    if(s1 * s2 > 0)
+        return false;
+    return true;
 }

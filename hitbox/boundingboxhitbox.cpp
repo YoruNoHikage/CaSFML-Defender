@@ -12,8 +12,12 @@ BoundingBoxHitbox::~BoundingBoxHitbox()
 
 bool BoundingBoxHitbox::collide(sf::Rect<float> rect)
 {
-    std::cout << "oops, you have to write this function !" << std::endl;
-    // test with AABB if no rotation, otherwise test OOB
+    std::cout << "oops, you have to write all of this function !" << std::endl;
+
+    // test with AABB if no rotation, ADD THE ROTATION TEST IF 0
+    if(AABBvSAABB(_boundingBox, rect))
+        return true;
+
     return false;
 }
 
