@@ -4,6 +4,7 @@
 #include "splashscreen/splashscreen.hpp"
 #include "characters/player.hpp"
 #include "characters/enemy.hpp"
+#include "characters/enemymanager.hpp"
 #include "landscape/background.hpp"
 #include "landscape/ground.hpp"
 #include "castle.hpp"
@@ -19,8 +20,10 @@ class Game
         static sf::RenderWindow& getWindow();
         const static sf::Event& getCurrentEvent();
         static std::list<Shot*> getShots();
+        static std::list<Enemy*> getEnemies();
 
         static void addShot(Shot* shot);
+        static void addEnemy(Enemy* enemy);
 
     private:
         static bool isExiting();
@@ -44,11 +47,21 @@ class Game
         static Ground _ground;
         static Background _background;
         static std::list<Shot*> _shots;
-        static Enemy *_enemy;
+        static std::list<Enemy*> _enemies; // enemies in game
+
+        static EnemyManager _em;
 
         struct ShotsDeallocator
         {
             void operator()(const Shot* p) const
+            {
+                delete p;
+            }
+        };
+
+        struct EnemiesDeallocator
+        {
+            void operator()(const Enemy* p) const
             {
                 delete p;
             }

@@ -9,7 +9,7 @@ Game::Game()
 Game::~Game()
 {
     std::for_each(_shots.begin(), _shots.end(), ShotsDeallocator());
-    if(_enemy != NULL) delete _enemy;
+    std::for_each(_enemies.begin(), _enemies.end(), EnemiesDeallocator());
 }
 
 void Game::start()
@@ -49,15 +49,8 @@ void Game::start()
     _background.load("background.png");
     _background.setPosition(0, 0);
 
-    _enemy = new Enemy();
-    _enemy->load("enemy.png");
-    if(_enemy->isLoaded())
-    {
-        if(_ground.isLoaded())
-            _enemy->setPosition(50, WINDOW_HEIGHT - _ground.getDimension().height / 2 - _enemy->getDimension().height);
-    }
-
     _shots.clear();
+    _enemies.clear();
 
     std::srand(time(NULL));
 
@@ -116,7 +109,6 @@ void Game::updateAll()
     _background.update(elapsed);
     _ground.update(elapsed); // useless but...
     _player.update(elapsed);
-    if(_enemy != NULL) _enemy->update(elapsed);
     _castle.update(elapsed);
     for(std::list<Shot*>::iterator itr = _shots.begin() ; itr != _shots.end() ; ++itr)
     {
@@ -129,14 +121,18 @@ void Game::updateAll()
             (*itr)->update(elapsed);
     }
 
-    if(_enemy != NULL)
+    /** Updates enemies */
+    for(std::list<Enemy*>::iterator itr = _enemies.begin() ; itr != _enemies.end() ; ++itr)
     {
-        if(!_enemy->isAlive())
+        if(!(*itr)->isAlive())
         {
-            delete _enemy;
-            _enemy = NULL;
+            delete *itr;
+            itr = _enemies.erase(itr);
         }
+        else
+            (*itr)->update(elapsed);
     }
+    _em.getNewEnemies(elapsed);
 
     checkAllCollisions();
 }
@@ -146,12 +142,13 @@ void Game::checkAllCollisions()
     // collision between shots and the castle
     for(std::list<Shot*>::const_iterator itr = _shots.begin() ; itr != _shots.end() ; ++itr)
     {
-        if(_enemy != NULL)
+        for(std::list<Enemy*>::iterator jtr = _enemies.begin() ; jtr != _enemies.end() ; ++jtr)
         {
-            if((*itr)->collide(*_enemy))
+            if((*itr)->collide(**jtr))
             {
                 (*itr)->die();
-                _enemy->die();
+                (*jtr)->die();
+                break; // we break the loop to not kill others enemies
             }
         }
 
@@ -159,14 +156,14 @@ void Game::checkAllCollisions()
             (*itr)->die();
     }
 
-    if(_enemy != NULL)
+    for(std::list<Enemy*>::iterator itr = _enemies.begin() ; itr != _enemies.end() ; ++itr)
     {
-       if(!_enemy->isNearToCastle())
+       if(!(*itr)->isNearToCastle())
         {
             // collision between enemies and the castle
-            if(_enemy->collide(_castle))
+            if((*itr)->collide(_castle))
             {
-                _enemy->nearToCastle();
+                (*itr)->nearToCastle();
             }
         }
     }
@@ -177,7 +174,10 @@ void Game::drawAll()
     _background.draw(_mainWindow);
     _ground.draw(_mainWindow);
     _player.draw(_mainWindow);
-    if(_enemy != NULL) _enemy->draw(_mainWindow);
+    for(std::list<Enemy*>::iterator itr = _enemies.begin() ; itr != _enemies.end() ; ++itr)
+    {
+        (*itr)->draw(_mainWindow);
+    }
     _castle.draw(_mainWindow);
     for(std::list<Shot*>::const_iterator itr = _shots.begin() ; itr != _shots.end() ; ++itr)
     {
@@ -205,14 +205,26 @@ void Game::addShot(Shot* shot)
     _shots.push_back(shot);
 }
 
+std::list<Enemy*> Game::getEnemies()
+{
+    return _enemies;
+}
+
+void Game::addEnemy(Enemy* enemy)
+{
+    _enemies.push_back(enemy);
+}
+
 Game::GameState Game::_gameState = Uninitialized;
 sf::RenderWindow Game::_mainWindow;
 sf::Event Game::_currentEvent;
 sf::Clock Game::_clock;
 
 Player Game::_player;
-Enemy* Game::_enemy;
 Castle Game::_castle;
 Ground Game::_ground;
 Background Game::_background;
 std::list<Shot*> Game::_shots;
+std::list<Enemy*> Game::_enemies;
+
+EnemyManager Game::_em;
