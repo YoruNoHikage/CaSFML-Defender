@@ -20,7 +20,8 @@ void Game::start()
     ImageManager *im = new ImageManager(); // deleted in the Locator destructor
     Locator::provideImageManager(im);
 
-    _mainWindow.create(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Patate en frite");
+    sf::RenderWindow &app = getContext().getApp();
+    app.create(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Patate en frite");
 
     _gameState = Game::ShowingSplash;
 
@@ -54,14 +55,14 @@ void Game::start()
 
     std::srand(time(NULL));
 
-    _mainWindow.setVerticalSyncEnabled(true);
+    app.setVerticalSyncEnabled(true);
 
     while(!isExiting())
     {
         gameLoop();
     }
 
-    _mainWindow.close();
+    app.close();
 }
 
 bool Game::isExiting()
@@ -74,19 +75,20 @@ bool Game::isExiting()
 
 void Game::gameLoop()
 {
-    _mainWindow.pollEvent(_currentEvent);
+    sf::RenderWindow& app = getContext().getApp();
+    app.pollEvent(_currentEvent);
     switch(_gameState)
     {
         case Game::ShowingSplash:
             showSplashScreen();
             break;
         case Game::Playing:
-            _mainWindow.clear();
+            app.clear();
 
             updateAll();
             drawAll();
 
-            _mainWindow.display();
+            app.display();
 
             if(_currentEvent.type == sf::Event::Closed)
             {
@@ -99,7 +101,7 @@ void Game::gameLoop()
 void Game::showSplashScreen()
 {
     SplashScreen splashscreen;
-    splashscreen.show(_mainWindow);
+    splashscreen.show(getContext().getApp());
     _gameState = Game::Playing;
 }
 
@@ -171,23 +173,30 @@ void Game::checkAllCollisions()
 
 void Game::drawAll()
 {
-    _background.draw(_mainWindow);
-    _ground.draw(_mainWindow);
-    _player.draw(_mainWindow);
+    sf::RenderWindow &app = getContext().getApp();
+    _background.draw(app);
+    _ground.draw(app);
+    _player.draw(app);
     for(std::list<Enemy*>::iterator itr = _enemies.begin() ; itr != _enemies.end() ; ++itr)
     {
-        (*itr)->draw(_mainWindow);
+        (*itr)->draw(app);
     }
-    _castle.draw(_mainWindow);
+    _castle.draw(app);
     for(std::list<Shot*>::const_iterator itr = _shots.begin() ; itr != _shots.end() ; ++itr)
     {
-        (*itr)->draw(_mainWindow);
+        (*itr)->draw(app);
     }
 }
 
 sf::RenderWindow& Game::getWindow()
 {
-    return _mainWindow;
+    return getContext().getApp();
+}
+
+Context& Game::getContext()
+{
+    static Context* context = new Context();
+    return *context;
 }
 
 const sf::Event& Game::getCurrentEvent()
@@ -216,7 +225,6 @@ void Game::addEnemy(Enemy* enemy)
 }
 
 Game::GameState Game::_gameState = Uninitialized;
-sf::RenderWindow Game::_mainWindow;
 sf::Event Game::_currentEvent;
 sf::Clock Game::_clock;
 

@@ -25,6 +25,8 @@ class Game
         static void addShot(Shot* shot);
         static void addEnemy(Enemy* enemy);
 
+        static Context& getContext();
+
     private:
         static bool isExiting();
         static void gameLoop();
@@ -38,7 +40,6 @@ class Game
         enum GameState { Uninitialized, ShowingSplash, Paused, ShowingMenu, Playing, Exiting };
 
         static GameState _gameState;
-        static sf::RenderWindow _mainWindow;
         static sf::Event _currentEvent;
         static sf::Clock _clock;
 

@@ -17,6 +17,8 @@
 
 #include "tools/locator.hpp"
 
+#include "context.hpp"
+
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 768
 
