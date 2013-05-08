@@ -51,22 +51,6 @@ class Game
         static std::list<Enemy*> _enemies; // enemies in game
 
         static EnemyManager _em;
-
-        struct ShotsDeallocator
-        {
-            void operator()(const Shot* p) const
-            {
-                delete p;
-            }
-        };
-
-        struct EnemiesDeallocator
-        {
-            void operator()(const Enemy* p) const
-            {
-                delete p;
-            }
-        };
 };
 
 #endif

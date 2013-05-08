@@ -8,8 +8,8 @@ Game::Game()
 
 Game::~Game()
 {
-    std::for_each(_shots.begin(), _shots.end(), ShotsDeallocator());
-    std::for_each(_enemies.begin(), _enemies.end(), EnemiesDeallocator());
+    std::for_each(_shots.begin(), _shots.end(), Deallocator<Shot>());
+    std::for_each(_enemies.begin(), _enemies.end(), Deallocator<Enemy>());
 }
 
 void Game::start()

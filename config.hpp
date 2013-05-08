@@ -26,5 +26,15 @@
 
 #define IMAGES_PATH "data/images/"
 
+/* Global needs */
+template <typename T>
+struct Deallocator
+{
+    void operator()(const T* p) const
+    {
+        delete p;
+    }
+};
+
 #endif
 

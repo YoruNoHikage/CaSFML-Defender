@@ -16,13 +16,6 @@ class Background : public VisibleGameObject
 
     private:
         std::list<Cloud*> _clouds;
-        struct CloudDeallocator
-        {
-            void operator()(const Cloud* p) const
-            {
-                delete p;
-            }
-        };
 };
 
 #endif

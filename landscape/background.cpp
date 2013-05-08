@@ -8,7 +8,7 @@ Background::Background()
 
 Background::~Background()
 {
-    std::for_each(_clouds.begin(), _clouds.end(), CloudDeallocator());
+    std::for_each(_clouds.begin(), _clouds.end(), Deallocator<Cloud>());
 }
 
 void Background::generateClouds()

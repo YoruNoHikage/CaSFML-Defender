@@ -17,14 +17,6 @@ class EnemyManager
         sf::Time _generationTime, _elapsedTime;
         bool _waveOver;
         unsigned int _enemiesLeft;
-
-        struct EnemiesDeallocator
-        {
-            void operator()(const Enemy* p) const
-            {
-                delete p;
-            }
-        };
 };
 
 #endif

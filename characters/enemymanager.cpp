@@ -9,7 +9,7 @@ EnemyManager::EnemyManager() : _generationTime(sf::seconds(1.f))
 
 EnemyManager::~EnemyManager()
 {
-    std::for_each(_enemies.begin(), _enemies.end(), EnemiesDeallocator());
+    std::for_each(_enemies.begin(), _enemies.end(), Deallocator<Enemy>());
 }
 
 void EnemyManager::generateEnemies()
