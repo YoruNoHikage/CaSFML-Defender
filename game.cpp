@@ -199,11 +199,6 @@ Context& Game::getContext()
     return *context;
 }
 
-const sf::Event& Game::getCurrentEvent()
-{
-    return _currentEvent;
-}
-
 std::list<Shot*> Game::getShots()
 {
     return _shots;
