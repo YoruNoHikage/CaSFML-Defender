@@ -12,36 +12,34 @@ class Game
 {
     public:
         Game();
-        ~Game();
+        virtual ~Game();
 
-        static void start();
-        static sf::RenderWindow& getWindow();
-        const static sf::Event& getCurrentEvent();
+        void start();
 
         static Context& getContext();
 
     private:
-        static bool isExiting();
-        static void gameLoop();
+        bool isExiting();
+        void gameLoop();
 
-        static void showSplashScreen();
+        void showSplashScreen();
 
-        static void updateAll();
-        static void checkAllCollisions();
-        static void drawAll();
+        void updateAll();
+        void checkAllCollisions();
+        void drawAll();
 
         enum GameState { Uninitialized, ShowingSplash, Paused, ShowingMenu, Playing, Exiting };
 
-        static GameState _gameState;
-        static sf::Event _currentEvent;
-        static sf::Clock _clock;
+        GameState _gameState;
+        sf::Event _currentEvent;
+        sf::Clock _clock;
 
-        static Player _player;
-        static Castle _castle;
-        static Ground _ground;
-        static Background _background;
+        Player _player;
+        Castle _castle;
+        Ground _ground;
+        Background _background;
 
-        static EnemyManager _em;
+        EnemyManager _em;
 };
 
 #endif

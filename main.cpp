@@ -3,7 +3,8 @@
 
 int main(int argc, char *argv[])
 {
-    Game::start();
+    Game game;
+    game.start();
 
     return EXIT_SUCCESS;
 }

@@ -3,7 +3,7 @@
 #include "enemymanager.hpp"
 #include "../game.hpp"
 
-EnemyManager::EnemyManager() : _generationTime(sf::seconds(1.f))
+EnemyManager::EnemyManager() : _generationTime(sf::seconds(1.f)), _enemiesLeft(0)
 {
 }
 

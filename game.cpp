@@ -196,24 +196,8 @@ void Game::drawAll()
     }
 }
 
-sf::RenderWindow& Game::getWindow()
-{
-    return getContext().getApp();
-}
-
 Context& Game::getContext()
 {
     static Context* context = new Context();
     return *context;
 }
-
-Game::GameState Game::_gameState = Uninitialized;
-sf::Event Game::_currentEvent;
-sf::Clock Game::_clock;
-
-Player Game::_player;
-Castle Game::_castle;
-Ground Game::_ground;
-Background Game::_background;
-
-EnemyManager Game::_em;

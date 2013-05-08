@@ -46,8 +46,8 @@ void Weapon::update(sf::Time elapsedTime)
     _elapsedTime += elapsedTime; // keeps elapsedTime in memory
 
     // computes the angle between the mouse's position and the object
-    float deltaX = sf::Mouse::getPosition(Game::getWindow()).x - getPosition().x;
-    float deltaY = sf::Mouse::getPosition(Game::getWindow()).y - getPosition().y;
+    float deltaX = sf::Mouse::getPosition(Game::getContext().getApp()).x - getPosition().x;
+    float deltaY = sf::Mouse::getPosition(Game::getContext().getApp()).y - getPosition().y;
 
     if(deltaX == 0)
         _angle = 0;
