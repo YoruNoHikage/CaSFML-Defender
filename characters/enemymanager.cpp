@@ -28,7 +28,7 @@ void EnemyManager::generateEnemies()
 
 void EnemyManager::getNewEnemies(sf::Time elapsedTime)
 {
-    if(Game::getEnemies().size() == 0)
+    if(Game::getContext().getEnemies().size() == 0)
         _waveOver = true;
 
     if(_enemies.size() == 0)
@@ -38,7 +38,7 @@ void EnemyManager::getNewEnemies(sf::Time elapsedTime)
         _elapsedTime += elapsedTime;
         if(_elapsedTime > _generationTime)
         {
-            Game::addEnemy(_enemies.front());
+            Game::getContext().addEnemy(_enemies.front());
             _enemies.erase(_enemies.begin());
 
             _enemiesLeft++;

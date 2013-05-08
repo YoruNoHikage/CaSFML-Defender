@@ -8,8 +8,6 @@ Game::Game()
 
 Game::~Game()
 {
-    std::for_each(_shots.begin(), _shots.end(), Deallocator<Shot>());
-    std::for_each(_enemies.begin(), _enemies.end(), Deallocator<Enemy>());
 }
 
 void Game::start()
@@ -20,7 +18,9 @@ void Game::start()
     ImageManager *im = new ImageManager(); // deleted in the Locator destructor
     Locator::provideImageManager(im);
 
-    sf::RenderWindow &app = getContext().getApp();
+    Context &context = getContext();
+    sf::RenderWindow &app = context.getApp();
+
     app.create(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Patate en frite");
 
     _gameState = Game::ShowingSplash;
@@ -50,8 +50,8 @@ void Game::start()
     _background.load("background.png");
     _background.setPosition(0, 0);
 
-    _shots.clear();
-    _enemies.clear();
+    context.getShots().clear();
+    context.getEnemies().clear();
 
     std::srand(time(NULL));
 
@@ -112,24 +112,27 @@ void Game::updateAll()
     _ground.update(elapsed); // useless but...
     _player.update(elapsed);
     _castle.update(elapsed);
-    for(std::list<Shot*>::iterator itr = _shots.begin() ; itr != _shots.end() ; ++itr)
+
+    std::list<Shot*> &shots = getContext().getShots();
+    for(std::list<Shot*>::iterator itr = shots.begin() ; itr != shots.end() ; ++itr)
     {
         if((*itr)->hasToBeRemoved())
         {
             delete *itr;
-            itr = _shots.erase(itr);
+            itr = shots.erase(itr);
         }
         else
             (*itr)->update(elapsed);
     }
 
     /** Updates enemies */
-    for(std::list<Enemy*>::iterator itr = _enemies.begin() ; itr != _enemies.end() ; ++itr)
+    std::list<Enemy*> &enemies = getContext().getEnemies();
+    for(std::list<Enemy*>::iterator itr = enemies.begin() ; itr != enemies.end() ; ++itr)
     {
         if(!(*itr)->isAlive())
         {
             delete *itr;
-            itr = _enemies.erase(itr);
+            itr = enemies.erase(itr);
         }
         else
             (*itr)->update(elapsed);
@@ -141,10 +144,12 @@ void Game::updateAll()
 
 void Game::checkAllCollisions()
 {
-    // collision between shots and the castle
-    for(std::list<Shot*>::const_iterator itr = _shots.begin() ; itr != _shots.end() ; ++itr)
+    // collision between shots and enemies
+    std::list<Shot*> &shots = getContext().getShots();
+    std::list<Enemy*> &enemies = getContext().getEnemies();
+    for(std::list<Shot*>::const_iterator itr = shots.begin() ; itr != shots.end() ; ++itr)
     {
-        for(std::list<Enemy*>::iterator jtr = _enemies.begin() ; jtr != _enemies.end() ; ++jtr)
+        for(std::list<Enemy*>::iterator jtr = enemies.begin() ; jtr != enemies.end() ; ++jtr)
         {
             if((*itr)->collide(**jtr))
             {
@@ -158,7 +163,7 @@ void Game::checkAllCollisions()
             (*itr)->die();
     }
 
-    for(std::list<Enemy*>::iterator itr = _enemies.begin() ; itr != _enemies.end() ; ++itr)
+    for(std::list<Enemy*>::iterator itr = enemies.begin() ; itr != enemies.end() ; ++itr)
     {
        if(!(*itr)->isNearToCastle())
         {
@@ -174,15 +179,18 @@ void Game::checkAllCollisions()
 void Game::drawAll()
 {
     sf::RenderWindow &app = getContext().getApp();
+    std::list<Shot*> &shots = getContext().getShots();
+    std::list<Enemy*> &enemies = getContext().getEnemies();
+
     _background.draw(app);
     _ground.draw(app);
     _player.draw(app);
-    for(std::list<Enemy*>::iterator itr = _enemies.begin() ; itr != _enemies.end() ; ++itr)
+    for(std::list<Enemy*>::iterator itr = enemies.begin() ; itr != enemies.end() ; ++itr)
     {
         (*itr)->draw(app);
     }
     _castle.draw(app);
-    for(std::list<Shot*>::const_iterator itr = _shots.begin() ; itr != _shots.end() ; ++itr)
+    for(std::list<Shot*>::const_iterator itr = shots.begin() ; itr != shots.end() ; ++itr)
     {
         (*itr)->draw(app);
     }
@@ -199,26 +207,6 @@ Context& Game::getContext()
     return *context;
 }
 
-std::list<Shot*> Game::getShots()
-{
-    return _shots;
-}
-
-void Game::addShot(Shot* shot)
-{
-    _shots.push_back(shot);
-}
-
-std::list<Enemy*> Game::getEnemies()
-{
-    return _enemies;
-}
-
-void Game::addEnemy(Enemy* enemy)
-{
-    _enemies.push_back(enemy);
-}
-
 Game::GameState Game::_gameState = Uninitialized;
 sf::Event Game::_currentEvent;
 sf::Clock Game::_clock;
@@ -227,7 +215,5 @@ Player Game::_player;
 Castle Game::_castle;
 Ground Game::_ground;
 Background Game::_background;
-std::list<Shot*> Game::_shots;
-std::list<Enemy*> Game::_enemies;
 
 EnemyManager Game::_em;

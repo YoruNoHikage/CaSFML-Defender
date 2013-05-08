@@ -33,7 +33,7 @@ void Weapon::shoot(sf::Time elapsedTime, sf::Vector2f location)
     {
         Shot *newShot = new Shot(location, this);
         newShot->load("shot.png");
-        Game::addShot(newShot);
+        Game::getContext().addShot(newShot);
 
         _elapsedTime = sf::seconds(0);
     }
