@@ -20,7 +20,7 @@ bool circVsRect(Circle circ, sf::Rect<float> rect)
     sf::Rect<float> circleBox(circ.x - circ.radius, circ.y - circ.radius, circ.radius * 2, circ.radius * 2);
 
     // boundingbox vs boundingbox
-	if(!AABBvSAABB(circleBox, rect))
+	if(!circleBox.intersects(rect))
         return false;
 
     // point vs circle
@@ -39,14 +39,6 @@ bool circVsRect(Circle circ, sf::Rect<float> rect)
         return true;
 
     return false;
-}
-
-bool AABBvSAABB(sf::Rect<float> rect1, sf::Rect<float> rect2)
-{
-   return !((rect2.left >= rect1.left + rect1.width)
-	|| (rect2.left + rect2.width <= rect1.left)
-	|| (rect2.top >= rect1.top + rect1.height)
-	|| (rect2.top + rect2.height <= rect1.top));
 }
 
 bool segmentProjection(Circle circ, float Ax, float Ay, float Bx, float By)
