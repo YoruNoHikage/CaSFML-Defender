@@ -4,6 +4,8 @@
 class IState
 {
     public:
+        virtual ~IState() {}
+
         virtual void update(sf::Time elapsedTime) = 0;
         virtual void draw(sf::RenderWindow& app) = 0;
         virtual void onEnter() = 0;
@@ -21,8 +23,10 @@ class StateMachine
         void draw(sf::RenderWindow& app);
 
         // state machine logic
-        void change(std::string name);
-        void add(std::string name, IState& state);
+        void change(const char* name);
+        void add(const char* name, IState* state);
+
+        // TO DO : next and previous function, it can be useful... I think
 
     private:
         std::map<std::string, IState*> _states;

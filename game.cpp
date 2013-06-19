@@ -2,7 +2,10 @@
 
 #include "game.hpp"
 
-Game::Game()
+#include "screens/statemachine.hpp"
+#include "screens/splashscreen.hpp"
+
+Game::Game() : _isExiting(false)
 {
 }
 
@@ -12,9 +15,7 @@ Game::~Game()
 
 void Game::start()
 {
-    if(_gameState != Uninitialized)
-        return;
-
+    // Initialize tools
     ImageManager *im = new ImageManager(); // deleted in the Locator destructor
     Locator::provideImageManager(im);
 
@@ -23,8 +24,77 @@ void Game::start()
 
     app.create(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Patate en frite");
 
-    _gameState = Game::ShowingSplash;
+    std::srand(time(NULL));
 
+    app.setVerticalSyncEnabled(true);
+
+    // Initialize screens
+    _stateMachine.add("splashscreen", new SplashScreen(_stateMachine));
+    _stateMachine.add("playingscreen", new PlayingScreen(_stateMachine));
+
+    _stateMachine.change("splashscreen");
+
+    while(!_isExiting)
+    {
+        gameLoop();
+    }
+
+    app.close();
+}
+
+void Game::gameLoop()
+{
+    sf::RenderWindow& app = getContext().getApp();
+    while(app.pollEvent(_currentEvent))
+    {
+        switch(_currentEvent.type)
+        {
+            case sf::Event::Closed:
+                _isExiting = true;
+        }
+
+    }
+    sf::Time elapsed = _clock.restart();
+
+    app.clear();
+
+    _stateMachine.update(elapsed);
+    _stateMachine.draw(app);
+
+    app.display();
+}
+
+Context& Game::getContext()
+{
+    static Context* context = new Context();
+    return *context;
+}
+
+// Playing Screen
+
+/** \brief ctor
+ *
+ * \param stateMachine StateMachine&
+ *
+ */
+PlayingScreen::PlayingScreen(StateMachine& stateMachine) : _stateMachine(stateMachine)
+{
+    init();
+}
+
+/** \brief dtor
+ */
+PlayingScreen::~PlayingScreen()
+{
+}
+
+/** \brief Initialize the textures and sprites' games
+ *
+ * \return void
+ *
+ */
+void PlayingScreen::init()
+{
     _castle.load("castle.png");
     if(_castle.isLoaded())
             _castle.setPosition(WINDOW_WIDTH - _castle.getDimension().width, WINDOW_HEIGHT - _castle.getDimension().height - 50);
@@ -50,70 +120,24 @@ void Game::start()
     _background.load("background.png");
     _background.setPosition(0, 0);
 
-    context.getShots().clear();
-    context.getEnemies().clear();
-
-    std::srand(time(NULL));
-
-    app.setVerticalSyncEnabled(true);
-
-    while(!isExiting())
-    {
-        gameLoop();
-    }
-
-    app.close();
+    Game::getContext().getShots().clear();
+    Game::getContext().getEnemies().clear();
 }
 
-bool Game::isExiting()
+/** \brief Update the playing screen and call the collision function
+ *
+ * \param elapsedTime sf::Time
+ * \return void
+ *
+ */
+void PlayingScreen::update(sf::Time elapsedTime)
 {
-    if(_gameState == Game::Exiting)
-        return true;
-    else
-        return false;
-}
+    _background.update(elapsedTime);
+    _ground.update(elapsedTime); // useless but...
+    _player.update(elapsedTime);
+    _castle.update(elapsedTime);
 
-void Game::gameLoop()
-{
-    sf::RenderWindow& app = getContext().getApp();
-    app.pollEvent(_currentEvent);
-    switch(_gameState)
-    {
-        case Game::ShowingSplash:
-            showSplashScreen();
-            break;
-        case Game::Playing:
-            app.clear();
-
-            updateAll();
-            drawAll();
-
-            app.display();
-
-            if(_currentEvent.type == sf::Event::Closed)
-            {
-                _gameState = Game::Exiting;
-            }
-            break;
-    }
-}
-
-void Game::showSplashScreen()
-{
-    SplashScreen splashscreen;
-    splashscreen.show(getContext().getApp());
-    _gameState = Game::Playing;
-}
-
-void Game::updateAll()
-{
-    sf::Time elapsed = _clock.restart();
-    _background.update(elapsed);
-    _ground.update(elapsed); // useless but...
-    _player.update(elapsed);
-    _castle.update(elapsed);
-
-    std::list<Shot*> &shots = getContext().getShots();
+    std::list<Shot*> &shots = Game::getContext().getShots();
     for(std::list<Shot*>::iterator itr = shots.begin() ; itr != shots.end() ; ++itr)
     {
         if((*itr)->hasToBeRemoved())
@@ -122,11 +146,11 @@ void Game::updateAll()
             itr = shots.erase(itr);
         }
         else
-            (*itr)->update(elapsed);
+            (*itr)->update(elapsedTime);
     }
 
     /** Updates enemies */
-    std::list<Enemy*> &enemies = getContext().getEnemies();
+    std::list<Enemy*> &enemies = Game::getContext().getEnemies();
     for(std::list<Enemy*>::iterator itr = enemies.begin() ; itr != enemies.end() ; ++itr)
     {
         if(!(*itr)->isAlive())
@@ -135,18 +159,23 @@ void Game::updateAll()
             itr = enemies.erase(itr);
         }
         else
-            (*itr)->update(elapsed);
+            (*itr)->update(elapsedTime);
     }
-    _em.getNewEnemies(elapsed);
+    _em.getNewEnemies(elapsedTime);
 
     checkAllCollisions();
 }
 
-void Game::checkAllCollisions()
+/** \brief Check for the collisions between the objects
+ *
+ * \return void
+ *
+ */
+void PlayingScreen::checkAllCollisions()
 {
     // collision between shots and enemies
-    std::list<Shot*> &shots = getContext().getShots();
-    std::list<Enemy*> &enemies = getContext().getEnemies();
+    std::list<Shot*> &shots = Game::getContext().getShots();
+    std::list<Enemy*> &enemies = Game::getContext().getEnemies();
     for(std::list<Shot*>::const_iterator itr = shots.begin() ; itr != shots.end() ; ++itr)
     {
         for(std::list<Enemy*>::iterator jtr = enemies.begin() ; jtr != enemies.end() ; ++jtr)
@@ -176,11 +205,17 @@ void Game::checkAllCollisions()
     }
 }
 
-void Game::drawAll()
+
+/** \brief Draw the game's objects
+ *
+ * \param app sf::RenderWindow&
+ * \return void
+ *
+ */
+void PlayingScreen::draw(sf::RenderWindow& app)
 {
-    sf::RenderWindow &app = getContext().getApp();
-    std::list<Shot*> &shots = getContext().getShots();
-    std::list<Enemy*> &enemies = getContext().getEnemies();
+    std::list<Shot*> &shots = Game::getContext().getShots();
+    std::list<Enemy*> &enemies = Game::getContext().getEnemies();
 
     _background.draw(app);
     _ground.draw(app);
@@ -196,8 +231,20 @@ void Game::drawAll()
     }
 }
 
-Context& Game::getContext()
+/** \brief Launched when the playingscreen is loaded in the state machine
+ *
+ * \return void
+ *
+ */
+void PlayingScreen::onEnter()
 {
-    static Context* context = new Context();
-    return *context;
+}
+
+/** \brief Launched when the playingscreen is ended in the state machine
+ *
+ * \return void
+ *
+ */
+void PlayingScreen::onExit()
+{
 }

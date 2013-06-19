@@ -1,13 +1,10 @@
 #ifndef GAME_HPP
 #define GAME_HPP
 
-#include "screens/splashscreen.hpp"
-#include "characters/player.hpp"
-#include "characters/enemymanager.hpp"
-#include "landscape/background.hpp"
-#include "landscape/ground.hpp"
-#include "castle.hpp"
+#include "screens/statemachine.hpp"
 
+/** \brief Encapsulates everything
+ */
 class Game
 {
     public:
@@ -19,20 +16,39 @@ class Game
         static Context& getContext();
 
     private:
-        bool isExiting();
         void gameLoop();
 
-        void showSplashScreen();
+        StateMachine _stateMachine;
 
-        void updateAll();
-        void checkAllCollisions();
-        void drawAll();
+        bool _isExiting;
 
-        enum GameState { Uninitialized, ShowingSplash, Paused, ShowingMenu, Playing, Exiting };
-
-        GameState _gameState;
         sf::Event _currentEvent;
         sf::Clock _clock;
+};
+
+#include "characters/player.hpp"
+#include "characters/enemymanager.hpp"
+#include "landscape/background.hpp"
+#include "landscape/ground.hpp"
+#include "castle.hpp"
+
+/** \brief Represents the playing screen
+ */
+class PlayingScreen : public IState
+{
+    public:
+        PlayingScreen(StateMachine& stateMachine);
+        ~PlayingScreen();
+
+        void init();
+        void update(sf::Time elapsedTime);
+        void checkAllCollisions();
+        void draw(sf::RenderWindow& app);
+        void onEnter();
+        void onExit();
+
+    private:
+        StateMachine& _stateMachine;
 
         Player _player;
         Castle _castle;

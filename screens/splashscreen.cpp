@@ -2,9 +2,13 @@
 #include "splashscreen.hpp"
 
 /** \brief ctor
+ *
+ * \param stateMachine StateMachine&
+ *
  */
-SplashScreen::SplashScreen()
+SplashScreen::SplashScreen(StateMachine& stateMachine) : _stateMachine(stateMachine)
 {
+    init();
 }
 
 /** \brief dtor
@@ -13,42 +17,18 @@ SplashScreen::~SplashScreen()
 {
 }
 
-void SplashScreen::show(sf::RenderWindow& window)
-{
-    sf::Texture texture;
-    if(!texture.loadFromFile(IMAGES_PATH"splashscreen.png"))
-    {
-        std::cerr << "Error loading splashcreen.png" << std::endl;
-        return;
-    }
-
-    sf::Sprite sprite(texture);
-
-    window.draw(sprite);
-
-    window.display();
-
-    sf::Event event; // wait or poll ? depends on the action
-    while(window.waitEvent(event))
-    {
-        if(event.type == sf::Event::KeyPressed
-           || event.type == sf::Event::MouseButtonPressed
-           || event.type == sf::Event::Closed)
-        {
-            return;
-        }
-    }
-}
-
+/** \brief Initialize textures and sprites
+ *
+ * \return void
+ *
+ */
 void SplashScreen::init()
 {
-    if(!_splashTexture.loadFromFile(IMAGES_PATH"splashscreen.png"))
-    {
-        std::cerr << "Error loading splashcreen.png" << std::endl;
-        return;
-    }
+    ImageManager* im = Locator::getImageManager();
+    _splashTexture = im->getTexture(IMAGES_PATH"splashscreen.png");
+    assert(_splashTexture != NULL);
 
-    _splash.setTexture(_splashTexture);
+    _splash.setTexture(*_splashTexture);
 }
 
 /** \brief Update the splashscreen (event detection)
@@ -59,6 +39,8 @@ void SplashScreen::init()
  */
 void SplashScreen::update(sf::Time elapsedTime)
 {
+    if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
+        _stateMachine.change("playingscreen");
 }
 
 /** \brief Draw the splashscreen
@@ -69,7 +51,7 @@ void SplashScreen::update(sf::Time elapsedTime)
  */
 void SplashScreen::draw(sf::RenderWindow& app)
 {
-    app.draw(sprite);
+    app.draw(_splash);
 }
 
 /** \brief Launched when the splashscreen is loaded in the state machine

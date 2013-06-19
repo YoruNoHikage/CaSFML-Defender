@@ -3,13 +3,11 @@
 
 #include "statemachine.hpp"
 
-class SplashScreen : IState
+class SplashScreen : public IState
 {
     public:
-        SplashScreen();
+        SplashScreen(StateMachine& stateMachine);
         ~SplashScreen();
-
-        void show(sf::RenderWindow& window); // DELETE
 
         void init();
         void update(sf::Time elapsedTime);
@@ -18,8 +16,9 @@ class SplashScreen : IState
         void onExit();
 
     private:
-        sf::Texture _splashTexture;
+        sf::Texture *_splashTexture;
         sf::Sprite _splash;
+        StateMachine& _stateMachine;
 };
 
 #endif

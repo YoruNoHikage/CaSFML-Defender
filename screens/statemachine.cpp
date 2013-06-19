@@ -3,7 +3,7 @@
 
 /** \brief ctor
  */
-StateMachine::StateMachine()
+StateMachine::StateMachine() : _currentState(NULL)
 {
 }
 
@@ -45,11 +45,12 @@ void StateMachine::draw(sf::RenderWindow& app)
  * \return void
  *
  */
-void StateMachine::change(std::string name)
+void StateMachine::change(const char* name)
 {
     if(_states[name] != NULL)
     {
-        _currentState->onExit();
+        if(_currentState)
+            _currentState->onExit();
         _currentState = _states[name];
         _currentState->onEnter();
     }
@@ -62,7 +63,7 @@ void StateMachine::change(std::string name)
  * \return void
  *
  */
-void StateMachine::add(std::string name, IState& state)
+void StateMachine::add(const char* name, IState* state)
 {
-    _states.insert(std::pair<std::string, IState*>(name, &state));
+    _states.insert(std::pair<std::string, IState*>(name, state));
 }
