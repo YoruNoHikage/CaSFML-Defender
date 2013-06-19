@@ -1,11 +1,25 @@
 #ifndef SPLASHSCREEN_HPP
 #define SPLASHSCREEN_HPP
 
-class SplashScreen
+#include "statemachine.hpp"
+
+class SplashScreen : IState
 {
     public:
-        void show(sf::RenderWindow& window);
+        SplashScreen();
+        ~SplashScreen();
 
+        void show(sf::RenderWindow& window); // DELETE
+
+        void init();
+        void update(sf::Time elapsedTime);
+        void draw(sf::RenderWindow& app);
+        void onEnter();
+        void onExit();
+
+    private:
+        sf::Texture _splashTexture;
+        sf::Sprite _splash;
 };
 
 #endif

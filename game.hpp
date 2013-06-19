@@ -1,7 +1,7 @@
 #ifndef GAME_HPP
 #define GAME_HPP
 
-#include "splashscreen/splashscreen.hpp"
+#include "screens/splashscreen.hpp"
 #include "characters/player.hpp"
 #include "characters/enemymanager.hpp"
 #include "landscape/background.hpp"
