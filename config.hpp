@@ -25,6 +25,7 @@
 #define SCALE 1.f
 
 #define IMAGES_PATH "data/images/"
+#define LEVELS_PATH "data/levels/"
 
 /* Global needs */
 template <typename T>

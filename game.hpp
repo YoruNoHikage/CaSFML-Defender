@@ -50,11 +50,6 @@ class PlayingScreen : public IState
     private:
         StateMachine& _stateMachine;
 
-        Player _player;
-        Castle _castle;
-        Ground _ground;
-        Background _background;
-
         EnemyManager _em;
 };
 

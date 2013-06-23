@@ -95,30 +95,10 @@ PlayingScreen::~PlayingScreen()
  */
 void PlayingScreen::init()
 {
-    _castle.load("castle.png");
-    if(_castle.isLoaded())
-            _castle.setPosition(WINDOW_WIDTH - _castle.getDimension().width, WINDOW_HEIGHT - _castle.getDimension().height - 50);
+    Context& c = Game::getContext();
+    Level& lvl = Game::getContext().getLevel();
 
-    _player.load("character.png", "weapon.png");
-    if(_player.isLoaded())
-    {
-        _player.setPosition(_castle.getPosition().x + 10,
-                               _castle.getPosition().y - _player.getDimension().height * 3/4);
-        Weapon *weapon = _player.getWeapon();
-        if(weapon != NULL)
-            weapon->setPosition(_player.getPosition().x, _player.getPosition().y + weapon->getDimension().height);
-    }
-
-    _ground.load("ground.png");
-    if(_ground.isLoaded())
-    {
-        _ground.setPosition(0, WINDOW_HEIGHT - _ground.getDimension().height);
-        if(_castle.isLoaded())
-            _castle.setPosition(WINDOW_WIDTH - _castle.getDimension().width, WINDOW_HEIGHT - _castle.getDimension().height - _ground.getDimension().height / 2);
-    }
-
-    _background.load("background.png");
-    _background.setPosition(0, 0);
+    lvl.loadFromFile(LEVELS_PATH"level1.xml");
 
     Game::getContext().getShots().clear();
     Game::getContext().getEnemies().clear();
@@ -132,10 +112,12 @@ void PlayingScreen::init()
  */
 void PlayingScreen::update(sf::Time elapsedTime)
 {
-    _background.update(elapsedTime);
-    _ground.update(elapsedTime); // useless but...
-    _player.update(elapsedTime);
-    _castle.update(elapsedTime);
+    Level& lvl = Game::getContext().getLevel();
+
+    lvl.getPlayer().update(elapsedTime);
+    lvl.getBackground().update(elapsedTime);
+    lvl.getCastle().update(elapsedTime);
+    lvl.getGround().update(elapsedTime);
 
     std::list<Shot*> &shots = Game::getContext().getShots();
     for(std::list<Shot*>::iterator itr = shots.begin() ; itr != shots.end() ; ++itr)
@@ -188,7 +170,7 @@ void PlayingScreen::checkAllCollisions()
             }
         }
 
-        if((*itr)->collide(_ground))
+        if((*itr)->collide(Game::getContext().getLevel().getGround()))
             (*itr)->die();
     }
 
@@ -197,7 +179,7 @@ void PlayingScreen::checkAllCollisions()
        if(!(*itr)->isNearToCastle())
         {
             // collision between enemies and the castle
-            if((*itr)->collide(_castle))
+            if((*itr)->collide(Game::getContext().getLevel().getCastle()))
             {
                 (*itr)->nearToCastle();
             }
@@ -214,17 +196,20 @@ void PlayingScreen::checkAllCollisions()
  */
 void PlayingScreen::draw(sf::RenderWindow& app)
 {
-    std::list<Shot*> &shots = Game::getContext().getShots();
-    std::list<Enemy*> &enemies = Game::getContext().getEnemies();
+    Context& c = Game::getContext();
+    Level& lvl = c.getLevel();
 
-    _background.draw(app);
-    _ground.draw(app);
-    _player.draw(app);
+    std::list<Shot*> &shots = c.getShots();
+    std::list<Enemy*> &enemies = c.getEnemies();
+
+    lvl.getBackground().draw(app);
+    lvl.getGround().draw(app);
+    lvl.getPlayer().draw(app);
     for(std::list<Enemy*>::iterator itr = enemies.begin() ; itr != enemies.end() ; ++itr)
     {
         (*itr)->draw(app);
     }
-    _castle.draw(app);
+    lvl.getCastle().draw(app);
     for(std::list<Shot*>::const_iterator itr = shots.begin() ; itr != shots.end() ; ++itr)
     {
         (*itr)->draw(app);
