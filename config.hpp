@@ -3,11 +3,15 @@
 
 #include <iostream>
 #include <map>
-#include <cassert>
 #include <cmath>
-#include <list>
+#include <list> // please remove it, bad perfs
+#include <vector>
 #include <cstdlib>
 #include <typeinfo>
+
+// Errors
+#include <stdexcept> // To throw exceptions
+#include <cassert> // To cut the program during debug, disable it in the release please
 
 #include "SFML/Window.hpp"
 #include "SFML/Graphics.hpp"
