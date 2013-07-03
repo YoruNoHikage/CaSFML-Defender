@@ -76,11 +76,42 @@ std::string Node::firstAttributeValue(const std::string& name)
     return firstAttribute(name).value;
 }
 
+/** \brief Return all the children matching the "name", all if empty string
+ *
+ * \param name const std::string&
+ * \return std::vector<Node*>
+ *
+ */
+std::vector<Node*> Node::getChildren(const std::string& name)
+{
+    // return all the children if there is no name
+    if(name == "")
+        return _children;
+
+    // return just the nodes matching the "name"
+    std::vector<Node*> response;
+    for(std::vector<Node*>::iterator childItr = _children.begin() ; childItr != _children.end() ; ++childItr)
+        if((*childItr)->getName() == name)
+            response.push_back(*childItr);
+
+    return response;
+}
+
+/** \brief Get the name of the node
+ *
+ * \return std::string
+ *
+ */
 std::string Node::getName()
 {
     return _name;
 }
 
+/** \brief Get the value of the node
+ *
+ * \return std::string
+ *
+ */
 std::string Node::getValue()
 {
     return _value;

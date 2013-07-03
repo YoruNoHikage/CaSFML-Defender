@@ -23,6 +23,8 @@ class Node
         virtual Attribute& firstAttribute(const std::string& name = "");
         virtual std::string firstAttributeValue(const std::string& name = "");
 
+        virtual std::vector<Node*> getChildren(const std::string& name);
+
         virtual std::string getName();
         virtual std::string getValue();
 
