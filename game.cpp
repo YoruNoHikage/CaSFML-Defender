@@ -100,8 +100,8 @@ void PlayingScreen::init()
 
     lvl.loadFromFile(LEVELS_PATH"level1.xml");
 
-    Game::getContext().getShots().clear();
-    Game::getContext().getEnemies().clear();
+    c.getShots().clear();
+    c.getEnemies().clear();
 }
 
 /** \brief Update the playing screen and call the collision function
