@@ -3,7 +3,7 @@
 #include "enemymanager.hpp"
 #include "../game.hpp"
 
-EnemyManager::EnemyManager() : _generationTime(sf::seconds(1.f)), _enemiesLeft(0)
+EnemyManager::EnemyManager() : _generationTime(sf::seconds(1.f)), _enemiesLeft(0), _noMoreEnemies(false)
 {
 }
 
@@ -14,16 +14,18 @@ EnemyManager::~EnemyManager()
 
 void EnemyManager::generateEnemies()
 {
-    for(int i = 0 ; i < 5 ; i++)
+    Wave* newWave = Game::getContext().getLevel().getNextWave();
+    if(newWave != NULL)
     {
-        Enemy* enemy = new Enemy();
-        enemy->load("enemy.png");
-        if(enemy->isLoaded())
+        while(newWave->getEnemies().size() > 0)
         {
-            enemy->setPosition(- enemy->getDimension().height, WINDOW_HEIGHT - enemy->getDimension().height - 50); // change 50
+            Enemy* enemy = newWave->getEnemies().front();
+            newWave->getEnemies().erase(newWave->getEnemies().begin());
             _enemies.push_back(enemy);
         }
     }
+    else
+        _noMoreEnemies = true;
 }
 
 void EnemyManager::getNewEnemies(sf::Time elapsedTime)
@@ -33,7 +35,7 @@ void EnemyManager::getNewEnemies(sf::Time elapsedTime)
 
     if(_enemies.size() == 0)
         generateEnemies();
-    else if(_waveOver) // change that to do waves of enemies
+    else if(_waveOver)
     {
         _elapsedTime += elapsedTime;
         if(_elapsedTime > _generationTime)
@@ -41,14 +43,10 @@ void EnemyManager::getNewEnemies(sf::Time elapsedTime)
             Game::getContext().addEnemy(_enemies.front());
             _enemies.erase(_enemies.begin());
 
-            _enemiesLeft++;
-            _elapsedTime = sf::seconds(0);
+            _elapsedTime = sf::Time::Zero;
         }
 
-        if(_enemiesLeft == 5)
-        {
-            _enemiesLeft = 0;
+        if(_enemies.size() == 0)
             _waveOver = false;
-        }
     }
 }

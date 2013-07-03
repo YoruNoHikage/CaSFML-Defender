@@ -11,6 +11,7 @@ Level::Level() : _name("<Unamed level>")
 
 Level::~Level()
 {
+    std::for_each(_waves.begin(), _waves.end(), Deallocator<Wave>());
 }
 
 /** \brief Load the level's objects from a XML file with a proxy class
@@ -75,13 +76,54 @@ void Level::loadFromFile(const std::string& filename)
         _castle.load(castleNode.firstAttributeValue("file"));
 
         x = y = 0;
-        x = atoi(weaponNode.firstAttributeValue("x").c_str());
-        y = atoi(weaponNode.firstAttributeValue("y").c_str());
+        x = atoi(castleNode.firstAttributeValue("x").c_str());
+        y = atoi(castleNode.firstAttributeValue("y").c_str());
         _castle.setPosition(x, y);
+
+        // The waves
+        Node& wavesNode = root.firstChild("waves");
+        std::vector<Node*> waveNodes = wavesNode.getChildren("wave");
+        // Creation of each wave
+        for(std::vector<Node*>::iterator waveItr = waveNodes.begin() ; waveItr != waveNodes.end() ; ++waveItr)
+        {
+            // New enemies' wave !
+            Wave* wave = new Wave();
+
+            std::vector<Node*> enemyNodes = (*waveItr)->getChildren("enemy");
+            // if empty, there is no wave
+            if(!enemyNodes.empty())
+            {
+                // Fills with enemies !
+                for(std::vector<Node*>::iterator enemyItr = enemyNodes.begin() ; enemyItr != enemyNodes.end() ; ++enemyItr)
+                {
+                    Enemy* enemy = new Enemy();
+                    enemy->load((*enemyItr)->firstAttributeValue("file"));
+                    // how to deal with positions ? In the file ?
+                    enemy->setPosition(- enemy->getDimension().height, WINDOW_HEIGHT - enemy->getDimension().height - 50);
+
+                    wave->addEnemy(enemy);
+                }
+
+                _waves.push_back(wave);
+            }
+            else
+                delete wave;
+        }
     }
     catch(std::exception const& e)
     {
         // Logger class please !
         std::cout << "Error : " << e.what() << std::endl;
     }
+}
+
+Wave* Level::getNextWave()
+{
+    if(_waves.empty())
+        return NULL;
+
+    Wave* response = _waves.front();
+    _waves.erase(_waves.begin());
+
+    return response;
 }

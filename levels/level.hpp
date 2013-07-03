@@ -6,6 +6,7 @@
 #include "../landscape/background.hpp"
 #include "../landscape/ground.hpp"
 #include "../castle.hpp"
+#include "wave.hpp"
 
 class Level
 {
@@ -20,6 +21,8 @@ class Level
         Castle& getCastle() { return _castle; };
         Ground& getGround() { return _ground; };
 
+        Wave* getNextWave();
+
     private:
         std::string _name; // level's name
 
@@ -27,6 +30,8 @@ class Level
         Background _background;
         Castle _castle;
         Ground _ground;
+
+        std::vector<Wave*> _waves;
 };
 
 #endif // LEVEL_HPP

@@ -15,7 +15,7 @@ class EnemyManager
     private:
         std::list<Enemy*> _enemies; // waiting to be added in the game
         sf::Time _generationTime, _elapsedTime;
-        bool _waveOver;
+        bool _waveOver, _noMoreEnemies;
         unsigned int _enemiesLeft;
 };
 
