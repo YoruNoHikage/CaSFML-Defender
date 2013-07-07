@@ -8,14 +8,14 @@
 	<castle x="980" y="218" file="castle.png" />
 	<waves>
 		<wave>
-			<enemy class="Enemy" speed="2" file="enemy.png" />
-			<enemy class="Enemy" speed="2" file="enemy.png" />
-			<enemy class="Enemy" speed="2" file="enemy.png" />
+			<enemy class="Knight" speed="2" file="enemy.png" />
+			<enemy class="Knight" speed="2" file="enemy.png" />
+			<enemy class="Knight" speed="2" file="enemy.png" />
 		</wave>
 		<wave>
-			<enemy class="Enemy" speed="2" file="enemy.png" />
-			<enemy class="Enemy" speed="2" file="enemy.png" />
-			<enemy class="Enemy" speed="2" file="enemy.png" />
+			<enemy class="Knight" speed="2" file="enemy.png" />
+			<enemy class="Knight" speed="2" file="enemy.png" />
+			<enemy class="Knight" speed="2" file="enemy.png" />
 		</wave>
 	</waves>
 </level>

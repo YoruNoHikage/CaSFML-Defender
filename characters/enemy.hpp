@@ -7,16 +7,16 @@ class Enemy : public Character
 {
     public:
         Enemy();
-        ~Enemy();
+        virtual ~Enemy();
 
-        void load(std::string filename);
-        void load(std::string filename, std::string fWeapon);
-        void update(sf::Time elapsedTime);
-        void goToCastle(sf::Time elapsedTime);
-        bool isNearToCastle() const;
-        void nearToCastle();
-        void attack(sf::Time elapsedTime);
-        void die();
+        virtual void load(std::string filename);
+        virtual void load(std::string filename, std::string fWeapon);
+        virtual void update(sf::Time elapsedTime);
+        virtual void goToCastle(sf::Time elapsedTime);
+        virtual bool isNearToCastle() const;
+        virtual void nearToCastle();
+        virtual void attack(sf::Time elapsedTime);
+        virtual void die();
 
     private:
         float _direction, _velocity;

@@ -1,14 +1,18 @@
 #include "../config.hpp"
 
-#include "../tools/rapidxml/rapidxml.hpp"
-#include "../tools/rapidxml/rapidxml_utils.hpp"
-
 #include "level.hpp"
+#include "../characters/enemyfactory.hpp"
+#include "../characters/knight.hpp"
+#include "../tools/xmlnode.hpp"
 
+/** \brief ctor
+ */
 Level::Level() : _name("<Unamed level>")
 {
 }
 
+/** \brief dtor
+ */
 Level::~Level()
 {
     std::for_each(_waves.begin(), _waves.end(), Deallocator<Wave>());
@@ -21,8 +25,6 @@ Level::~Level()
  *
  * TO DO : Use the abstract class with a provider to set globally the parsing language
  */
-#include "../tools/node.hpp" //debug
-#include "../tools/xmlnode.hpp" //debug
 void Level::loadFromFile(const std::string& filename)
 {
     try
@@ -83,6 +85,8 @@ void Level::loadFromFile(const std::string& filename)
         // The waves
         Node& wavesNode = root.firstChild("waves");
         std::vector<Node*> waveNodes = wavesNode.getChildren("wave");
+        Factory<Enemy>& enemyFactory = Factory<Enemy>::GetFactory(); // Factory to know what type to build
+
         // Creation of each wave
         for(std::vector<Node*>::iterator waveItr = waveNodes.begin() ; waveItr != waveNodes.end() ; ++waveItr)
         {
@@ -96,7 +100,9 @@ void Level::loadFromFile(const std::string& filename)
                 // Fills with enemies !
                 for(std::vector<Node*>::iterator enemyItr = enemyNodes.begin() ; enemyItr != enemyNodes.end() ; ++enemyItr)
                 {
-                    Enemy* enemy = new Enemy();
+                    // Asks the factory for an instance of the asking class in the XML
+                    Enemy* enemy = enemyFactory.build((*enemyItr)->firstAttributeValue("class"));
+
                     enemy->load((*enemyItr)->firstAttributeValue("file"));
                     // how to deal with positions ? In the file ?
                     enemy->setPosition(- enemy->getDimension().height, WINDOW_HEIGHT - enemy->getDimension().height - 50);
