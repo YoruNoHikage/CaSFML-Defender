@@ -1,6 +1,11 @@
 #ifndef XMLNODE_HPP
 #define XMLNODE_HPP
 
+#include "node.hpp"
+
+#include "../tools/rapidxml/rapidxml.hpp"
+#include "../tools/rapidxml/rapidxml_utils.hpp"
+
 /** \brief Proxy for rapidxml to use easily and properly in the game
  */
 class XMLNode : public Node
