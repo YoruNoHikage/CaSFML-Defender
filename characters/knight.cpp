@@ -1,6 +1,6 @@
 #include "../config.hpp"
 
-#include "enemyfactory.hpp"
+#include "../tools/factory.hpp"
 #include "knight.hpp"
 
 /** \brief ctor
@@ -15,4 +15,4 @@ Knight::~Knight()
 {
 }
 
-bool Knight::registered = Factory<Enemy>::GetFactory().registration("Knight", &createInstance<Knight>);
+bool Knight::registered = Factory<Enemy>::GetFactory().registration("Knight", &Factory<Enemy>::createInstance<Knight>);

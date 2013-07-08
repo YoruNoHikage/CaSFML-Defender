@@ -1,7 +1,7 @@
 #include "../config.hpp"
 
 #include "level.hpp"
-#include "../characters/enemyfactory.hpp"
+#include "../tools/factory.hpp"
 #include "../characters/knight.hpp"
 #include "../tools/xmlnode.hpp"
 
