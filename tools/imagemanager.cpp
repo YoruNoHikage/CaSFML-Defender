@@ -33,6 +33,7 @@ sf::Texture* ImageManager::createTexture(const std::string &textureLink)
     if(textureTemp->loadFromFile(textureLink))
     {
         _textures.insert(std::make_pair(textureLink, textureTemp));
+        textureTemp->setSmooth(true);
         return textureTemp;
     }
     else

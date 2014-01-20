@@ -22,7 +22,9 @@ void Game::start()
     Context &context = getContext();
     sf::RenderWindow &app = context.getApp();
 
-    app.create(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Patate en frite");
+    sf::ContextSettings settings;
+    settings.antialiasingLevel = 8;
+    app.create(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Patate en frite", sf::Style::Default, settings);
 
     std::srand(time(NULL));
 
