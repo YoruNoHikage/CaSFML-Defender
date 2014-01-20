@@ -2,7 +2,6 @@
 
 #include "level.hpp"
 #include "../tools/factory.hpp"
-#include "../characters/knight.hpp"
 #include "../tools/xmlnode.hpp"
 
 /** \brief ctor
