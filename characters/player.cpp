@@ -17,7 +17,7 @@ void Player::update(sf::Time elapsedTime)
     if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
         // if mouse button left is pressed, the character attacks
         // TO DO : choosing between float or int dammit !
-        attack(elapsedTime, sf::Vector2f((float)sf::Mouse::getPosition(Game::getContext().getApp()).x, (float)sf::Mouse::getPosition(Game::getContext().getApp()).y));
+        attack(elapsedTime, Game::getContext().getApp().mapPixelToCoords(sf::Mouse::getPosition(Game::getContext().getApp())));
 
     getWeapon()->update(elapsedTime);
 }

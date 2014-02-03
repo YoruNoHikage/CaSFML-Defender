@@ -15,12 +15,12 @@ void Cloud::load(std::string filename)
     VisibleGameObject::load(filename);
     if(isLoaded())
     {
-        int y = rand() % (WINDOW_HEIGHT - 100 - (int)getSprite().getGlobalBounds().height) + 1; // TO DO : put the ground's height instead of 100
+        int y = rand() % (VIEW_HEIGHT - 100 - (int)getSprite().getGlobalBounds().height) + 1; // TO DO : put the ground's height instead of 100
 
         if(_velocity > 0)
             getSprite().setPosition(-getSprite().getGlobalBounds().width, y);
         else
-            getSprite().setPosition(WINDOW_WIDTH + getSprite().getGlobalBounds().width, y);
+            getSprite().setPosition(VIEW_WIDTH + getSprite().getGlobalBounds().width, y);
 
         int scale = rand() % 2 + 1;
         getSprite().setScale(scale, scale);
@@ -42,7 +42,7 @@ void Cloud::update(sf::Time elapsedTime)
 bool Cloud::hasToBeRemoved()
 {
     if(_appeared
-       && ( getSprite().getPosition().x > WINDOW_WIDTH + getSprite().getLocalBounds().width
+       && ( getSprite().getPosition().x > VIEW_WIDTH + getSprite().getLocalBounds().width
        || getSprite().getPosition().x + getSprite().getGlobalBounds().width < 0))
         return true;
     return false;

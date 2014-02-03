@@ -23,10 +23,11 @@
 
 #include "context.hpp"
 
-#define WINDOW_WIDTH 1280
-#define WINDOW_HEIGHT 768
+#define WINDOW_WIDTH 800
+#define WINDOW_HEIGHT 450
 
-#define SCALE 1.f
+#define VIEW_WIDTH 1280
+#define VIEW_HEIGHT 720
 
 #define IMAGES_PATH "data/images/"
 #define LEVELS_PATH "data/levels/"

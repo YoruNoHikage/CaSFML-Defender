@@ -46,9 +46,9 @@ bool Shot::hasToBeRemoved()
 {
     if(!isAlive())
         return true;
-    if(getPosition().x > WINDOW_WIDTH + getDimension().width
+    if(getPosition().x > VIEW_WIDTH + getDimension().width
        || getPosition().x + getDimension().width < 0
-       || getPosition().y > WINDOW_HEIGHT + getDimension().height
+       || getPosition().y > VIEW_HEIGHT + getDimension().height
        || getPosition().y + getDimension().height < 0)
         return true;
     return false;

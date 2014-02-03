@@ -25,6 +25,7 @@ void Game::start()
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
     app.create(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Patate en frite", sf::Style::Default, settings);
+    app.setView(sf::View(sf::FloatRect(0, 0, VIEW_WIDTH, VIEW_HEIGHT)));
 
     std::srand(time(NULL));
 
