@@ -17,18 +17,17 @@ bool segmentProjection(Circle circ, float Ax, float Ay, float Bx, float By);
 class Hitbox
 {
     public:
-        Hitbox();
-        virtual ~Hitbox();
+        virtual ~Hitbox(){}
 
-        virtual bool collide(Hitbox *hitbox);
+        virtual bool collide(Hitbox *hitbox) = 0;
 
-        virtual bool collide(int x, int y);
-        virtual bool collide(sf::Rect<float> rect);
-        virtual bool collide(Circle circ);
+        virtual bool collide(int x, int y) = 0;
+        virtual bool collide(sf::Rect<float> rect) = 0;
+        virtual bool collide(Circle circ) = 0;
 
-        virtual void setPosition(int x, int y);
+        virtual void setPosition(int x, int y) = 0;
 
-        virtual sf::Vector2f getPosition() const;
+        virtual sf::Vector2f getPosition() const = 0;
 };
 
 #endif

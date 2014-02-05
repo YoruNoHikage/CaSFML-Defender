@@ -9,12 +9,16 @@ class BoundingBoxHitbox : public Hitbox
         BoundingBoxHitbox(sf::Rect<float> box);
         ~BoundingBoxHitbox();
 
+        bool collide(Hitbox* hitbox);
+
+        bool collide(int x, int y);
         bool collide(sf::Rect<float> rect);
         bool collide(Circle circ);
 
         void setPosition(int x, int y);
+        sf::Vector2f getPosition() const;
 
-        sf::Rect<float> getBoundingBox();
+        sf::Rect<float> getBoundingBox() const;
 
     private:
         sf::Rect<float> _boundingBox;

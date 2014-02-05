@@ -11,11 +11,14 @@ class CircleHitbox : public Hitbox
         CircleHitbox(Circle circ);
         ~CircleHitbox();
 
+        bool collide(Hitbox* hitbox);
+
         bool collide(int x, int y);
-        bool collide(Circle circ);
         bool collide(sf::Rect<float> rect);
+        bool collide(Circle circ);
 
         void setPosition(int x, int y);
+        sf::Vector2f getPosition() const;
 
         Circle getCircle();
 

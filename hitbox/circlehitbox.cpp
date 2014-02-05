@@ -24,14 +24,14 @@ CircleHitbox::~CircleHitbox()
 {
 }
 
+bool CircleHitbox::collide(Hitbox* hitbox)
+{
+    hitbox->collide(_circ);
+}
+
 bool CircleHitbox::collide(int x, int y)
 {
     return circVsPoint(x, y, getCircle());
-}
-
-bool CircleHitbox::collide(Circle circ)
-{
-    return circVsCirc(circ);
 }
 
 bool CircleHitbox::collide(sf::Rect<float> rect)
@@ -39,10 +39,20 @@ bool CircleHitbox::collide(sf::Rect<float> rect)
     return circVsRect(getCircle(), rect);
 }
 
+bool CircleHitbox::collide(Circle circ)
+{
+    return circVsCirc(circ);
+}
+
 void CircleHitbox::setPosition(int x, int y)
 {
     _circ.x = x;
     _circ.y = y;
+}
+
+sf::Vector2f CircleHitbox::getPosition() const
+{
+    return sf::Vector2f(_circ.x, _circ.y);
 }
 
 Circle CircleHitbox::getCircle()
