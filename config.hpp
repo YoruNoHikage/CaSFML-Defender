@@ -20,11 +20,12 @@
 #include "tools/imagemanager.hpp"
 
 #include "tools/locator.hpp"
+#include "tools/log.hpp"
 
 #include "context.hpp"
 
-#define WINDOW_WIDTH 800
-#define WINDOW_HEIGHT 450
+#define WINDOW_WIDTH 1280
+#define WINDOW_HEIGHT 720
 
 #define VIEW_WIDTH 1280
 #define VIEW_HEIGHT 720
@@ -41,6 +42,16 @@ struct Deallocator
         delete p;
     }
 };
+
+#include <sstream>
+
+template <typename T>
+std::string toString(const T& value)
+{
+    std::stringstream stream;
+    stream << value;
+    return stream.str();
+}
 
 #endif
 

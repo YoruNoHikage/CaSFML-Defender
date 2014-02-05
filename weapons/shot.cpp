@@ -31,15 +31,18 @@ void Shot::load(std::string filename)
 
 void Shot::update(sf::Time elapsedTime)
 {
-    VisibleGameObject::update(elapsedTime);
-    float distance = _velocity * elapsedTime.asMilliseconds(); // d = v * t, elementary my dear Watson !
-    float x = distance / std::sqrt(1 + _coeff * _coeff); // from AB^2 = |xA - xB|^2 + |yA - yB|^2
-    if(_deltaX > 0) // For one corner in the screen
-        x = -x;
+    if(_isAlive)
+    {
+        VisibleGameObject::update(elapsedTime);
+        float distance = _velocity * elapsedTime.asMilliseconds(); // d = v * t, elementary my dear Watson !
+        float x = distance / std::sqrt(1 + _coeff * _coeff); // from AB^2 = |xA - xB|^2 + |yA - yB|^2
+        if(_deltaX > 0) // For one corner in the screen
+            x = -x;
 
-    getSprite().move(x, x * _coeff);
+        getSprite().move(x, x * _coeff);
 
-    _hitbox->setPosition(getPosition().x, getPosition().y);
+        _hitbox->setPosition(getPosition().x, getPosition().y);
+    }
 }
 
 bool Shot::hasToBeRemoved()

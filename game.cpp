@@ -1,3 +1,4 @@
+#include <string>
 #include "config.hpp"
 
 #include "game.hpp"
@@ -19,6 +20,10 @@ void Game::start()
     ImageManager *im = new ImageManager(); // deleted in the Locator destructor
     Locator::provideImageManager(im);
 
+    Log::write(Log::LOG_INFO, "ImageManager loaded");
+
+    sf::err().rdbuf(std::cout.rdbuf());
+
     Context &context = getContext();
     sf::RenderWindow &app = context.getApp();
 
@@ -26,6 +31,10 @@ void Game::start()
     settings.antialiasingLevel = 8;
     app.create(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Patate en frite", sf::Style::Default, settings);
     app.setView(sf::View(sf::FloatRect(0, 0, VIEW_WIDTH, VIEW_HEIGHT)));
+
+
+    Log::write(Log::LOG_INFO, std::string("Window " + toString(WINDOW_WIDTH) + ";" + toString(WINDOW_HEIGHT)));
+    Log::write(Log::LOG_INFO, std::string("View " + toString(VIEW_WIDTH) + ";" + toString(VIEW_HEIGHT)));
 
     std::srand(time(NULL));
 
@@ -98,10 +107,14 @@ PlayingScreen::~PlayingScreen()
  */
 void PlayingScreen::init()
 {
+    Log::write(Log::LOG_INFO, "Playing Screen initialization");
+
     Context& c = Game::getContext();
     Level& lvl = Game::getContext().getLevel();
 
-    lvl.loadFromFile(LEVELS_PATH"level1.xml");
+    std::string level("level1.xml");
+    lvl.loadFromFile(LEVELS_PATH + level);
+    Log::write(Log::LOG_INFO, std::string("Charging level " + level));
 
     c.getShots().clear();
     c.getEnemies().clear();
