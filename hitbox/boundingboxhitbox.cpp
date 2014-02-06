@@ -27,7 +27,6 @@ bool BoundingBoxHitbox::collide(sf::Rect<float> rect)
 
 bool BoundingBoxHitbox::collide(Circle circ)
 {
-    Log::write(Log::LOG_INFO, "Collision BbHb vs Hb : " + toString(_boundingBox.top));
     return circVsRect(circ, getBoundingBox());
 }
 
@@ -45,4 +44,15 @@ sf::Vector2f BoundingBoxHitbox::getPosition() const
 sf::Rect<float> BoundingBoxHitbox::getBoundingBox() const
 {
     return _boundingBox;
+}
+
+void BoundingBoxHitbox::drawDebug(sf::RenderWindow& window) const
+{
+    sf::RectangleShape debugRect(sf::Vector2f(_boundingBox.width, _boundingBox.height));
+    debugRect.setFillColor(sf::Color(0, 0, 255, 50));
+    debugRect.setOutlineThickness(2);
+    debugRect.setOutlineColor(sf::Color::Blue);
+    debugRect.setPosition(_boundingBox.left, _boundingBox.top);
+
+    window.draw(debugRect);
 }

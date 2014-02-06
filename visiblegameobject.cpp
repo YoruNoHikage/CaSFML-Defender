@@ -1,7 +1,7 @@
 #include "config.hpp"
 #include "visiblegameobject.hpp"
 
-VisibleGameObject::VisibleGameObject() : _isLoaded(false), _isAlive(true)
+VisibleGameObject::VisibleGameObject() : _isLoaded(false), _isAlive(true), _hitbox(NULL)
 {
 }
 
@@ -26,10 +26,16 @@ void VisibleGameObject::load(std::string filename)
     }
 }
 
+extern bool debug;
+
 void VisibleGameObject::draw(sf::RenderWindow& window)
 {
     if(_isLoaded)
+    {
         window.draw(_sprite);
+        if(_hitbox && debug)
+            _hitbox->drawDebug(window);
+    }
 }
 
 void VisibleGameObject::update(sf::Time elapsedTime)
@@ -48,7 +54,11 @@ void VisibleGameObject::die()
 void VisibleGameObject::setPosition(float x, float y)
 {
     if(_isLoaded)
+    {
         _sprite.setPosition(x, y);
+        if(_hitbox)
+            _hitbox->setPosition(x, y);
+    }
 }
 
 sf::FloatRect VisibleGameObject::getDimension() const

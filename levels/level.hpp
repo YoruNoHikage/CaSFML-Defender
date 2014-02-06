@@ -7,6 +7,8 @@
 #include "../landscape/ground.hpp"
 #include "../castle.hpp"
 #include "wave.hpp"
+#include "../tools/factory.hpp"
+#include "../tools/xmlnode.hpp"
 
 class Level
 {
@@ -24,6 +26,8 @@ class Level
         Wave* getNextWave();
 
     private:
+        void buildLevel(Node& root);
+
         std::string _name; // level's name
 
         Player _player;

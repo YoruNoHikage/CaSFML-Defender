@@ -28,6 +28,8 @@ class Hitbox
         virtual void setPosition(int x, int y) = 0;
 
         virtual sf::Vector2f getPosition() const = 0;
+
+        virtual void drawDebug(sf::RenderWindow& window) const = 0;
 };
 
 #endif

@@ -6,6 +6,8 @@
 #include "screens/statemachine.hpp"
 #include "screens/splashscreen.hpp"
 
+bool debug = false;
+
 Game::Game() : _isExiting(false)
 {
 }
@@ -63,6 +65,11 @@ void Game::gameLoop()
         {
             case sf::Event::Closed:
                 _isExiting = true;
+                break;
+            case sf::Event::KeyPressed:
+                if(_currentEvent.key.code == sf::Keyboard::F3)
+                    debug = !debug;
+                break;
         }
 
     }

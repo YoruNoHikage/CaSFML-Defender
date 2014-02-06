@@ -1,11 +1,11 @@
 <?xml version="1.0" ?>
 <level name="Level 1">
 	<background file="background.png" />
-	<ground x="0" y="668" file="ground.png" />
-	<player x="990" y="143" file="character.png">
-		<weapon x="990" y="193" file="weapon.png" />
+	<ground file="ground.png" />
+	<player x="990" y="100" file="character.png">
+		<weapon x="990" y="150" file="weapon.png" />
 	</player>
-	<castle x="980" y="218" file="castle.png" />
+	<castle position="right" file="castle.png" />
 	<waves>
 		<wave>
 			<enemy class="Knight" speed="2" file="enemy.png" />

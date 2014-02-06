@@ -22,6 +22,8 @@ class CircleHitbox : public Hitbox
 
         Circle getCircle();
 
+        void drawDebug(sf::RenderWindow& window) const;
+
     private:
         Circle _circ;
 };

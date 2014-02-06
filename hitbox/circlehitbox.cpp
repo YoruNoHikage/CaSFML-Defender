@@ -59,3 +59,15 @@ Circle CircleHitbox::getCircle()
 {
     return _circ;
 }
+
+void CircleHitbox::drawDebug(sf::RenderWindow& window) const
+{
+    sf::CircleShape debugCirc(_circ.radius);
+    debugCirc.setFillColor(sf::Color(0, 0, 255, 50));
+    debugCirc.setOutlineThickness(2);
+    debugCirc.setOutlineColor(sf::Color::Blue);
+    debugCirc.setOrigin(_circ.radius, _circ.radius);
+    debugCirc.setPosition(_circ.x, _circ.y);
+
+    window.draw(debugCirc);
+}
