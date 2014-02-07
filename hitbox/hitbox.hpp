@@ -1,6 +1,10 @@
 #ifndef HITBOX_HPP
 #define HITBOX_HPP
 
+#include "SFML/Graphics/Rect.hpp"
+#include "SFML/Graphics/RenderWindow.hpp"
+#include "SFML/System/Vector2.hpp"
+
 struct Circle
 {
     int x, y;

@@ -1,6 +1,11 @@
 #ifndef STATEMACHINE_HPP
 #define STATEMACHINE_HPP
 
+#include <map>
+
+#include "SFML/Graphics/RenderWindow.hpp"
+#include "SFML/System/Time.hpp"
+
 class IState
 {
     public:

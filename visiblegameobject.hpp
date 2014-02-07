@@ -1,6 +1,8 @@
 #ifndef VISIBLEGAMEOBJECT_HPP
 #define VISIBLEGAMEOBJECT_HPP
 
+#include "SFML/Graphics/Sprite.hpp"
+
 #include "hitbox/circlehitbox.hpp"
 #include "hitbox/boundingboxhitbox.hpp"
 

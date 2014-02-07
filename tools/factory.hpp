@@ -1,7 +1,10 @@
 #ifndef FACTORY_HPP
 #define FACTORY_HPP
 
-// write the destructor pleeeease
+#include <map>
+#include <stdexcept>
+
+///@todo: write the destructor pleeeease
 
 /** \brief Factory class to create any child registrated of the type T
  *

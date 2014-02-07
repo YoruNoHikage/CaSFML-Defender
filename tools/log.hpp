@@ -1,7 +1,10 @@
 #ifndef LOG_HPP
 #define LOG_HPP
 
+#include <string>
+
 #include <SFML/System/NonCopyable.hpp>
+#include <SFML/System/Err.hpp>
 
 class Log : public sf::NonCopyable
 {

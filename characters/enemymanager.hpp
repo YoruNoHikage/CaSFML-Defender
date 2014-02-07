@@ -1,6 +1,8 @@
 #ifndef ENEMYMANAGER_HPP
 #define ENEMYMANAGER_HPP
 
+#include <list>
+
 #include "enemy.hpp"
 
 class EnemyManager
