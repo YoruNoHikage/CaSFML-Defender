@@ -19,11 +19,16 @@ class Context {
 
         Level& getLevel() { return _level; };
 
+        bool getDebug();
+        void setDebug(bool debug);
+
     private:
         sf::RenderWindow _mainWindow;
         std::list<Shot*> _shots;
         std::list<Enemy*> _enemies; // enemies in game
         Level _level;
+
+        bool _isDebug;
 };
 
 #endif

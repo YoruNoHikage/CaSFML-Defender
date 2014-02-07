@@ -2,7 +2,7 @@
 
 #include "context.hpp"
 
-Context::Context()
+Context::Context() : _isDebug(false)
 {
 }
 
@@ -31,3 +31,14 @@ void Context::addEnemy(Enemy* enemy)
 {
     _enemies.push_back(enemy);
 }
+
+bool Context::getDebug()
+{
+    return _isDebug;
+}
+
+void Context::setDebug(bool debug)
+{
+    _isDebug = debug;
+}
+

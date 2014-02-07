@@ -1,4 +1,5 @@
 #include "config.hpp"
+#include "game.hpp"
 #include "visiblegameobject.hpp"
 
 VisibleGameObject::VisibleGameObject() : _isLoaded(false), _isAlive(true), _hitbox(NULL)
@@ -26,14 +27,12 @@ void VisibleGameObject::load(std::string filename)
     }
 }
 
-extern bool debug;
-
 void VisibleGameObject::draw(sf::RenderWindow& window)
 {
     if(_isLoaded)
     {
         window.draw(_sprite);
-        if(_hitbox && debug)
+        if(_hitbox && Game::getContext().getDebug())
             _hitbox->drawDebug(window);
     }
 }
