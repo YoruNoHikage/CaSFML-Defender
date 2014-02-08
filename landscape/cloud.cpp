@@ -22,7 +22,7 @@ void Cloud::load(std::string filename)
         else
             getSprite().setPosition(VIEW_WIDTH + getSprite().getGlobalBounds().width, y);
 
-        int scale = rand() % 2 + 1;
+        float scale = (static_cast<float>(rand()) / RAND_MAX) * (1 - 0.5) + 0.5;
         getSprite().setScale(scale, scale);
     }
 }
