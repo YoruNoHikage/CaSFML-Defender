@@ -1,6 +1,8 @@
 #ifndef CONFIG_HPP
 #define CONFIG_HPP
 
+///@todo: delete standard & SFML dependencies, keeping just define
+
 #include <iostream>
 #include <map>
 #include <cmath>

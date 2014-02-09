@@ -1,11 +1,15 @@
 #include <string>
+#include <iostream>
+
 #include "config.hpp"
 
 #include "game.hpp"
 
-#include "screens/statemachine.hpp"
 #include "screens/splashscreen.hpp"
 #include "gamestate.hpp"
+#include "tools/imagemanager.hpp"
+#include "tools/locator.hpp"
+#include "tools/log.hpp"
 
 const sf::Time Game::TimePerFrame = sf::seconds(1.f/60.f);
 

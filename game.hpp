@@ -1,7 +1,14 @@
 #ifndef GAME_HPP
 #define GAME_HPP
 
+#include <SFML/System/Time.hpp>
+#include <SFML/System/Clock.hpp>
+#include <SFML/Window/Event.hpp>
+#include <SFML/Graphics/Font.hpp>
+#include <SFML/Graphics/Text.hpp>
+
 #include "screens/statemachine.hpp"
+#include "context.hpp"
 
 /** \brief Encapsulates everything
  */
