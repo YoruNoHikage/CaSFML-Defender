@@ -5,7 +5,11 @@
 
 #include "../hitbox/circlehitbox.hpp"
 
-Shot::Shot(sf::Vector2f location, Weapon *weapon) : _velocity(0.5f), _location(location), _weapon(weapon), _damage(1)
+Shot::Shot(sf::Vector2f location, float angle, Weapon *weapon) : _velocity(0.5f),
+                                                               _location(location),
+                                                               _angle(angle),
+                                                               _weapon(weapon),
+                                                               _damage(1)
 {
 }
 
@@ -21,6 +25,7 @@ void Shot::load(std::string filename)
     assert(isLoaded());
     getSprite().setOrigin(getSprite().getGlobalBounds().width / 2, getSprite().getGlobalBounds().height / 2);
     getSprite().setPosition(_weapon->getPosition().x - _weapon->getDimension().width / 2, _weapon->getPosition().y);
+    getSprite().setRotation(_angle);
 
     _hitbox = new CircleHitbox(getPosition(), (getDimension().width + getDimension().height) / 4);
 

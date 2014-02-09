@@ -6,7 +6,7 @@
 class Shot : public VisibleGameObject
 {
     public:
-        Shot(sf::Vector2f location, Weapon *weapon);
+        Shot(sf::Vector2f location, float _angle, Weapon *weapon);
         ~Shot();
 
         void load(std::string filename);
@@ -19,6 +19,7 @@ class Shot : public VisibleGameObject
         int _damage;
         float _velocity, _coeff, _deltaX, _deltaY;
         sf::Vector2f _location; // position where the shot goes
+        float _angle;
         Weapon *_weapon;
 };
 

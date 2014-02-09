@@ -31,7 +31,7 @@ void Weapon::shoot(sf::Time elapsedTime, sf::Vector2f location)
     if(_elapsedTime > _rechargingTime // if the weapon is not recharged, it's not possible to shoot
        && location.x <= getPosition().x) // and, of course, it's not possible to shoot behind the character
     {
-        Shot *newShot = new Shot(location, this);
+        Shot *newShot = new Shot(location, _angle, this);
         newShot->load("shot.png");
         Game::getContext().addShot(newShot);
 
