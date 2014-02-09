@@ -6,7 +6,7 @@
 class Enemy : public Character
 {
     public:
-        Enemy();
+        Enemy(const sf::Texture& texture);
         virtual ~Enemy();
 
         virtual void load(std::string filename);
@@ -17,6 +17,8 @@ class Enemy : public Character
         virtual void nearToCastle();
         virtual void attack(sf::Time elapsedTime);
         virtual void die();
+
+        enum Type{BLINK};
 
     private:
         float _direction, _velocity;

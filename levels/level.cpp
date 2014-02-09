@@ -1,10 +1,12 @@
 #include "../config.hpp"
 
 #include "level.hpp"
+#include "../characters/knight.hpp"
 
 /** \brief ctor
  */
-Level::Level() : _name("<Unamed level>")
+Level::Level() : _name("<Unamed level>"),
+                 _player(*Locator::getImageManager()->getTexture(IMAGES_PATH"character.png"))
 {
 }
 
@@ -62,11 +64,16 @@ void Level::loadFromFile(const std::string& filename)
                 for(std::vector<Node*>::iterator enemyItr = enemyNodes.begin() ; enemyItr != enemyNodes.end() ; ++enemyItr)
                 {
                     // Asks the factory for an instance of the asking class in the XML
-                    Enemy* enemy = enemyFactory.build((*enemyItr)->firstAttributeValue("class"));
+                    sf::Texture& texture = *(Locator::getImageManager()->getTexture(IMAGES_PATH + toString("o") + (*enemyItr)->firstAttributeValue("file")));
+                    //Enemy* enemy = enemyFactory.build((*enemyItr)->firstAttributeValue("class"), texture);
+                    Enemy* enemy = new Knight(texture); ///@todo: find a way to get Factory back again
 
                     enemy->load((*enemyItr)->firstAttributeValue("file"));
                     // how to deal with positions ? In the file ?
-                    enemy->setPosition(- enemy->getDimension().height, VIEW_HEIGHT - enemy->getDimension().height - _ground.getDimension().height / 2);
+                    enemy->VisibleGameObject::setPosition(- enemy->getDimension().height, ///@todo: delete
+                                                          VIEW_HEIGHT - enemy->getDimension().height - _ground.getDimension().height / 2);
+                    enemy->DrawableEntity::setPosition(- enemy->getDimension().height,
+                                                       VIEW_HEIGHT - enemy->getDimension().height - _ground.getDimension().height / 2);
 
                     wave->addEnemy(enemy);
                 }
@@ -110,7 +117,7 @@ void Level::buildLevel(Node& root)
     x = y = 0;
     x = atoi(playerNode.firstAttributeValue("x").c_str());
     y = atoi(playerNode.firstAttributeValue("y").c_str());
-    _player.setPosition(x, y);
+    _player.VisibleGameObject::setPosition(x, y);
 
     // The castle
     Node& castleNode = root.firstChild("castle");

@@ -8,7 +8,7 @@
 class Knight : public Enemy
 {
     public:
-        Knight();
+        Knight(const sf::Texture& texture);
         ~Knight();
 
     private:

@@ -1,13 +1,14 @@
 #ifndef CHARACTER_HPP
 #define CHARACTER_HPP
 
+#include "DrawableEntity.hpp"
 #include "../visiblegameobject.hpp"
 #include "../weapons/weapon.hpp"
 
-class Character : public VisibleGameObject
+class Character : public VisibleGameObject, public DrawableEntity
 {
     public:
-        Character();
+        Character(const sf::Texture& texture);
         virtual ~Character();
 
         virtual void load(std::string filename);

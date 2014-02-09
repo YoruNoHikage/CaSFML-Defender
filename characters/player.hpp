@@ -6,7 +6,7 @@
 class Player : public Character
 {
     public:
-        Player();
+        Player(const sf::Texture& texture);
         ~Player();
 
         void update(sf::Time elapsedTime);

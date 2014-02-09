@@ -19,7 +19,7 @@ class VisibleGameObject
         virtual void die();
 
         virtual void setPosition(float x, float y);
-        virtual sf::Vector2f getPosition() const;
+        virtual const sf::Vector2f& getPosition();
         virtual sf::FloatRect getDimension() const;
         virtual bool isLoaded() const;
         virtual bool isAlive() const;

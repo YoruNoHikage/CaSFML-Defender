@@ -5,7 +5,7 @@
 
 /** \brief ctor
  */
-Knight::Knight()
+Knight::Knight(const sf::Texture& texture) : Enemy(texture)
 {
 }
 
@@ -15,4 +15,4 @@ Knight::~Knight()
 {
 }
 
-bool Knight::registered = Factory<Enemy>::GetFactory().registration("Knight", &Factory<Enemy>::createInstance<Knight>);
+//bool Knight::registered = Factory<Enemy>::GetFactory().registration("Knight", &Factory<Enemy>::createInstance<Knight>);

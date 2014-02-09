@@ -146,7 +146,8 @@ void PlayingScreen::draw(sf::RenderWindow& app)
     lvl.getPlayer().draw(app);
     for(std::list<Enemy*>::iterator itr = enemies.begin() ; itr != enemies.end() ; ++itr)
     {
-        (*itr)->draw(app);
+        (*itr)->draw(app); ///@todo: delete
+        app.draw(**itr);
     }
     lvl.getCastle().draw(app);
     for(std::list<Shot*>::const_iterator itr = shots.begin() ; itr != shots.end() ; ++itr)

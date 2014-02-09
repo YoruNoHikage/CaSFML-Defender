@@ -2,7 +2,7 @@
 
 #include "character.hpp"
 
-Character::Character()
+Character::Character(const sf::Texture& texture) : DrawableEntity(texture)
 {
 }
 

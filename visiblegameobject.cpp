@@ -65,7 +65,7 @@ sf::FloatRect VisibleGameObject::getDimension() const
     return _sprite.getGlobalBounds();
 }
 
-sf::Vector2f VisibleGameObject::getPosition() const
+const sf::Vector2f& VisibleGameObject::getPosition()
 {
     if(_isLoaded)
         return _sprite.getPosition();

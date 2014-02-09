@@ -3,7 +3,7 @@
 #include "../game.hpp"
 #include "player.hpp"
 
-Player::Player()
+Player::Player(const sf::Texture& texture) : Character(texture)
 {
 }
 

@@ -2,7 +2,9 @@
 
 #include "enemy.hpp"
 
-Enemy::Enemy() : _velocity(0.1f), _nearToCastle(false)
+Enemy::Enemy(const sf::Texture& texture) : Character(texture),
+                                           _velocity(0.1f),
+                                           _nearToCastle(false)
 {
 }
 
@@ -17,6 +19,9 @@ void Enemy::load(std::string filename)
     Character::load(filename);
 
     _hitbox = new BoundingBoxHitbox(getDimension());
+
+    DrawableEntity::createAnimation(Enemy::BLINK, sf::IntRect(0, 0, 100, 100), sf::IntRect(0, 0, 50, 100), sf::seconds(1));
+    DrawableEntity::setAnimation(Enemy::BLINK);
 }
 
 void Enemy::load(std::string filename, std::string fWeapon)
@@ -34,12 +39,15 @@ void Enemy::update(sf::Time elapsedTime)
     else
         attack(elapsedTime);
 
-    _hitbox->setPosition(getPosition().x, getPosition().y);
+    DrawableEntity::update(elapsedTime);
+
+    _hitbox->setPosition(VisibleGameObject::getPosition().x, VisibleGameObject::getPosition().y);
 }
 
 void Enemy::goToCastle(sf::Time elapsedTime)
 {
-    getSprite().move(_velocity * elapsedTime.asMilliseconds(), 0);
+    getSprite().move(_velocity * elapsedTime.asMilliseconds(), 0); ///@todo: delete
+    DrawableEntity::move(_velocity * elapsedTime.asMilliseconds(), 0);
 }
 
 void Enemy::nearToCastle()

@@ -18,7 +18,7 @@ class Factory
          *
          * \return T*
          */
-        template<class Derived> static T* createInstance() { return new Derived(); }
+        //template<class Derived> static T* createInstance() { return new Derived(); }
 
         static Factory<T>& GetFactory() { static Factory<T>* e = new Factory<T>(); return *e; }
 
@@ -27,12 +27,12 @@ class Factory
             return _types.insert(std::pair<std::string, T*(*)()>(key, ptr)).second;
         }
 
-        T* build(const std::string& key) const
+        T* build(const std::string& key, sf::Texture& texture) const
         {
             typename std::map<std::string, T*(*)()>::const_iterator it = _types.find(key);
             if (it == _types.end())
                 throw std::runtime_error(std::string("The type " + key + " you asking for doesn't exist."));
-            return (it->second)();
+            return (it->second)(texture);
         }
 
     private:
