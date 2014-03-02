@@ -1,20 +1,19 @@
-#ifndef ENTITY_HPP
-#define ENTITY_HPP
+#ifndef DRAWABLEENTITY_HPP
+#define DRAWABLEENTITY_HPP
 
 #include <map>
 #include <string>
 
-#include <SFML/Graphics/Drawable.hpp>
-#include <SFML/Graphics/Transformable.hpp>
 #include <SFML/Graphics/Texture.hpp>
 
+#include "../SceneNode.hpp"
 #include "Animation.hpp"
 
-typedef std::map<const int, Animation> MapAnimations;
-
-class DrawableEntity : public sf::Drawable, public sf::Transformable
+class DrawableEntity : public SceneNode
 {
     public:
+        typedef std::map<const int, Animation> MapAnimations;
+
         DrawableEntity(const sf::Texture& texture);
         virtual ~DrawableEntity();
 
@@ -39,15 +38,17 @@ class DrawableEntity : public sf::Drawable, public sf::Transformable
 
         /// Please add an enumeration like enum AnimationsName{RUNNING, JUMPING, JUMPING2};
 
+        sf::IntRect getDimension() const;
+
+    private:
+
         /** \brief Updates the current animation which has to be drawn
           *
           * \param elapsedTime Elapsed time since the last clock restart
           *
           * \return void
           */
-        void update(sf::Time elapsedTime);
-
-    protected:
+        void updateCurrent(sf::Time elapsedTime);
 
         /** \brief Draws the current animation into the target
           *
@@ -56,7 +57,7 @@ class DrawableEntity : public sf::Drawable, public sf::Transformable
           *
           * \return void
           */
-        virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+        virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
 
     private:
 
@@ -64,7 +65,9 @@ class DrawableEntity : public sf::Drawable, public sf::Transformable
         int _currentAnimation;
 
         const sf::Texture& _texture;
+
+        sf::IntRect _bounds;
 };
 
 
-#endif // ENTITY_HPP
+#endif // DRAWABLEENTITY_HPP

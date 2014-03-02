@@ -2,10 +2,11 @@
 #define CHARACTER_HPP
 
 #include "DrawableEntity.hpp"
+#include "../Collidable.hpp"
 #include "../visiblegameobject.hpp"
 #include "../weapons/weapon.hpp"
 
-class Character : public VisibleGameObject, public DrawableEntity
+class Character : public DrawableEntity, public Collidable
 {
     public:
         Character(const sf::Texture& texture);
@@ -18,6 +19,11 @@ class Character : public VisibleGameObject, public DrawableEntity
         virtual void attack(sf::Time elapsedTime);
 
         virtual Weapon* getWeapon();
+
+        bool isAlive();
+
+    protected:
+        bool _isAlive;
 
     private:
         Weapon *_weapon; // player can change it and enemies can lose it

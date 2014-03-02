@@ -143,7 +143,7 @@ void PlayingScreen::draw(sf::RenderWindow& app)
 
     lvl.getBackground().draw(app);
     lvl.getGround().draw(app);
-    lvl.getPlayer().draw(app);
+    app.draw(lvl.getPlayer());
     for(std::list<Enemy*>::iterator itr = enemies.begin() ; itr != enemies.end() ; ++itr)
     {
         (*itr)->draw(app); ///@todo: delete

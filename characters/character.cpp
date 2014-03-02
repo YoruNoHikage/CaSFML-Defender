@@ -2,7 +2,8 @@
 
 #include "character.hpp"
 
-Character::Character(const sf::Texture& texture) : DrawableEntity(texture)
+Character::Character(const sf::Texture& texture) : DrawableEntity(texture),
+                                                   _isAlive(true)
 {
 }
 
@@ -14,23 +15,18 @@ Character::~Character()
 
 void Character::load(std::string filename)
 {
-    VisibleGameObject::load(filename);
-    assert(isLoaded());
     _weapon = NULL;
 }
 
 void Character::load(std::string filename, std::string fWeapon)
 {
-    VisibleGameObject::load(filename);
-    assert(isLoaded());
     _weapon = new Weapon();
     _weapon->load(fWeapon);
 }
 
 void Character::update(sf::Time elapsedTime)
 {
-    VisibleGameObject::update(elapsedTime);
-
+    DrawableEntity::update(elapsedTime);
     if(_weapon != NULL)
         _weapon->update(elapsedTime);
 }
@@ -41,7 +37,6 @@ void Character::attack(sf::Time elapsedTime)
 
 void Character::draw(sf::RenderWindow& window)
 {
-    VisibleGameObject::draw(window);
     if(_weapon != NULL)
         _weapon->draw(window);
 }
@@ -49,4 +44,9 @@ void Character::draw(sf::RenderWindow& window)
 Weapon* Character::getWeapon()
 {
     return _weapon;
+}
+
+bool Character::isAlive()
+{
+    return _isAlive;
 }

@@ -18,7 +18,7 @@ void Enemy::load(std::string filename)
 {
     Character::load(filename);
 
-    _hitbox = new BoundingBoxHitbox(getDimension());
+    _hitbox = new BoundingBoxHitbox(static_cast<sf::FloatRect>(getDimension()));
 
     DrawableEntity::createAnimation(Enemy::BLINK, sf::IntRect(0, 0, 100, 100), sf::IntRect(0, 0, 50, 100), sf::seconds(1));
     DrawableEntity::setAnimation(Enemy::BLINK);
@@ -28,7 +28,7 @@ void Enemy::load(std::string filename, std::string fWeapon)
 {
     Character::load(filename, fWeapon);
 
-    _hitbox = new BoundingBoxHitbox(getDimension());
+    _hitbox = new BoundingBoxHitbox(static_cast<sf::FloatRect>(getDimension()));
 }
 
 void Enemy::update(sf::Time elapsedTime)
@@ -41,12 +41,11 @@ void Enemy::update(sf::Time elapsedTime)
 
     DrawableEntity::update(elapsedTime);
 
-    _hitbox->setPosition(VisibleGameObject::getPosition().x, VisibleGameObject::getPosition().y);
+    _hitbox->setPosition(getPosition().x, getPosition().y);
 }
 
 void Enemy::goToCastle(sf::Time elapsedTime)
 {
-    getSprite().move(_velocity * elapsedTime.asMilliseconds(), 0); ///@todo: delete
     DrawableEntity::move(_velocity * elapsedTime.asMilliseconds(), 0);
 }
 

@@ -2,7 +2,7 @@
 <level name="Level 1">
 	<background file="background.png" />
 	<ground file="ground.png" />
-	<player x="990" y="100" file="character.png">
+	<player x="890" y="450" file="character.png">
 		<weapon x="990" y="150" file="weapon.png" />
 	</player>
 	<castle position="right" file="castle.png" />

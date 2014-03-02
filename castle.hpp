@@ -2,8 +2,9 @@
 #define CASTLE_HPP
 
 #include "visiblegameobject.hpp"
+#include "Collidable.hpp"
 
-class Castle : public VisibleGameObject
+class Castle : public VisibleGameObject, public Collidable
 {
     public:
         Castle();

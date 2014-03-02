@@ -46,6 +46,11 @@ bool VisibleGameObject::collide(VisibleGameObject &object)
     return _hitbox->collide(object.getHitbox());
 }
 
+bool VisibleGameObject::collide(Collidable &object)
+{
+    return _hitbox->collide(object.getHitbox());
+}
+
 void VisibleGameObject::die()
 {
 }

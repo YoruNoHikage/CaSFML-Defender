@@ -6,6 +6,8 @@
 #include "hitbox/circlehitbox.hpp"
 #include "hitbox/boundingboxhitbox.hpp"
 
+#include "Collidable.hpp"
+
 class VisibleGameObject
 {
     public:
@@ -15,6 +17,7 @@ class VisibleGameObject
         virtual void load(std::string filename);
         virtual void update(sf::Time elapsedTime);
         virtual bool collide(VisibleGameObject &object);
+        virtual bool collide(Collidable &object);
         virtual void draw(sf::RenderWindow& window);
         virtual void die();
 
