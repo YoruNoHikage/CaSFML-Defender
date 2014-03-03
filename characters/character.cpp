@@ -3,6 +3,7 @@
 #include "character.hpp"
 
 Character::Character(const sf::Texture& texture) : DrawableEntity(texture),
+                                                   Collidable(),
                                                    _isAlive(true)
 {
 }
@@ -24,9 +25,9 @@ void Character::load(std::string filename, std::string fWeapon)
     _weapon->load(fWeapon);
 }
 
-void Character::update(sf::Time elapsedTime)
+void Character::updateCurrent(sf::Time elapsedTime)
 {
-    DrawableEntity::update(elapsedTime);
+    DrawableEntity::updateCurrent(elapsedTime);
     if(_weapon != NULL)
         _weapon->update(elapsedTime);
 }

@@ -64,14 +64,24 @@ void Level::loadFromFile(const std::string& filename)
                 for(std::vector<Node*>::iterator enemyItr = enemyNodes.begin() ; enemyItr != enemyNodes.end() ; ++enemyItr)
                 {
                     // Asks the factory for an instance of the asking class in the XML
-                    sf::Texture& texture = *(Locator::getImageManager()->getTexture(IMAGES_PATH + toString("o") + (*enemyItr)->firstAttributeValue("file")));
+                    sf::Texture& texture = *(Locator::getImageManager()->getTexture(IMAGES_PATH + (*enemyItr)->firstAttributeValue("file")));
                     //Enemy* enemy = enemyFactory.build((*enemyItr)->firstAttributeValue("class"), texture);
                     Enemy* enemy = new Knight(texture); ///@todo: find a way to get Factory back again
 
                     enemy->load((*enemyItr)->firstAttributeValue("file"));
+
+                    ///@todo: automatic creation with the file
+                    enemy->createAnimation(Enemy::BLINK, sf::IntRect(0, 0, 100, 100), sf::IntRect(0, 0, 50, 100), sf::seconds(1));
+                    enemy->setAnimation(Enemy::BLINK);
+
+                    ///@todo: dynamic hitbox
+                    enemy->setHitbox(new BoundingBoxHitbox(static_cast<sf::FloatRect>(enemy->getDimension())));
+                    Log::write(Log::LOG_INFO, "Enemy's hitbox creation : " + toString(enemy->getDimension().width) + ";"
+                                                                      + toString(enemy->getDimension().height));
+
                     // how to deal with positions ? In the file ?
                     enemy->setPosition(- enemy->getDimension().height,
-                                                       VIEW_HEIGHT - enemy->getDimension().height - _ground.getDimension().height / 2);
+                                       VIEW_HEIGHT - enemy->getDimension().height - _ground.getDimension().height / 2);
 
                     wave->addEnemy(enemy);
                 }

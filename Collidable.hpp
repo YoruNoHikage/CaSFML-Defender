@@ -1,16 +1,24 @@
 #ifndef COLLIDABLE_HPP
 #define COLLIDABLE_HPP
 
+#include <SFML/System/NonCopyable.hpp>
+
 #include "hitbox/hitbox.hpp"
 
-class Collidable
+class Collidable : sf::NonCopyable
 {
     public:
-        virtual ~Collidable() {};
+        Collidable() : _hitbox(NULL) {};
+        ~Collidable()
+        {
+            if(_hitbox != NULL)
+                delete _hitbox;
+        };
 
-        virtual bool collide(Collidable &object) { return _hitbox->collide(object.getHitbox()); };
+        bool collide(Collidable &object) { return _hitbox->collide(object.getHitbox()); };
 
-        virtual Hitbox* getHitbox() { return _hitbox; };
+        Hitbox* getHitbox() { return _hitbox; };
+        void setHitbox(Hitbox* hitbox) { _hitbox = hitbox; };
 
     protected:
         Hitbox *_hitbox;

@@ -11,7 +11,6 @@ class Enemy : public Character
 
         virtual void load(std::string filename);
         virtual void load(std::string filename, std::string fWeapon);
-        virtual void update(sf::Time elapsedTime);
         virtual void goToCastle(sf::Time elapsedTime);
         virtual bool isNearToCastle() const;
         virtual void nearToCastle();
@@ -19,6 +18,10 @@ class Enemy : public Character
         virtual void die();
 
         enum Type{BLINK};
+
+    protected:
+
+        virtual void updateCurrent(sf::Time elapsedTime);
 
     private:
         float _direction, _velocity;

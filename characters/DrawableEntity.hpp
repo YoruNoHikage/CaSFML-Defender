@@ -40,7 +40,7 @@ class DrawableEntity : public SceneNode
 
         sf::IntRect getDimension() const;
 
-    private:
+    protected:
 
         /** \brief Updates the current animation which has to be drawn
           *
@@ -49,6 +49,8 @@ class DrawableEntity : public SceneNode
           * \return void
           */
         void updateCurrent(sf::Time elapsedTime);
+
+    private:
 
         /** \brief Draws the current animation into the target
           *

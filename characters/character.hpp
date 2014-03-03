@@ -14,7 +14,6 @@ class Character : public DrawableEntity, public Collidable
 
         virtual void load(std::string filename);
         virtual void load(std::string filename, std::string fWeapon);
-        virtual void update(sf::Time elapsedTime);
         virtual void draw(sf::RenderWindow& window);
         virtual void attack(sf::Time elapsedTime);
 
@@ -23,6 +22,11 @@ class Character : public DrawableEntity, public Collidable
         bool isAlive();
 
     protected:
+
+        virtual void updateCurrent(sf::Time elapsedTime);
+
+    protected:
+
         bool _isAlive;
 
     private:
