@@ -23,6 +23,7 @@ class CircleHitbox : public Hitbox
         Circle getCircle();
 
         void drawDebug(sf::RenderWindow& window) const;
+        void drawDebug(sf::RenderTarget& target, sf::RenderStates states) const;
 
     private:
         Circle _circ;

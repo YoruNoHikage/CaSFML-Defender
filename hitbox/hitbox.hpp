@@ -34,6 +34,7 @@ class Hitbox
         virtual sf::Vector2f getPosition() const = 0;
 
         virtual void drawDebug(sf::RenderWindow& window) const = 0;
+        virtual void drawDebug(sf::RenderTarget& target, sf::RenderStates states) const = 0;
 };
 
 #endif

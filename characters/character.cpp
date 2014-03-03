@@ -1,5 +1,6 @@
 #include "../config.hpp"
 
+#include "../game.hpp"
 #include "character.hpp"
 
 Character::Character(const sf::Texture& texture) : DrawableEntity(texture),
@@ -30,6 +31,13 @@ void Character::updateCurrent(sf::Time elapsedTime)
     DrawableEntity::updateCurrent(elapsedTime);
     if(_weapon != NULL)
         _weapon->update(elapsedTime);
+}
+
+void Character::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
+{
+    DrawableEntity::drawCurrent(target, states);
+    if(_hitbox && Game::getContext().getDebug())
+        _hitbox->drawDebug(target, states);
 }
 
 void Character::attack(sf::Time elapsedTime)

@@ -56,3 +56,14 @@ void BoundingBoxHitbox::drawDebug(sf::RenderWindow& window) const
 
     window.draw(debugRect);
 }
+
+void BoundingBoxHitbox::drawDebug(sf::RenderTarget& target, sf::RenderStates states) const
+{
+    sf::RectangleShape debugRect(sf::Vector2f(_boundingBox.width, _boundingBox.height));
+    debugRect.setFillColor(sf::Color(0, 0, 255, 50));
+    debugRect.setOutlineThickness(2);
+    debugRect.setOutlineColor(sf::Color::Blue);
+    debugRect.setPosition(_boundingBox.left, _boundingBox.top);
+
+    target.draw(debugRect, sf::RenderStates::Default);
+}

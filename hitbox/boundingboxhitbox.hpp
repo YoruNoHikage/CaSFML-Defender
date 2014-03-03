@@ -21,6 +21,7 @@ class BoundingBoxHitbox : public Hitbox
         sf::Rect<float> getBoundingBox() const;
 
         void drawDebug(sf::RenderWindow& window) const;
+        void drawDebug(sf::RenderTarget& target, sf::RenderStates states) const;
 
     private:
         sf::Rect<float> _boundingBox;

@@ -24,6 +24,7 @@ class Character : public DrawableEntity, public Collidable
     protected:
 
         virtual void updateCurrent(sf::Time elapsedTime);
+        virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
 
     protected:
 

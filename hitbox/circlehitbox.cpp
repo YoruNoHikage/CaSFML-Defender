@@ -71,3 +71,15 @@ void CircleHitbox::drawDebug(sf::RenderWindow& window) const
 
     window.draw(debugCirc);
 }
+
+void CircleHitbox::drawDebug(sf::RenderTarget& target, sf::RenderStates states) const
+{
+    sf::CircleShape debugCirc(_circ.radius);
+    debugCirc.setFillColor(sf::Color(0, 0, 255, 50));
+    debugCirc.setOutlineThickness(2);
+    debugCirc.setOutlineColor(sf::Color::Blue);
+    debugCirc.setOrigin(_circ.radius, _circ.radius);
+    debugCirc.setPosition(_circ.x, _circ.y);
+
+    target.draw(debugCirc, sf::RenderStates::Default);
+}

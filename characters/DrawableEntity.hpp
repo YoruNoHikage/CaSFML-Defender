@@ -50,8 +50,6 @@ class DrawableEntity : public SceneNode
           */
         void updateCurrent(sf::Time elapsedTime);
 
-    private:
-
         /** \brief Draws the current animation into the target
           *
           * \param target The target to draw to
