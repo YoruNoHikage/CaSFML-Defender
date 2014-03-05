@@ -24,13 +24,14 @@ void Character::load(std::string filename, std::string fWeapon)
 {
     _weapon = new Weapon();
     _weapon->load(fWeapon);
+    attachChild(_weapon);
 }
 
 void Character::updateCurrent(sf::Time elapsedTime)
 {
     DrawableEntity::updateCurrent(elapsedTime);
     if(_weapon != NULL)
-        _weapon->update(elapsedTime);
+        _weapon->SceneNode::update(elapsedTime);
 }
 
 void Character::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
@@ -42,12 +43,6 @@ void Character::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) c
 
 void Character::attack(sf::Time elapsedTime)
 {
-}
-
-void Character::draw(sf::RenderWindow& window)
-{
-    if(_weapon != NULL)
-        _weapon->draw(window);
 }
 
 Weapon* Character::getWeapon()

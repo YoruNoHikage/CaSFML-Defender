@@ -24,7 +24,7 @@ void Shot::load(std::string filename)
     VisibleGameObject::load(filename);
     assert(isLoaded());
     getSprite().setOrigin(getSprite().getGlobalBounds().width / 2, getSprite().getGlobalBounds().height / 2);
-    getSprite().setPosition(_weapon->getPosition().x - _weapon->getDimension().width / 2, _weapon->getPosition().y);
+    getSprite().setPosition(_weapon->VisibleGameObject::getPosition().x - _weapon->getDimension().width / 2, _weapon->VisibleGameObject::getPosition().y);
     getSprite().setRotation(_angle);
 
     _hitbox = new CircleHitbox(getPosition(), (getDimension().width + getDimension().height) / 4);

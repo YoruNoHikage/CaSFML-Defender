@@ -28,12 +28,18 @@ Player::Player(const sf::Texture& texture) : Character(texture),
     _arm.setOrigin(180, 25);
     _arm.setPosition(100, 75);
     _body.attachChild(&_arm);
-
-    //_arm.attachChild(_weapon);
 }
 
 Player::~Player()
 {
+}
+
+void Player::load(std::string filename, std::string fWeapon)
+{
+    Character::load(filename, fWeapon);
+
+    detachChild(*_weapon);
+    _arm.attachChild(_weapon);
 }
 
 void Player::updateCurrent(sf::Time elapsedTime)

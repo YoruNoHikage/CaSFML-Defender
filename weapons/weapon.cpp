@@ -3,7 +3,9 @@
 #include "../game.hpp"
 #include "weapon.hpp"
 
-Weapon::Weapon() : _angle(0), _rechargingTime(sf::seconds(0.2f)), _elapsedTime(sf::seconds(0))
+Weapon::Weapon() : _angle(0),
+                   _rechargingTime(sf::seconds(0.2f)),
+                   _elapsedTime(sf::seconds(0))
 {
 }
 
@@ -17,6 +19,7 @@ void Weapon::load(std::string filename)
     if(isLoaded())
     {
         // PROBLEM TO SOLVE : Fix the origin center when the scale isn't 1.f
+        Log::write(Log::LOG_INFO, "Weapon loaded : " + filename);
         getSprite().setOrigin(getSprite().getGlobalBounds().width / 2, getSprite().getGlobalBounds().height / 2);
     }
 }
@@ -28,8 +31,7 @@ void Weapon::setAngle(float angle)
 
 void Weapon::shoot(sf::Time elapsedTime, sf::Vector2f location)
 {
-    if(_elapsedTime > _rechargingTime // if the weapon is not recharged, it's not possible to shoot
-       && location.x <= getPosition().x) // and, of course, it's not possible to shoot behind the character
+    if(_elapsedTime > _rechargingTime) // if the weapon is not recharged, it's not possible to shoot
     {
         Shot *newShot = new Shot(location, _angle, this);
         newShot->load("shot.png");
@@ -39,31 +41,23 @@ void Weapon::shoot(sf::Time elapsedTime, sf::Vector2f location)
     }
 }
 
-void Weapon::update(sf::Time elapsedTime)
-{
-    VisibleGameObject::update(elapsedTime);
-
-    _elapsedTime += elapsedTime; // keeps elapsedTime in memory
-
-    // computes the angle between the mouse's position and the object
-    sf::RenderWindow& app = Game::getContext().getApp();
-    sf::Vector2f clicPos = app.mapPixelToCoords(sf::Mouse::getPosition(app));
-    float deltaX = clicPos.x - getPosition().x;
-    float deltaY = clicPos.y - getPosition().y;
-
-    if(deltaX == 0)
-        _angle = 0;
-    else // rotates to be in the cursor's direction
-        _angle = (std::atan(deltaY / deltaX) / (M_PI * 2)) * 360;
-
-    if(isLoaded())
-    {
-        if(deltaX < 0) // forces the angle to be between pi / 2 and -pi / 2
-            getSprite().rotate(_angle - getSprite().getRotation());
-    }
-}
-
 float Weapon::getAngle() const
 {
     return _angle;
+}
+
+void Weapon::updateCurrent(sf::Time elapsedTime)
+{
+    _elapsedTime += elapsedTime; // keeps elapsedTime in memory
+
+    // weapon's rotation is auto because it's a player's child
+}
+
+void Weapon::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
+{
+    if(isLoaded())
+    {
+        const sf::Sprite& sprite = _sprite;
+        target.draw(sprite, states);
+    }
 }

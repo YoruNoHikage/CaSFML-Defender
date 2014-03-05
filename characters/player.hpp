@@ -10,6 +10,8 @@ class Player : public Character
         Player(const sf::Texture& texture);
         ~Player();
 
+        void load(std::string filename, std::string fWeapon);
+
         void attack(sf::Time elapsedTime, sf::Vector2f location);
 
     private:

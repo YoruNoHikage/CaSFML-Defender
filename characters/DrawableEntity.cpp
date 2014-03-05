@@ -50,7 +50,7 @@ void DrawableEntity::drawCurrent(sf::RenderTarget& target, sf::RenderStates stat
     }
 }
 
-sf::IntRect DrawableEntity::getDimension() const
+sf::IntRect DrawableEntity::getRect() const
 {
     return _bounds;
 }

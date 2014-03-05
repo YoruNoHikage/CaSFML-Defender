@@ -79,7 +79,7 @@ sf::Transform SceneNode::getWorldTransform() const
     return transform;
 }
 
-sf::IntRect SceneNode::getDimension() const
+sf::IntRect SceneNode::getRect() const
 {
     ///@todo: OMG...
 }

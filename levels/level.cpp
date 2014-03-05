@@ -75,13 +75,13 @@ void Level::loadFromFile(const std::string& filename)
                     enemy->setAnimation(Enemy::BLINK);
 
                     ///@todo: dynamic hitbox
-                    enemy->setHitbox(new BoundingBoxHitbox(static_cast<sf::FloatRect>(enemy->getDimension())));
-                    Log::write(Log::LOG_INFO, "Enemy's hitbox creation : " + toString(enemy->getDimension().width) + ";"
-                                                                      + toString(enemy->getDimension().height));
+                    enemy->setHitbox(new BoundingBoxHitbox(static_cast<sf::FloatRect>(enemy->getRect())));
+                    Log::write(Log::LOG_INFO, "Enemy's hitbox creation : " + toString(enemy->getRect().width) + ";"
+                                                                      + toString(enemy->getRect().height));
 
                     // how to deal with positions ? In the file ?
-                    enemy->setPosition(- enemy->getDimension().height,
-                                       VIEW_HEIGHT - enemy->getDimension().height - _ground.getDimension().height / 2);
+                    enemy->setPosition(- enemy->getRect().height,
+                                       VIEW_HEIGHT - enemy->getRect().height - _ground.getDimension().height / 2);
 
                     wave->addEnemy(enemy);
                 }
@@ -115,12 +115,6 @@ void Level::buildLevel(Node& root)
     Node& playerNode = root.firstChild("player");
     Node& weaponNode = playerNode.firstChild("weapon"); ///@todo: multiple weapons please
     _player.load(playerNode.firstAttributeValue("file"), weaponNode.firstAttributeValue("file"));
-
-    // Better if the weapon is set in the player ?
-    x = y = 0;
-    x = atoi(weaponNode.firstAttributeValue("x").c_str());
-    y = atoi(weaponNode.firstAttributeValue("y").c_str());
-    _player.getWeapon()->setPosition(x, y);
 
     x = y = 0;
     x = atoi(playerNode.firstAttributeValue("x").c_str());

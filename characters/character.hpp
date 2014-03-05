@@ -14,7 +14,6 @@ class Character : public DrawableEntity, public Collidable
 
         virtual void load(std::string filename);
         virtual void load(std::string filename, std::string fWeapon);
-        virtual void draw(sf::RenderWindow& window);
         virtual void attack(sf::Time elapsedTime);
 
         virtual Weapon* getWeapon();
@@ -29,8 +28,6 @@ class Character : public DrawableEntity, public Collidable
     protected:
 
         bool _isAlive;
-
-    private:
         Weapon *_weapon; // player can change it and enemies can lose it
 };
 

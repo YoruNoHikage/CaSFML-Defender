@@ -32,9 +32,9 @@ class VisibleGameObject
         sf::Sprite& getSprite();
         Hitbox *_hitbox;
         bool _isAlive;
+        sf::Sprite _sprite;
 
     private:
-        sf::Sprite _sprite;
         sf::Texture *_texture;
         std::string _filename;
         bool _isLoaded;

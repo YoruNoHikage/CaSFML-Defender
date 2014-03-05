@@ -12,7 +12,7 @@ BoundingBoxHitbox::~BoundingBoxHitbox()
 
 bool BoundingBoxHitbox::collide(Hitbox* hitbox)
 {
-    hitbox->collide(_boundingBox);
+    return hitbox->collide(_boundingBox);
 }
 
 bool BoundingBoxHitbox::collide(int x, int y)

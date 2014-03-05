@@ -25,7 +25,7 @@ class SceneNode : public sf::Transformable, public sf::Drawable, private sf::Non
         sf::Vector2f getWorldPosition() const;
         sf::Transform getWorldTransform() const;
 
-        virtual sf::IntRect getDimension() const;
+        virtual sf::IntRect getRect() const;
 
     private:
 

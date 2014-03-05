@@ -1,9 +1,10 @@
 #ifndef WEAPON_HPP
 #define WEAPON_HPP
 
+#include "../SceneNode.hpp"
 #include "../visiblegameobject.hpp"
 
-class Weapon : public VisibleGameObject
+class Weapon : public VisibleGameObject, public SceneNode
 {
     public:
         Weapon();
@@ -13,10 +14,12 @@ class Weapon : public VisibleGameObject
 
         void shoot(sf::Time elapsedTime, sf::Vector2f location);
 
-        virtual void update(sf::Time elapsedTime);
-
         void setAngle(float angle);
         float getAngle() const;
+
+    protected:
+        virtual void updateCurrent(sf::Time elapsedTime);
+        virtual void drawCurrent(sf::RenderTarget& target,sf::RenderStates states) const;
 
     private:
         float _angle;
