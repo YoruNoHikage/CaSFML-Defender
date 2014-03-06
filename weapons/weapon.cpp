@@ -5,7 +5,9 @@
 
 Weapon::Weapon() : _angle(0),
                    _rechargingTime(sf::seconds(0.2f)),
-                   _elapsedTime(sf::seconds(0))
+                   _elapsedTime(sf::seconds(0)),
+                   _sprite(),
+                   _isLoaded(false)
 {
 }
 
@@ -15,10 +17,14 @@ Weapon::~Weapon()
 
 void Weapon::load(std::string filename)
 {
-    VisibleGameObject::load(filename);
-    if(isLoaded())
+    ImageManager *im = Locator::getImageManager();
+    sf::Texture* texture = im->getTexture(IMAGES_PATH + filename);
+    if(texture == NULL)
+        _isLoaded = false;
+    else
     {
-        // PROBLEM TO SOLVE : Fix the origin center when the scale isn't 1.f
+        _sprite.setTexture(*texture);
+        _isLoaded = true;
         Log::write(Log::LOG_INFO, "Weapon loaded : " + filename);
         //getSprite().setOrigin(getSprite().getGlobalBounds().width / 2, getSprite().getGlobalBounds().height / 2);
     }
@@ -55,7 +61,7 @@ void Weapon::updateCurrent(sf::Time elapsedTime)
 
 void Weapon::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    if(isLoaded())
+    if(_isLoaded)
     {
         const sf::Sprite& sprite = _sprite;
         target.draw(sprite, states);

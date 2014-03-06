@@ -4,7 +4,7 @@
 #include "../SceneNode.hpp"
 #include "../visiblegameobject.hpp"
 
-class Weapon : public VisibleGameObject, public SceneNode
+class Weapon : public SceneNode
 {
     public:
         Weapon();
@@ -23,7 +23,12 @@ class Weapon : public VisibleGameObject, public SceneNode
 
     private:
         float _angle;
-        sf::Time _rechargingTime, _elapsedTime;
+        sf::Time _rechargingTime,
+                 _elapsedTime;
+
+        sf::Sprite _sprite;
+
+        bool _isLoaded;
 };
 
 #endif

@@ -31,7 +31,7 @@ void Character::updateCurrent(sf::Time elapsedTime)
 {
     DrawableEntity::updateCurrent(elapsedTime);
     if(_weapon != NULL)
-        _weapon->SceneNode::update(elapsedTime);
+        _weapon->update(elapsedTime);
 }
 
 void Character::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
