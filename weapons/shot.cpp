@@ -5,12 +5,17 @@
 
 #include "../hitbox/circlehitbox.hpp"
 
-Shot::Shot(sf::Vector2f location, float angle, Weapon *weapon) : _velocity(0.5f),
-                                                               _location(location),
-                                                               _angle(angle),
-                                                               _weapon(weapon),
-                                                               _damage(1)
+Shot::Shot(sf::Vector2f location, float angle, Weapon *weapon) : _damage(1),
+                                                                 _velocity(0.5f),
+                                                                 _location(location),
+                                                                 _angle(angle),
+                                                                 _weapon(weapon)
 {
+    sf::Vector2f position(_weapon->getWorldPosition().x, _weapon->getWorldPosition().y);
+    sf::Vector2f delta(position - location);
+    _angle = (std::atan(delta.y / delta.x) / (M_PI * 2)) * 360;
+    _sprite.setRotation(_angle);
+    // setRotation(_angle); // in the future
 }
 
 Shot::~Shot()
@@ -24,8 +29,7 @@ void Shot::load(std::string filename)
     VisibleGameObject::load(filename);
     assert(isLoaded());
     getSprite().setOrigin(getSprite().getGlobalBounds().width / 2, getSprite().getGlobalBounds().height / 2);
-    getSprite().setPosition(_weapon->VisibleGameObject::getPosition().x - _weapon->getDimension().width / 2, _weapon->VisibleGameObject::getPosition().y);
-    getSprite().setRotation(_angle);
+    _sprite.setPosition(_weapon->getWorldPosition().x, _weapon->getWorldPosition().y);
 
     _hitbox = new CircleHitbox(getPosition(), (getDimension().width + getDimension().height) / 4);
 

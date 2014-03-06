@@ -20,7 +20,7 @@ void Weapon::load(std::string filename)
     {
         // PROBLEM TO SOLVE : Fix the origin center when the scale isn't 1.f
         Log::write(Log::LOG_INFO, "Weapon loaded : " + filename);
-        getSprite().setOrigin(getSprite().getGlobalBounds().width / 2, getSprite().getGlobalBounds().height / 2);
+        //getSprite().setOrigin(getSprite().getGlobalBounds().width / 2, getSprite().getGlobalBounds().height / 2);
     }
 }
 
@@ -37,7 +37,7 @@ void Weapon::shoot(sf::Time elapsedTime, sf::Vector2f location)
         newShot->load("shot.png");
         Game::getContext().addShot(newShot);
 
-        _elapsedTime = sf::seconds(0);
+        _elapsedTime = sf::Time::Zero;
     }
 }
 
