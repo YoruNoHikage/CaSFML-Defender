@@ -1,10 +1,10 @@
 #ifndef CASTLE_HPP
 #define CASTLE_HPP
 
-#include "visiblegameobject.hpp"
+#include "SpriteNode.hpp"
 #include "Collidable.hpp"
 
-class Castle : public VisibleGameObject, public Collidable
+class Castle : public SpriteNode, public Collidable
 {
     public:
         Castle();
@@ -12,10 +12,14 @@ class Castle : public VisibleGameObject, public Collidable
 
         void load(std::string filename);
 
-        void update(sf::Time elapsedTime);
+    protected:
+
+        virtual void updateCurrent(sf::Time elapsedTime);
+        void drawCurrent(sf::RenderTarget& target,sf::RenderStates states) const;
 
     private:
-        int life;
+        int _life;
+        bool _isLoaded;
 };
 
 #endif

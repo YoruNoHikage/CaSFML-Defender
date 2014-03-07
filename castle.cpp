@@ -1,30 +1,45 @@
 #include "config.hpp"
+#include "game.hpp"
 
 #include "castle.hpp"
 
-Castle::Castle() : life(100)
+Castle::Castle() : SpriteNode(),
+                   Collidable(),
+                   _life(100),
+                   _isLoaded(false)
 {
 }
 
 Castle::~Castle()
 {
-    delete Collidable::_hitbox;
-    delete VisibleGameObject::_hitbox;
 }
 
 void Castle::load(std::string filename)
 {
-    VisibleGameObject::load(filename);
-    assert(isLoaded());
+    ImageManager *im = Locator::getImageManager();
+    sf::Texture* texture = im->getTexture(IMAGES_PATH + filename);
+    if(texture == NULL)
+        _isLoaded = false;
+    else
+    {
+        _sprite.setTexture(*texture);
+        _isLoaded = true;
+    }
 
-    Collidable::_hitbox = new BoundingBoxHitbox(getDimension());
-    VisibleGameObject::_hitbox = new BoundingBoxHitbox(getDimension());
+    _hitbox = new BoundingBoxHitbox(static_cast<sf::FloatRect>(getRect()));
+    _hitbox->setPosition(getPosition().x, getPosition().y);
 }
 
-void Castle::update(sf::Time elapsedTime)
+void Castle::updateCurrent(sf::Time elapsedTime)
 {
-    VisibleGameObject::update(elapsedTime);
+    SpriteNode::updateCurrent(elapsedTime);
 
-    Collidable::_hitbox->setPosition(getPosition().x, getPosition().y); // TO FIX : change that because the castle never moves
-    VisibleGameObject::_hitbox->setPosition(getPosition().x, getPosition().y); // TO FIX : change that because the castle never moves
+    // nothing to do here
+}
+
+void Castle::drawCurrent(sf::RenderTarget& target,sf::RenderStates states) const
+{
+    SpriteNode::drawCurrent(target, states);
+    if(_hitbox && Game::getContext().getDebug())
+        _hitbox->drawDebug(target, states);
 }

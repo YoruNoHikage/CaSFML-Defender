@@ -148,7 +148,7 @@ void PlayingScreen::draw(sf::RenderWindow& app)
     {
         app.draw(**itr);
     }
-    lvl.getCastle().draw(app);
+    app.draw(lvl.getCastle());
     for(std::list<Shot*>::const_iterator itr = shots.begin() ; itr != shots.end() ; ++itr)
     {
         (*itr)->draw(app);

@@ -154,17 +154,18 @@ void Level::buildLevel(Node& root)
     if(position == "left")
         x = std::abs(offsetX);
     else if(position == "middle")
-        x = VIEW_WIDTH / 2 - _castle.getDimension().width / 2 + offsetX;
+        x = VIEW_WIDTH / 2 - _castle.getRect().width / 2 + offsetX;
     else // by default it's right
-        x = VIEW_WIDTH - _castle.getDimension().width - std::abs(offsetX);
+        x = VIEW_WIDTH - _castle.getRect().width - std::abs(offsetX);
 
-    y = VIEW_HEIGHT - _castle.getDimension().height - std::abs(offsetY);
+    y = VIEW_HEIGHT - _castle.getRect().height - std::abs(offsetY);
     _castle.setPosition(x, y);
+    _castle.getHitbox()->setPosition(x, y);
     Log::write(Log::LOG_INFO, std::string("Loading castle to the " + position + " : offsets : " + toString(offsetX) + ";" + toString(offsetX)
                                           + " - position " + toString(_castle.getPosition().x) + "x" + toString(_castle.getPosition().y) + " - size "
-                                          + toString(_castle.getDimension().width) + ";" + toString(_castle.getDimension().height)));
-    Log::write(Log::LOG_INFO, std::string("Castle sprite hitbox : position " + toString(_castle.getDimension().left) + ";" + toString(_castle.getDimension().top) + " - size "
-                                          + toString(_castle.getDimension().width) + ";" + toString(_castle.getDimension().height)));
+                                          + toString(_castle.getRect().width) + ";" + toString(_castle.getRect().height)));
+    Log::write(Log::LOG_INFO, std::string("Castle sprite hitbox : position " + toString(x) + ";" + toString(y) + " - size "
+                                          + toString(_castle.getRect().width) + ";" + toString(_castle.getRect().height)));
 }
 
 Wave* Level::getNextWave()
