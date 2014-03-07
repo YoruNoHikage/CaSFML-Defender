@@ -2,13 +2,18 @@
 <level name="Level 1">
 	<background file="background.png" />
 	<ground file="ground.png" />
-	<player x="890" y="450" file="character.png">
-		<weapon x="990" y="150" file="weapon.png" />
+	<player x="890" y="450" file="hero.png">
+		<weapon file="weapon.png" />
 	</player>
-	<castle position="right" file="castle.png" />
+	<castle position="right" offsetx="50" offsety="50" file="castle.png" />
 	<waves>
 		<wave>
-			<enemy class="Knight" speed="2" file="enemy.png" />
+			<enemy class="Knight" speed="2" file="enemy.png">
+				<animation name="blink"><!-- put that into an extern file -->
+					<area top="0" left="0" width="100" height="100" />
+					<spritearea top="0" left="0" width="50" height="100" />
+				</animation>
+			</enemy>
 			<enemy class="Knight" speed="2" file="enemy.png" />
 			<enemy class="Knight" speed="2" file="enemy.png" />
 		</wave>

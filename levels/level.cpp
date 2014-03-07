@@ -83,7 +83,7 @@ void Level::loadFromFile(const std::string& filename)
 
                     // how to deal with positions ? In the file ?
                     enemy->setPosition(- enemy->getRect().height,
-                                       VIEW_HEIGHT - enemy->getRect().height - _ground.getDimension().height / 2);
+                                       VIEW_HEIGHT - enemy->getRect().height - _ground.getRect().height / 2);
 
                     wave->addEnemy(enemy);
                 }

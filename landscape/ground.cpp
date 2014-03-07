@@ -1,8 +1,11 @@
 #include "../config.hpp"
+#include "../game.hpp"
 
 #include "ground.hpp"
 
-Ground::Ground()
+Ground::Ground() : SpriteNode(),
+                   Collidable(),
+                   _isLoaded(false)
 {
 }
 
@@ -12,17 +15,33 @@ Ground::~Ground()
 
 void Ground::load(std::string filename)
 {
-    VisibleGameObject::load(filename);
-    getSprite().setPosition(0, VIEW_HEIGHT - getDimension().height);
+    ImageManager *im = Locator::getImageManager();
+    sf::Texture* texture = im->getTexture(IMAGES_PATH + filename);
+    if(texture == NULL)
+        _isLoaded = false;
+    else
+    {
+        _sprite.setTexture(*texture);
+        _isLoaded = true;
+    }
+
+    setPosition(0, VIEW_HEIGHT - getRect().height);
 
     sf::Rect<float> rect(getPosition().x,
-                         getPosition().y + getDimension().height / 2, // the collision is in the ground's middle
-                         getDimension().width,
-                         getDimension().height / 2);
+                         getPosition().y + getRect().height / 2, // the collision is in the ground's middle
+                         getRect().width,
+                         getRect().height / 2);
     _hitbox = new BoundingBoxHitbox(rect);
 
     Log::write(Log::LOG_INFO, std::string("Loading ground : position " + toString(getPosition().x) + "x" + toString(getPosition().y) + " - size "
-                                          + toString(getDimension().width) + ";" + toString(getDimension().height)));
+                                          + toString(getRect().width) + ";" + toString(getRect().height)));
     Log::write(Log::LOG_INFO, std::string("Ground sprite hitbox : position " + toString(rect.left) + ";" + toString(rect.top) + " - size "
                                           + toString(rect.width) + ";" + toString(rect.height)));
+}
+
+void Ground::drawCurrent(sf::RenderTarget& target,sf::RenderStates states) const
+{
+    SpriteNode::drawCurrent(target, states);
+    if(_hitbox && Game::getContext().getDebug())
+        _hitbox->drawDebug(target, states);
 }
