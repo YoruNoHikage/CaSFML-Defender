@@ -5,8 +5,9 @@
 
 /** \brief ctor
  */
-Level::Level() : _name("<Unamed level>"),
-                 _player(*Locator::getImageManager()->getTexture(IMAGES_PATH"hero.png"))
+Level::Level(sf::RenderWindow& app) : _app(app),
+                                      _name("<Unamed level>"),
+                                      _player(NULL)
 {
 }
 
@@ -15,6 +16,7 @@ Level::Level() : _name("<Unamed level>"),
 Level::~Level()
 {
     std::for_each(_waves.begin(), _waves.end(), Deallocator<Wave>());
+    delete _player;
 }
 
 /** \brief Load the level's objects from a XML file with a proxy class
@@ -113,32 +115,53 @@ void Level::buildLevel(Node& root)
 
     // The player
     Node& playerNode = root.firstChild("player");
+
+    sf::Texture* playerTexture = Locator::getImageManager()->getTexture(IMAGES_PATH + playerNode.firstAttributeValue("file"));
+    if(!playerTexture)
+        throw std::runtime_error("Player's texture not found");
+    _player = new Player(*playerTexture);
+
     Node& weaponNode = playerNode.firstChild("weapon"); ///@todo: multiple weapons please
-    _player.load(playerNode.firstAttributeValue("file"), weaponNode.firstAttributeValue("file"));
+    _player->load(playerNode.firstAttributeValue("file"), weaponNode.firstAttributeValue("file"));
 
     x = y = 0;
     x = atoi(playerNode.firstAttributeValue("x").c_str());
     y = atoi(playerNode.firstAttributeValue("y").c_str());
-    _player.setPosition(x, y);
+    _player->setPosition(x, y);
 
     // The castle
     Node& castleNode = root.firstChild("castle");
     _castle.load(castleNode.firstAttributeValue("file"));
 
-    std::string position = castleNode.firstAttributeValue("position");
-    Log::write(Log::LOG_INFO, "Loading castle to the " + position);
-    if(position == "left")
-        x = 50; /// @todo: 1/10 or something would be great
-    else if(position == "middle")
-        x = VIEW_WIDTH / 2 - _castle.getDimension().width / 2;
-    else // by default it's right
-        x = VIEW_WIDTH - _castle.getDimension().width - 50;
+    int offsetX = 0, offsetY = 0;
+    try
+    {
+        std::string offsetXStr = castleNode.firstAttributeValue("offsetx");
+        offsetX = offsetXStr != "" ? atoi(offsetXStr.c_str()) : 0;
+    }
+    catch(std::runtime_error& e)
+    { /* if offsetX are not there, it's not a problem */ }
 
-    y = VIEW_HEIGHT - _castle.getDimension().height - _ground.getDimension().height / 2;
-    /*x = atoi(castleNode.firstAttributeValue("x").c_str());
-    y = atoi(castleNode.firstAttributeValue("y").c_str());*/
+    try
+    {
+        std::string offsetYStr = castleNode.firstAttributeValue("offsety");
+        offsetY = offsetYStr != "" ? atoi(offsetYStr.c_str()) : 0;
+    }
+    catch(std::runtime_error& e)
+    { /* if offsetY are not there, it's not a problem */ }
+
+    std::string position = castleNode.firstAttributeValue("position");
+    if(position == "left")
+        x = std::abs(offsetX);
+    else if(position == "middle")
+        x = VIEW_WIDTH / 2 - _castle.getDimension().width / 2 + offsetX;
+    else // by default it's right
+        x = VIEW_WIDTH - _castle.getDimension().width - std::abs(offsetX);
+
+    y = VIEW_HEIGHT - _castle.getDimension().height - std::abs(offsetY);
     _castle.setPosition(x, y);
-    Log::write(Log::LOG_INFO, std::string("Loading castle : position " + toString(_castle.getPosition().x) + "x" + toString(_castle.getPosition().y) + " - size "
+    Log::write(Log::LOG_INFO, std::string("Loading castle to the " + position + " : offsets : " + toString(offsetX) + ";" + toString(offsetX)
+                                          + " - position " + toString(_castle.getPosition().x) + "x" + toString(_castle.getPosition().y) + " - size "
                                           + toString(_castle.getDimension().width) + ";" + toString(_castle.getDimension().height)));
     Log::write(Log::LOG_INFO, std::string("Castle sprite hitbox : position " + toString(_castle.getDimension().left) + ";" + toString(_castle.getDimension().top) + " - size "
                                           + toString(_castle.getDimension().width) + ";" + toString(_castle.getDimension().height)));

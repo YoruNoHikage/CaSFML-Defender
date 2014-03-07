@@ -13,12 +13,12 @@
 class Level
 {
     public:
-        Level();
+        Level(sf::RenderWindow& app);
         ~Level();
 
         void loadFromFile(const std::string& filename);
 
-        Player& getPlayer() { return _player; };
+        Player& getPlayer() { return *_player; };
         Background& getBackground() { return _background; };
         Castle& getCastle() { return _castle; };
         Ground& getGround() { return _ground; };
@@ -28,9 +28,11 @@ class Level
     private:
         void buildLevel(Node& root);
 
+        sf::RenderWindow& _app;
+
         std::string _name; // level's name
 
-        Player _player;
+        Player* _player;
         Background _background;
         Castle _castle;
         Ground _ground;

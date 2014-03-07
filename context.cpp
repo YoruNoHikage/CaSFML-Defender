@@ -2,7 +2,11 @@
 
 #include "context.hpp"
 
-Context::Context() : _isDebug(false)
+Context::Context() : _mainWindow(),
+                     _shots(),
+                     _enemies(),
+                     _level(_mainWindow),
+                     _isDebug(false)
 {
 }
 
