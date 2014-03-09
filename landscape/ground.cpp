@@ -1,6 +1,7 @@
 #include "../config.hpp"
 #include "../game.hpp"
 
+#include "../hitbox/boundingboxhitbox.hpp"
 #include "ground.hpp"
 
 Ground::Ground() : SpriteNode(),

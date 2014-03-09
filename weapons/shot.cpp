@@ -1,15 +1,20 @@
 #include "../config.hpp"
 
+#include "../game.hpp"
 #include "weapon.hpp"
 #include "shot.hpp"
 
 #include "../hitbox/circlehitbox.hpp"
 
-Shot::Shot(sf::Vector2f location, float angle, Weapon *weapon) : _damage(1),
+Shot::Shot(sf::Vector2f location, float angle, Weapon *weapon) : SpriteNode(),
+                                                                 Collidable(),
+                                                                 _damage(1),
                                                                  _velocity(0.5f),
                                                                  _location(location),
                                                                  _angle(angle),
-                                                                 _weapon(weapon)
+                                                                 _weapon(weapon),
+                                                                 _isLoaded(false),
+                                                                 _isAlive(true)
 {
     sf::Vector2f position(_weapon->getWorldPosition().x, _weapon->getWorldPosition().y);
     sf::Vector2f delta(position - location);
@@ -20,53 +25,76 @@ Shot::Shot(sf::Vector2f location, float angle, Weapon *weapon) : _damage(1),
 
 Shot::~Shot()
 {
-    if(_hitbox != NULL)
-        delete _hitbox;
 }
 
 void Shot::load(std::string filename)
 {
-    VisibleGameObject::load(filename);
-    assert(isLoaded());
-    getSprite().setOrigin(getSprite().getGlobalBounds().width / 2, getSprite().getGlobalBounds().height / 2);
-    _sprite.setPosition(_weapon->getWorldPosition().x, _weapon->getWorldPosition().y);
-
-    _hitbox = new CircleHitbox(getPosition(), (getDimension().width + getDimension().height) / 4);
-
-    _deltaY = getSprite().getPosition().y - _location.y;
-    _deltaX = getSprite().getPosition().x - _location.x;
-    _coeff = _deltaY / _deltaX; // director coefficient
-}
-
-void Shot::update(sf::Time elapsedTime)
-{
-    if(_isAlive)
+    ImageManager *im = Locator::getImageManager();
+    sf::Texture* texture = im->getTexture(IMAGES_PATH + filename);
+    if(texture == NULL)
+        _isLoaded = false;
+    else
     {
-        VisibleGameObject::update(elapsedTime);
-        float distance = _velocity * elapsedTime.asMilliseconds(); // d = v * t, elementary my dear Watson !
-        float x = distance / std::sqrt(1 + _coeff * _coeff); // from AB^2 = |xA - xB|^2 + |yA - yB|^2
-        if(_deltaX > 0) // For one corner in the screen
-            x = -x;
-
-        getSprite().move(x, x * _coeff);
-
-        _hitbox->setPosition(getPosition().x, getPosition().y);
+        _sprite.setTexture(*texture);
+        _isLoaded = true;
     }
+
+    setOrigin(getGlobalBounds().width / 2, getGlobalBounds().height / 2);
+    setPosition(_weapon->getWorldPosition().x, _weapon->getWorldPosition().y);
+
+    _hitbox = new CircleHitbox(getPosition(), (getGlobalBounds().width + getGlobalBounds().height) / 4);
+
+    _deltaY = getPosition().y - _location.y;
+    _deltaX = getPosition().x - _location.x;
+    _coeff = _deltaY / _deltaX; // director coefficient
+
+    Log::write(Log::LOG_INFO, "Shot loaded with size : " + toString(getGlobalBounds().width) + ";"
+               + toString(getGlobalBounds().height));
+    Log::write(Log::LOG_INFO, "Shot loaded at position : " + toString(getPosition().x) + ";"
+               + toString(getPosition().y));
 }
 
 bool Shot::hasToBeRemoved()
 {
-    if(!isAlive())
+    if(!_isAlive)
+    {
+        Log::write(Log::LOG_INFO, "Shot dead");
         return true;
-    if(getPosition().x > VIEW_WIDTH + getDimension().width
-       || getPosition().x + getDimension().width < 0
-       || getPosition().y > VIEW_HEIGHT + getDimension().height
-       || getPosition().y + getDimension().height < 0)
+    }
+    if(getPosition().x > VIEW_WIDTH + getGlobalBounds().width
+       || getPosition().x + getGlobalBounds().width < 0
+       || getPosition().y > VIEW_HEIGHT + getGlobalBounds().height
+       || getPosition().y + getGlobalBounds().height < 0)
+    {
+        Log::write(Log::LOG_INFO, "Shot out of bounds");
         return true;
+    }
     return false;
 }
 
 void Shot::die()
 {
     _isAlive = false;
+}
+
+void Shot::updateCurrent(sf::Time elapsedTime)
+{
+    if(_isAlive)
+    {
+        float distance = _velocity * elapsedTime.asMilliseconds(); // d = v * t, elementary my dear Watson !
+        float x = distance / std::sqrt(1 + _coeff * _coeff); // from AB^2 = |xA - xB|^2 + |yA - yB|^2
+        if(_deltaX > 0) // For one corner in the screen
+            x = -x;
+
+        move(x, x * _coeff);
+
+        _hitbox->setPosition(getPosition().x, getPosition().y);
+    }
+}
+
+void Shot::drawCurrent(sf::RenderTarget& target,sf::RenderStates states) const
+{
+    SpriteNode::drawCurrent(target, states);
+    if(_hitbox && Game::getContext().getDebug())
+        _hitbox->drawDebug(target, states);
 }

@@ -2,7 +2,6 @@
 #define WEAPON_HPP
 
 #include "../SceneNode.hpp"
-#include "../visiblegameobject.hpp"
 
 class Weapon : public SceneNode
 {

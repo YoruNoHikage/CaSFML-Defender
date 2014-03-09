@@ -3,7 +3,6 @@
 
 #include "DrawableEntity.hpp"
 #include "../Collidable.hpp"
-#include "../visiblegameobject.hpp"
 #include "../weapons/weapon.hpp"
 
 class Character : public DrawableEntity, public Collidable
