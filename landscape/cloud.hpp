@@ -1,21 +1,27 @@
 #ifndef CLOUD_HPP
 #define CLOUD_HPP
 
-#include "../visiblegameobject.hpp"
+#include "../SpriteNode.hpp"
 
-class Cloud : public VisibleGameObject
+class Cloud : public SpriteNode
 {
     public:
         Cloud();
         ~Cloud();
 
         void load(std::string filename);
-        void update(sf::Time elapsedTime);
         bool hasToBeRemoved();
 
-    private:
+    protected:
+
+        void updateCurrent(sf::Time elapsedTime);
+        void drawCurrent(sf::RenderTarget& target,sf::RenderStates states) const;
+
+    protected:
+
         float _velocity;
-        bool _appeared;
+        bool _appeared,
+             _isLoaded;
 };
 
 #endif

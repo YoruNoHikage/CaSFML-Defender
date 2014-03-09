@@ -2,7 +2,9 @@
 
 #include "cloud.hpp"
 
-Cloud::Cloud() : _velocity((rand() % (10 - (-10) + 1) - 10)), _appeared(false)
+Cloud::Cloud() : _velocity((rand() % (10 - (-10) + 1) - 10)),
+                 _appeared(false),
+                 _isLoaded(false)
 {
 }
 
@@ -12,26 +14,44 @@ Cloud::~Cloud()
 
 void Cloud::load(std::string filename)
 {
-    VisibleGameObject::load(filename);
-    if(isLoaded())
+    ImageManager *im = Locator::getImageManager();
+    sf::Texture* texture = im->getTexture(IMAGES_PATH + filename);
+    if(texture == NULL)
+        _isLoaded = false;
+    else
     {
-        int y = rand() % (VIEW_HEIGHT - 100 - (int)getSprite().getGlobalBounds().height) + 1; // TO DO : put the ground's height instead of 100
+        _sprite.setTexture(*texture);
+        _isLoaded = true;
+    }
+
+    if(_isLoaded)
+    {
+        int y = rand() % (VIEW_HEIGHT - 100 - (int)getRect().height) + 1; // TO DO : put the ground's height instead of 100
 
         if(_velocity > 0)
-            getSprite().setPosition(-getSprite().getGlobalBounds().width, y);
+            _sprite.setPosition(-getRect().width, y);
         else
-            getSprite().setPosition(VIEW_WIDTH + getSprite().getGlobalBounds().width, y);
+            _sprite.setPosition(VIEW_WIDTH + getRect().width, y);
 
         float scale = (static_cast<float>(rand()) / RAND_MAX) * (1 - 0.5) + 0.5;
-        getSprite().setScale(scale, scale);
+        _sprite.setScale(scale, scale);
     }
 }
 
-void Cloud::update(sf::Time elapsedTime)
+bool Cloud::hasToBeRemoved()
 {
-    if(isLoaded())
+    if(_appeared
+       && ( _sprite.getPosition().x > VIEW_WIDTH + getRect().width
+       || _sprite.getPosition().x + getRect().width < 0))
+        return true;
+    return false;
+}
+
+void Cloud::updateCurrent(sf::Time elapsedTime)
+{
+    if(_isLoaded)
     {
-        getSprite().move(_velocity * elapsedTime.asSeconds() , 0);
+        _sprite.move(_velocity * elapsedTime.asSeconds() , 0);
         if(!_appeared)
             _appeared = true;
     }
@@ -39,11 +59,7 @@ void Cloud::update(sf::Time elapsedTime)
         _appeared = true;
 }
 
-bool Cloud::hasToBeRemoved()
+void Cloud::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    if(_appeared
-       && ( getSprite().getPosition().x > VIEW_WIDTH + getSprite().getLocalBounds().width
-       || getSprite().getPosition().x + getSprite().getGlobalBounds().width < 0))
-        return true;
-    return false;
+    target.draw(_sprite, states);
 }

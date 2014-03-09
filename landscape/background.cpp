@@ -41,6 +41,6 @@ void Background::draw(sf::RenderWindow& window)
     VisibleGameObject::draw(window);
     for(std::list<Cloud*>::iterator it = _clouds.begin() ; it != _clouds.end() ; ++it)
     {
-        (*it)->draw(window);
+        window.draw(**it);
     }
 }
