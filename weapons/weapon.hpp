@@ -1,9 +1,9 @@
 #ifndef WEAPON_HPP
 #define WEAPON_HPP
 
-#include "../SceneNode.hpp"
+#include "../SpriteNode.hpp"
 
-class Weapon : public SceneNode
+class Weapon : public SpriteNode
 {
     public:
         Weapon();
@@ -18,14 +18,11 @@ class Weapon : public SceneNode
 
     protected:
         virtual void updateCurrent(sf::Time elapsedTime);
-        virtual void drawCurrent(sf::RenderTarget& target,sf::RenderStates states) const;
 
     private:
         float _angle;
         sf::Time _rechargingTime,
                  _elapsedTime;
-
-        sf::Sprite _sprite;
 
         bool _isLoaded;
 };
