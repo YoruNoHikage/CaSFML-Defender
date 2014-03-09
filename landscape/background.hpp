@@ -3,19 +3,26 @@
 
 #include "cloud.hpp"
 
-class Background : public VisibleGameObject
+class Background : public SpriteNode
 {
     public:
+        typedef std::list<Cloud*> CloudList;
+
         Background();
         ~Background();
 
+        void load(std::string filename);
+
         void generateClouds();
 
-        virtual void update(sf::Time elapsedTime);
-        virtual void draw(sf::RenderWindow& window);
+    protected:
+
+        void updateCurrent(sf::Time elapsedTime);
 
     private:
-        std::list<Cloud*> _clouds;
+        CloudList _clouds;
+
+        bool _isLoaded;
 };
 
 #endif

@@ -141,7 +141,7 @@ void PlayingScreen::draw(sf::RenderWindow& app)
     std::list<Shot*> &shots = c.getShots();
     std::list<Enemy*> &enemies = c.getEnemies();
 
-    lvl.getBackground().draw(app);
+    app.draw(lvl.getBackground());
     app.draw(lvl.getGround());
     app.draw(lvl.getPlayer());
     for(std::list<Enemy*>::iterator itr = enemies.begin() ; itr != enemies.end() ; ++itr)
