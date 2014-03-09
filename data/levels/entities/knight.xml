@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<entity class="Knight" life="10">
+	<animations>
+		<animation name="blink" duration="1">
+			<area top="0" left="0" width="100" height="100" />
+			<spritearea top="0" left="0" width="50" height="100" />
+		</animation>
+	</animations>
+	<weapon />
+</entity>

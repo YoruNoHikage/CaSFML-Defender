@@ -67,15 +67,14 @@ void Level::loadFromFile(const std::string& filename)
                 for(std::vector<Node*>::iterator enemyItr = enemyNodes.begin() ; enemyItr != enemyNodes.end() ; ++enemyItr)
                 {
                     // Asks the factory for an instance of the asking class in the XML
-                    sf::Texture& texture = *(Locator::getImageManager()->getTexture(IMAGES_PATH + (*enemyItr)->firstAttributeValue("file")));
+                    sf::Texture& texture = *(Locator::getImageManager()->getTexture(IMAGES_PATH + (*enemyItr)->firstAttributeValue("texture")));
                     //Enemy* enemy = enemyFactory.build((*enemyItr)->firstAttributeValue("class"), texture);
                     Enemy* enemy = new Knight(texture); ///@todo: find a way to get Factory back again
 
-                    enemy->load((*enemyItr)->firstAttributeValue("file"));
+                    enemy->load((*enemyItr)->firstAttributeValue("texture")); ///@todo: delete
 
-                    ///@todo: automatic creation with the file
-                    enemy->createAnimation(Enemy::BLINK, sf::IntRect(0, 0, 100, 100), sf::IntRect(0, 0, 50, 100), sf::seconds(1));
-                    enemy->setAnimation(Enemy::BLINK);
+                    // We load the animations corresponding to the class
+                    enemy->loadAnimationsFromFile((*enemyItr)->firstAttributeValue("file"));
 
                     ///@todo: dynamic hitbox
                     enemy->setHitbox(new BoundingBoxHitbox(enemy->getGlobalBounds()));

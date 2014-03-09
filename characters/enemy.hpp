@@ -17,7 +17,8 @@ class Enemy : public Character
         virtual void attack(sf::Time elapsedTime);
         virtual void die();
 
-        enum Type{BLINK};
+        enum Type{BLINK}; // this is the basic animations for enemies
+        void loadAnimationsFromFile(const std::string& filename);
 
     protected:
 
