@@ -26,7 +26,7 @@ void Castle::load(std::string filename)
         _isLoaded = true;
     }
 
-    _hitbox = new BoundingBoxHitbox(static_cast<sf::FloatRect>(getRect()));
+    _hitbox = new BoundingBoxHitbox(getGlobalBounds());
     _hitbox->setPosition(getPosition().x, getPosition().y);
 }
 

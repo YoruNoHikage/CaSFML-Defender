@@ -77,13 +77,13 @@ void Level::loadFromFile(const std::string& filename)
                     enemy->setAnimation(Enemy::BLINK);
 
                     ///@todo: dynamic hitbox
-                    enemy->setHitbox(new BoundingBoxHitbox(static_cast<sf::FloatRect>(enemy->getRect())));
-                    Log::write(Log::LOG_INFO, "Enemy's hitbox creation : " + toString(enemy->getRect().width) + ";"
-                                                                      + toString(enemy->getRect().height));
+                    enemy->setHitbox(new BoundingBoxHitbox(enemy->getGlobalBounds()));
+                    Log::write(Log::LOG_INFO, "Enemy's hitbox creation : " + toString(enemy->getGlobalBounds().width) + ";"
+                                                                      + toString(enemy->getGlobalBounds().height));
 
                     // how to deal with positions ? In the file ?
-                    enemy->setPosition(- enemy->getRect().height,
-                                       VIEW_HEIGHT - enemy->getRect().height - _ground.getRect().height / 2);
+                    enemy->setPosition(- enemy->getGlobalBounds().height,
+                                       VIEW_HEIGHT - enemy->getGlobalBounds().height - _ground.getGlobalBounds().height / 2);
 
                     wave->addEnemy(enemy);
                 }
@@ -154,18 +154,18 @@ void Level::buildLevel(Node& root)
     if(position == "left")
         x = std::abs(offsetX);
     else if(position == "middle")
-        x = VIEW_WIDTH / 2 - _castle.getRect().width / 2 + offsetX;
+        x = VIEW_WIDTH / 2 - _castle.getGlobalBounds().width / 2 + offsetX;
     else // by default it's right
-        x = VIEW_WIDTH - _castle.getRect().width - std::abs(offsetX);
+        x = VIEW_WIDTH - _castle.getGlobalBounds().width - std::abs(offsetX);
 
-    y = VIEW_HEIGHT - _castle.getRect().height - std::abs(offsetY);
+    y = VIEW_HEIGHT - _castle.getGlobalBounds().height - std::abs(offsetY);
     _castle.setPosition(x, y);
     _castle.getHitbox()->setPosition(x, y);
     Log::write(Log::LOG_INFO, std::string("Loading castle to the " + position + " : offsets : " + toString(offsetX) + ";" + toString(offsetX)
                                           + " - position " + toString(_castle.getPosition().x) + "x" + toString(_castle.getPosition().y) + " - size "
-                                          + toString(_castle.getRect().width) + ";" + toString(_castle.getRect().height)));
+                                          + toString(_castle.getGlobalBounds().width) + ";" + toString(_castle.getGlobalBounds().height)));
     Log::write(Log::LOG_INFO, std::string("Castle sprite hitbox : position " + toString(x) + ";" + toString(y) + " - size "
-                                          + toString(_castle.getRect().width) + ";" + toString(_castle.getRect().height)));
+                                          + toString(_castle.getGlobalBounds().width) + ";" + toString(_castle.getGlobalBounds().height)));
 }
 
 Wave* Level::getNextWave()

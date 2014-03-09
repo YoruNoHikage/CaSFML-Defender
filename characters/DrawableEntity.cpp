@@ -5,8 +5,7 @@
 
 DrawableEntity::DrawableEntity(const sf::Texture& texture) : _animations(),
                                                              _currentAnimation(),
-                                                             _texture(texture),
-                                                             _bounds()
+                                                             _texture(texture)
 {
 }
 
@@ -16,7 +15,6 @@ DrawableEntity::~DrawableEntity()
 
 void DrawableEntity::createAnimation(const int name, const sf::IntRect& animationArea, const sf::IntRect& spriteArea, const sf::Time duration)
 {
-    _bounds = spriteArea;
     sf::Sprite sprite(_texture, animationArea);
 
     _animations.insert(std::pair<const int, Animation>(name,Animation()));
@@ -50,7 +48,20 @@ void DrawableEntity::drawCurrent(sf::RenderTarget& target, sf::RenderStates stat
     }
 }
 
-sf::IntRect DrawableEntity::getRect() const
+sf::IntRect DrawableEntity::getTextureRect() const
 {
-    return _bounds;
+    const Animation& anim = _animations.find(_currentAnimation)->second;
+    return anim.getTextureRect();
+}
+
+sf::FloatRect DrawableEntity::getGlobalBounds() const
+{
+    const Animation& anim = _animations.find(_currentAnimation)->second;
+    return anim.getGlobalBounds();
+}
+
+sf::FloatRect DrawableEntity::getLocalBounds() const
+{
+    const Animation& anim = _animations.find(_currentAnimation)->second;
+    return anim.getLocalBounds();
 }

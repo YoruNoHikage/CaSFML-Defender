@@ -6,9 +6,19 @@ SpriteNode::SpriteNode() : _sprite()
 SpriteNode::~SpriteNode()
 {}
 
-sf::IntRect SpriteNode::getRect() const
+sf::IntRect SpriteNode::getTextureRect() const
 {
     return _sprite.getTextureRect();
+}
+
+sf::FloatRect SpriteNode::getGlobalBounds() const
+{
+    return _sprite.getGlobalBounds();
+}
+
+sf::FloatRect SpriteNode::getLocalBounds() const
+{
+    return _sprite.getLocalBounds();
 }
 
 void SpriteNode::updateCurrent(sf::Time elapsedTime)

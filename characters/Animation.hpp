@@ -51,6 +51,10 @@ class Animation : public sf::Drawable, public sf::Transformable
          */
         bool isLoaded();
 
+        virtual sf::IntRect getTextureRect() const;
+        virtual sf::FloatRect getGlobalBounds() const;
+        virtual sf::FloatRect getLocalBounds() const;
+
     protected:
 
         /** \brief draw the current sprite into the target

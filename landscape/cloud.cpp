@@ -26,12 +26,12 @@ void Cloud::load(std::string filename)
 
     if(_isLoaded)
     {
-        int y = rand() % (VIEW_HEIGHT - 100 - (int)getRect().height) + 1; // TO DO : put the ground's height instead of 100
+        int y = rand() % (VIEW_HEIGHT - 100 - static_cast<int>(getGlobalBounds().height)) + 1; ///@todo: put the ground's height instead of 100
 
         if(_velocity > 0)
-            _sprite.setPosition(-getRect().width, y);
+            _sprite.setPosition(-getGlobalBounds().width, y);
         else
-            _sprite.setPosition(VIEW_WIDTH + getRect().width, y);
+            _sprite.setPosition(VIEW_WIDTH + getGlobalBounds().width, y);
 
         float scale = (static_cast<float>(rand()) / RAND_MAX) * (1 - 0.5) + 0.5;
         _sprite.setScale(scale, scale);
@@ -41,8 +41,8 @@ void Cloud::load(std::string filename)
 bool Cloud::hasToBeRemoved()
 {
     if(_appeared
-       && ( _sprite.getPosition().x > VIEW_WIDTH + getRect().width
-       || _sprite.getPosition().x + getRect().width < 0))
+       && ( _sprite.getPosition().x > VIEW_WIDTH + getGlobalBounds().width
+       || _sprite.getPosition().x + getGlobalBounds().width < 0))
         return true;
     return false;
 }

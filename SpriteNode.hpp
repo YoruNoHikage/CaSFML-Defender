@@ -12,7 +12,9 @@ class SpriteNode : public SceneNode
         SpriteNode();
         virtual ~SpriteNode();
 
-        virtual sf::IntRect getRect() const;
+        virtual sf::IntRect getTextureRect() const;
+        virtual sf::FloatRect getGlobalBounds() const;
+        virtual sf::FloatRect getLocalBounds() const;
 
     protected:
 

@@ -79,7 +79,14 @@ sf::Transform SceneNode::getWorldTransform() const
     return transform;
 }
 
-sf::IntRect SceneNode::getRect() const
+sf::FloatRect SceneNode::getGlobalBounds() const
 {
-    ///@todo: OMG...
+    // we don't know the size
+    return sf::FloatRect();
+}
+
+sf::FloatRect SceneNode::getLocalBounds() const
+{
+    // we don't know the size
+    return sf::FloatRect();
 }

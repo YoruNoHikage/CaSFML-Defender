@@ -38,7 +38,9 @@ class DrawableEntity : public SceneNode
 
         /// Please add an enumeration like enum AnimationsName{RUNNING, JUMPING, JUMPING2};
 
-        sf::IntRect getRect() const;
+        sf::IntRect getTextureRect() const;
+        sf::FloatRect getGlobalBounds() const;
+        sf::FloatRect getLocalBounds() const;
 
     protected:
 
@@ -65,8 +67,6 @@ class DrawableEntity : public SceneNode
         int _currentAnimation;
 
         const sf::Texture& _texture;
-
-        sf::IntRect _bounds;
 };
 
 

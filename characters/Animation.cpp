@@ -76,3 +76,19 @@ void Animation::draw(sf::RenderTarget& target, sf::RenderStates states) const
         target.draw(_sprite, states);
     }
 }
+
+sf::IntRect Animation::getTextureRect() const
+{
+    return _sprite.getTextureRect();
+}
+
+sf::FloatRect Animation::getGlobalBounds() const
+{
+    return _sprite.getGlobalBounds();
+}
+
+sf::FloatRect Animation::getLocalBounds() const
+{
+    return _sprite.getGlobalBounds();
+}
+
