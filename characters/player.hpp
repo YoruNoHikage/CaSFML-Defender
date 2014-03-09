@@ -14,6 +14,9 @@ class Player : public Character
 
         void attack(sf::Time elapsedTime, sf::Vector2f location);
 
+        sf::FloatRect getGlobalBounds() const;
+        sf::FloatRect getLocalBounds() const;
+
     private:
 
         void updateCurrent(sf::Time elapsedTime);

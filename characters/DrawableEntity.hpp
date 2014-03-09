@@ -38,9 +38,9 @@ class DrawableEntity : public SceneNode
 
         /// Please add an enumeration like enum AnimationsName{RUNNING, JUMPING, JUMPING2};
 
-        sf::IntRect getTextureRect() const;
-        sf::FloatRect getGlobalBounds() const;
-        sf::FloatRect getLocalBounds() const;
+        virtual sf::IntRect getTextureRect() const;
+        virtual sf::FloatRect getGlobalBounds() const;
+        virtual sf::FloatRect getLocalBounds() const;
 
     protected:
 

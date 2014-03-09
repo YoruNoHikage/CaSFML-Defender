@@ -92,3 +92,15 @@ void Player::attack(sf::Time elapsedTime, sf::Vector2f location)
 {
     getWeapon()->shoot(elapsedTime, location);
 }
+
+sf::FloatRect Player::getGlobalBounds() const
+{
+    ///@todo: if there's no animation currently, return the addition of every bounds
+    return Character::getGlobalBounds();
+}
+
+sf::FloatRect Player::getLocalBounds() const
+{
+    ///@todo: how to deal with localbounds if there's no animation ?
+    return Character::getLocalBounds();
+}

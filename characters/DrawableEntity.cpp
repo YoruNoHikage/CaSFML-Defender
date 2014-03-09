@@ -50,18 +50,33 @@ void DrawableEntity::drawCurrent(sf::RenderTarget& target, sf::RenderStates stat
 
 sf::IntRect DrawableEntity::getTextureRect() const
 {
-    const Animation& anim = _animations.find(_currentAnimation)->second;
-    return anim.getTextureRect();
+    if(_animations.size() != 0)
+    {
+        const Animation& anim = _animations.find(_currentAnimation)->second;
+        return anim.getTextureRect();
+    }
+
+    return sf::IntRect();
 }
 
 sf::FloatRect DrawableEntity::getGlobalBounds() const
 {
-    const Animation& anim = _animations.find(_currentAnimation)->second;
-    return anim.getGlobalBounds();
+    if(_animations.size() != 0)
+    {
+        const Animation& anim = _animations.find(_currentAnimation)->second;
+        return anim.getGlobalBounds();
+    }
+
+    return sf::FloatRect();
 }
 
 sf::FloatRect DrawableEntity::getLocalBounds() const
 {
-    const Animation& anim = _animations.find(_currentAnimation)->second;
-    return anim.getLocalBounds();
+    if(_animations.size() != 0)
+    {
+        const Animation& anim = _animations.find(_currentAnimation)->second;
+        return anim.getLocalBounds();
+    }
+
+    return sf::FloatRect();
 }
