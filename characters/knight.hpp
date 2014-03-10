@@ -12,7 +12,7 @@ class Knight : public Enemy
         ~Knight();
 
     private:
-        static bool registered;
+        static const bool registered;
 };
 
 #endif // KNIGHT_HPP

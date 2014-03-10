@@ -5,7 +5,8 @@
 
 Character::Character(const sf::Texture& texture) : DrawableEntity(texture),
                                                    Collidable(),
-                                                   _isAlive(true)
+                                                   _isAlive(true),
+                                                   _weapon(NULL)
 {
 }
 

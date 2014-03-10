@@ -15,4 +15,4 @@ Knight::~Knight()
 {
 }
 
-//bool Knight::registered = Factory<Enemy>::GetFactory().registration("Knight", &Factory<Enemy>::createInstance<Knight>);
+const bool Knight::registered = Factory<Enemy>::getFactory().registration<Knight>("Knight");

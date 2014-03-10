@@ -51,7 +51,7 @@ void Level::loadFromFile(const std::string& filename)
         // The waves
         Node& wavesNode = root.firstChild("waves");
         std::vector<Node*> waveNodes = wavesNode.getChildren("wave");
-        Factory<Enemy>& enemyFactory = Factory<Enemy>::GetFactory(); // Factory to know what type to build
+        Factory<Enemy>& enemyFactory = Factory<Enemy>::getFactory(); // Factory to know what type to build
 
         // Creation of each wave
         std::map<std::string, Node*> files; // used to avoid the reload of a single file
@@ -69,10 +69,7 @@ void Level::loadFromFile(const std::string& filename)
                 {
                     // Asks the factory for an instance of the asking class in the XML
                     sf::Texture& texture = *(Locator::getImageManager()->getTexture(IMAGES_PATH + (*enemyItr)->firstAttributeValue("texture")));
-                    //Enemy* enemy = enemyFactory.build((*enemyItr)->firstAttributeValue("class"), texture);
-                    Enemy* enemy = new Knight(texture); ///@todo: find a way to get Factory back again
-
-                    enemy->load((*enemyItr)->firstAttributeValue("texture")); ///@todo: delete
+                    Enemy* enemy = enemyFactory.build((*enemyItr)->firstAttributeValue("class"), texture);
 
                     // We load the animations corresponding to the class
                     std::string entityFilename = (*enemyItr)->firstAttributeValue("file");
@@ -106,6 +103,7 @@ void Level::loadFromFile(const std::string& filename)
                 delete wave;
         }
 
+        // If the code above throws an exception, we're screwed...
         for(std::map<std::string, Node*>::iterator itr = files.begin() ; itr != files.end() ; ++itr)
             delete itr->second;
     }
