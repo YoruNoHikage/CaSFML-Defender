@@ -24,6 +24,8 @@ class Player : public Character
 
         void drawCurrent(sf::RenderTarget& target,sf::RenderStates states) const;
 
+        void fillPartsFromNode(Node& node, DrawableEntity& part);
+
     private:
         DrawableEntity _head,
                        _body,
