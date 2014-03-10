@@ -129,10 +129,14 @@ void Level::buildLevel(Node& root)
     // The player
     Node& playerNode = root.firstChild("player");
 
-    sf::Texture* playerTexture = Locator::getImageManager()->getTexture(IMAGES_PATH + playerNode.firstAttributeValue("file"));
+    sf::Texture* playerTexture = Locator::getImageManager()->getTexture(IMAGES_PATH + playerNode.firstAttributeValue("texture"));
     if(!playerTexture)
         throw std::runtime_error("Player's texture not found");
     _player = new Player(*playerTexture);
+
+    XMLNode playerFile;
+    playerFile.loadFromFile(playerNode.firstAttributeValue("file"));
+    _player->loadFromNode(playerFile);
 
     Node& weaponNode = playerNode.firstChild("weapon"); ///@todo: multiple weapons please
     _player->load(playerNode.firstAttributeValue("file"), weaponNode.firstAttributeValue("file"));

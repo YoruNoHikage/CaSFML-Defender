@@ -6,6 +6,8 @@
 
 #include <SFML/Graphics/Texture.hpp>
 
+#include "../tools/node.hpp"
+
 #include "../SceneNode.hpp"
 #include "Animation.hpp"
 
@@ -43,6 +45,14 @@ class DrawableEntity : public SceneNode
         virtual sf::FloatRect getLocalBounds() const;
 
     protected:
+
+        /** \brief Loads an area from a node and returns the IntRect corresponding to it
+         *
+         * \param node Node&
+         * \return sf::IntRect
+         *
+         */
+        sf::IntRect loadAreaFromNode(Node& node) const;
 
         /** \brief Updates the current animation which has to be drawn
           *

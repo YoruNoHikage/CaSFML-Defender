@@ -83,19 +83,11 @@ void Enemy::loadAnimationsFromNode(Node& root)
 
         sf::Time duration(sf::seconds(atof((*animItr)->firstAttributeValue("duration").c_str())));
 
-        sf::IntRect area;
         Node& areaNode = (*animItr)->firstChild("area");
-        area.top = atoi(areaNode.firstAttributeValue("top").c_str());
-        area.left = atoi(areaNode.firstAttributeValue("left").c_str());
-        area.width = atoi(areaNode.firstAttributeValue("width").c_str());
-        area.height = atoi(areaNode.firstAttributeValue("height").c_str());
+        sf::IntRect area = loadAreaFromNode(areaNode);
 
-        sf::IntRect spriteArea;
         Node& spriteAreaNode = (*animItr)->firstChild("spritearea");
-        spriteArea.top = atoi(spriteAreaNode.firstAttributeValue("top").c_str());
-        spriteArea.left = atoi(spriteAreaNode.firstAttributeValue("left").c_str());
-        spriteArea.width = atoi(spriteAreaNode.firstAttributeValue("width").c_str());
-        spriteArea.height = atoi(spriteAreaNode.firstAttributeValue("height").c_str());
+        sf::IntRect spriteArea = loadAreaFromNode(spriteAreaNode);
 
         createAnimation(type, area, spriteArea, duration);
     }

@@ -27,6 +27,17 @@ void DrawableEntity::setAnimation(const int name)
     _currentAnimation = name;
 }
 
+sf::IntRect DrawableEntity::loadAreaFromNode(Node& node) const
+{
+    sf::IntRect area;
+    area.left = atoi(node.firstAttributeValue("left").c_str());
+    area.top = atoi(node.firstAttributeValue("top").c_str());
+    area.width = atoi(node.firstAttributeValue("width").c_str());
+    area.height = atoi(node.firstAttributeValue("height").c_str());
+
+    return area;
+}
+
 void DrawableEntity::updateCurrent(sf::Time elapsedTime)
 {
     _animations[_currentAnimation].update(elapsedTime);

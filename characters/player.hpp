@@ -11,6 +11,7 @@ class Player : public Character
         ~Player();
 
         void load(std::string filename, std::string fWeapon);
+        void loadFromNode(Node& root);
 
         void attack(sf::Time elapsedTime, sf::Vector2f location);
 
