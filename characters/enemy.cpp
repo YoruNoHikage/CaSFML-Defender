@@ -59,15 +59,12 @@ void Enemy::die()
     _isAlive = false;
 }
 
-void Enemy::loadAnimationsFromFile(const std::string& filename)
+void Enemy::loadAnimationsFromNode(Node& root)
 {
-    XMLNode root;
-    root.loadFromFile(filename); ///@todo: with this, the file is reloaded everytime, change it !
-
     // The first node has to be "entity"
     if(root.getName() != "entity")
     {
-        std::string error = "Error " + filename + " : first node has to be \"entity\"";
+        std::string error = "Error : first node has to be \"entity\"";
         throw std::runtime_error(error);
     }
 

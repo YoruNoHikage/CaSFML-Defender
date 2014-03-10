@@ -54,6 +54,7 @@ void Level::loadFromFile(const std::string& filename)
         Factory<Enemy>& enemyFactory = Factory<Enemy>::GetFactory(); // Factory to know what type to build
 
         // Creation of each wave
+        std::map<std::string, Node*> files; // used to avoid the reload of a single file
         for(std::vector<Node*>::iterator waveItr = waveNodes.begin() ; waveItr != waveNodes.end() ; ++waveItr)
         {
             // New enemies' wave !
@@ -74,7 +75,18 @@ void Level::loadFromFile(const std::string& filename)
                     enemy->load((*enemyItr)->firstAttributeValue("texture")); ///@todo: delete
 
                     // We load the animations corresponding to the class
-                    enemy->loadAnimationsFromFile((*enemyItr)->firstAttributeValue("file"));
+                    std::string entityFilename = (*enemyItr)->firstAttributeValue("file");
+                    std::map<std::string, Node*>::iterator fItr = files.find(entityFilename);
+                    if(fItr == files.end()) // if the node doesn't exist already, we load it
+                    {
+                        Log::write(Log::LOG_INFO, "Loading entity file : " + entityFilename);
+                        Node* entityNode = new XMLNode();
+                        files.insert(std::make_pair(entityFilename, entityNode));
+                        entityNode->loadFromFile(entityFilename);
+                        enemy->loadAnimationsFromNode(*entityNode);
+                    }
+                    else
+                        enemy->loadAnimationsFromNode(*fItr->second);
 
                     ///@todo: dynamic hitbox
                     enemy->setHitbox(new BoundingBoxHitbox(enemy->getGlobalBounds()));
@@ -93,6 +105,9 @@ void Level::loadFromFile(const std::string& filename)
             else
                 delete wave;
         }
+
+        for(std::map<std::string, Node*>::iterator itr = files.begin() ; itr != files.end() ; ++itr)
+            delete itr->second;
     }
     catch(std::exception const& e)
     {

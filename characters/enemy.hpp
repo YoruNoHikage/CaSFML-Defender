@@ -1,6 +1,7 @@
 #ifndef ENEMY_HPP
 #define ENEMY_HPP
 
+#include "../tools/node.hpp"
 #include "character.hpp"
 
 class Enemy : public Character
@@ -18,7 +19,7 @@ class Enemy : public Character
         virtual void die();
 
         enum Type{BLINK}; // this is the basic animations for enemies
-        void loadAnimationsFromFile(const std::string& filename);
+        void loadAnimationsFromNode(Node& root);
 
     protected:
 
