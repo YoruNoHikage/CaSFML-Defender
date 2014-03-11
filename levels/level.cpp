@@ -87,8 +87,7 @@ void Level::loadFromFile(const std::string& filename)
 
                     ///@todo: dynamic hitbox
                     enemy->setHitbox(new BoundingBoxHitbox(enemy->getGlobalBounds()));
-                    Log::write(Log::LOG_INFO, "Enemy's hitbox creation : " + toString(enemy->getGlobalBounds().width) + ";"
-                                                                      + toString(enemy->getGlobalBounds().height));
+                    Log::write(Log::LOG_INFO, "Enemy's hitbox creation : " + toString(enemy->getGlobalBounds()));
 
                     // how to deal with positions ? In the file ?
                     enemy->setPosition(- enemy->getGlobalBounds().width,
@@ -179,10 +178,9 @@ void Level::buildLevel(Node& root)
     _castle.setPosition(x, y);
     _castle.getHitbox()->setPosition(x, y);
     Log::write(Log::LOG_INFO, std::string("Loading castle to the " + position + " : offsets : " + toString(offsetX) + ";" + toString(offsetX)
-                                          + " - position " + toString(_castle.getPosition().x) + "x" + toString(_castle.getPosition().y) + " - size "
-                                          + toString(_castle.getGlobalBounds().width) + ";" + toString(_castle.getGlobalBounds().height)));
-    Log::write(Log::LOG_INFO, std::string("Castle sprite hitbox : position " + toString(x) + ";" + toString(y) + " - size "
-                                          + toString(_castle.getGlobalBounds().width) + ";" + toString(_castle.getGlobalBounds().height)));
+                                          + " - position " + toString(_castle.getPosition()) + toString(_castle.getGlobalBounds())));
+    Log::write(Log::LOG_INFO, std::string("Castle sprite hitbox : position " + toString(_castle.getHitbox()->getPosition())
+                                          + toString(_castle.getGlobalBounds())));
 }
 
 Wave* Level::getNextWave()

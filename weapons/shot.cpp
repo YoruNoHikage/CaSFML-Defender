@@ -47,10 +47,7 @@ void Shot::load(std::string filename)
     _deltaX = getPosition().x - _location.x;
     _coeff = _deltaY / _deltaX; // director coefficient
 
-    Log::write(Log::LOG_INFO, "Shot loaded with size : " + toString(getGlobalBounds().width) + ";"
-               + toString(getGlobalBounds().height));
-    Log::write(Log::LOG_INFO, "Shot loaded at position : " + toString(getPosition().x) + ";"
-               + toString(getPosition().y));
+    Log::write(Log::LOG_INFO, "Shot loaded : position " + toString(getPosition()) + toString(getGlobalBounds()));
 }
 
 bool Shot::hasToBeRemoved()

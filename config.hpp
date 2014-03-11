@@ -55,5 +55,23 @@ std::string toString(const T& value)
     return stream.str();
 }
 
+#include <SFML/Graphics/Rect.hpp>
+template <typename T>
+std::string toString(const sf::Rect<T>& value)
+{
+    std::stringstream stream;
+    stream << "Rect(" << value.left << ";" << value.top << " - " << value.width << ";" << value.height << ") ";
+    return stream.str();
+}
+
+#include <SFML/System/Vector2.hpp>
+template <typename T>
+std::string toString(const sf::Vector2<T>& value)
+{
+    std::stringstream stream;
+    stream << "Vector2(" << value.x << ";" << value.y << ") ";
+    return stream.str();
+}
+
 #endif
 

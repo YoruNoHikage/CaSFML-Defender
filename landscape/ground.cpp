@@ -34,10 +34,8 @@ void Ground::load(std::string filename)
                          getGlobalBounds().height / 2);
     _hitbox = new BoundingBoxHitbox(rect);
 
-    Log::write(Log::LOG_INFO, std::string("Loading ground : position " + toString(getPosition().x) + "x" + toString(getPosition().y) + " - size "
-                                          + toString(getGlobalBounds().width) + ";" + toString(getGlobalBounds().height)));
-    Log::write(Log::LOG_INFO, std::string("Ground sprite hitbox : position " + toString(rect.left) + ";" + toString(rect.top) + " - size "
-                                          + toString(rect.width) + ";" + toString(rect.height)));
+    Log::write(Log::LOG_INFO, std::string("Loading ground : position " + toString(getPosition()) + toString(getGlobalBounds())));
+    Log::write(Log::LOG_INFO, std::string("Ground sprite hitbox : " + toString(rect)));
 }
 
 void Ground::drawCurrent(sf::RenderTarget& target,sf::RenderStates states) const

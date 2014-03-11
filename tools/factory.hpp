@@ -17,12 +17,9 @@ struct Creator : public AbstractCreator<T>
 {
     D* operator()(const sf::Texture& texture) const
     {
-        Log::write(Log::LOG_INFO, "Creation");
         return new D(texture);
     }
 };
-
-///@todo: write the destructor pleeeease
 
 /** \brief Factory class to create any child registrated of the type T
  *

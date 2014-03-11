@@ -43,26 +43,22 @@ void Player::loadFromNode(Node& root)
     Node& footNode = membersNode.firstChild("foot");
     fillPartsFromNode(footNode, _foot);
     attachChild(&_foot);
-    Log::write(Log::LOG_INFO, "Member part : Foot texture region : " + toString(_foot.getGlobalBounds().left) + ";" + toString(_foot.getGlobalBounds().top)
-               + " - size : " + toString(_foot.getGlobalBounds().width) + ";" + toString(_foot.getGlobalBounds().height));
+    Log::write(Log::LOG_INFO, "Member part : Foot texture region : " + toString(_foot.getGlobalBounds()));
 
     Node& bodyNode = membersNode.firstChild("body");
     fillPartsFromNode(bodyNode, _body);
     attachChild(&_body);
-    Log::write(Log::LOG_INFO, "Member part : Body texture region : " + toString(_body.getGlobalBounds().left) + ";" + toString(_body.getGlobalBounds().top)
-               + " - size : " + toString(_body.getGlobalBounds().width) + ";" + toString(_body.getGlobalBounds().height));
+    Log::write(Log::LOG_INFO, "Member part : Body texture region : " + toString(_body.getGlobalBounds()));
 
     Node& headNode = membersNode.firstChild("head");
     fillPartsFromNode(headNode, _head);
     _body.attachChild(&_head);
-    Log::write(Log::LOG_INFO, "Member part : Head texture region : " + toString(_head.getGlobalBounds().left) + ";" + toString(_head.getGlobalBounds().top)
-               + " - size : " + toString(_head.getGlobalBounds().width) + ";" + toString(_head.getGlobalBounds().height));
+    Log::write(Log::LOG_INFO, "Member part : Head texture region : " + toString(_head.getGlobalBounds()));
 
     Node& armNode = membersNode.firstChild("arm");
     fillPartsFromNode(armNode, _arm);
     _body.attachChild(&_arm);
-    Log::write(Log::LOG_INFO, "Member part : Arm texture region : " + toString(_arm.getGlobalBounds().left) + ";" + toString(_arm.getGlobalBounds().top)
-               + " - size : " + toString(_arm.getGlobalBounds().width) + ";" + toString(_arm.getGlobalBounds().height));
+    Log::write(Log::LOG_INFO, "Member part : Arm texture region : " + toString(_arm.getGlobalBounds()));
 
 }
 
