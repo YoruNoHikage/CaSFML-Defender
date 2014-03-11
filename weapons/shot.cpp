@@ -19,8 +19,7 @@ Shot::Shot(sf::Vector2f location, float angle, Weapon *weapon) : SpriteNode(),
     sf::Vector2f position(_weapon->getWorldPosition().x, _weapon->getWorldPosition().y);
     sf::Vector2f delta(position - location);
     _angle = (std::atan(delta.y / delta.x) / (M_PI * 2)) * 360;
-    _sprite.setRotation(_angle);
-    // setRotation(_angle); // in the future
+    setRotation(_angle);
 }
 
 Shot::~Shot()

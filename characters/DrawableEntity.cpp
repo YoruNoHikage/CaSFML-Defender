@@ -1,4 +1,4 @@
-#include <iostream>
+#include "../game.hpp"
 #include "DrawableEntity.hpp"
 
 #include <SFML/Graphics/CircleShape.hpp> // debugging origin points
@@ -50,13 +50,19 @@ void DrawableEntity::drawCurrent(sf::RenderTarget& target, sf::RenderStates stat
         const Animation& anim = _animations.find(_currentAnimation)->second;
         target.draw(anim, states);
 
-        // debug origin point
-        sf::CircleShape debug(4);
-        debug.setPosition(getOrigin());
-        debug.setOrigin(4, 4);
-        debug.setFillColor(sf::Color(0, 0, 255, 50));
-        target.draw(debug, states);
+        if(Game::getContext().getDebug())
+            drawDebug(target, states);
     }
+}
+
+void DrawableEntity::drawDebug(sf::RenderTarget& target, sf::RenderStates states) const
+{
+    // debug origin point
+    sf::CircleShape debug(4);
+    debug.setPosition(getOrigin());
+    debug.setOrigin(4, 4);
+    debug.setFillColor(sf::Color(0, 0, 255, 50));
+    target.draw(debug, states);
 }
 
 sf::IntRect DrawableEntity::getTextureRect() const
