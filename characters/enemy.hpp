@@ -4,7 +4,10 @@
 #include "../tools/node.hpp"
 #include "character.hpp"
 
-class Enemy : public Character
+#include "../Alive.hpp"
+#include "../BarDisplay.hpp"
+
+class Enemy : public Character, public Alive
 {
     public:
         Enemy(const sf::Texture& texture);
@@ -16,7 +19,6 @@ class Enemy : public Character
         virtual bool isNearToCastle() const;
         virtual void nearToCastle();
         virtual void attack(sf::Time elapsedTime);
-        virtual void die();
 
         enum Type{BLINK}; // this is the basic animations for enemies
         void loadAnimationsFromNode(Node& root);
@@ -28,6 +30,8 @@ class Enemy : public Character
     private:
         float _direction, _velocity;
         bool _nearToCastle;
+
+        BarDisplay _healthBar;
 };
 
 #endif

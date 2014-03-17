@@ -5,7 +5,6 @@
 
 Character::Character(const sf::Texture& texture) : DrawableEntity(texture),
                                                    Collidable(),
-                                                   _isAlive(true),
                                                    _weapon(NULL)
 {
 }
@@ -49,9 +48,4 @@ void Character::attack(sf::Time elapsedTime)
 Weapon* Character::getWeapon()
 {
     return _weapon;
-}
-
-bool Character::isAlive()
-{
-    return _isAlive;
 }

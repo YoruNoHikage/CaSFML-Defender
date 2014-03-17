@@ -6,7 +6,7 @@
 
 Castle::Castle() : SpriteNode(),
                    Collidable(),
-                   _life(100),
+                   Alive(),
                    _isLoaded(false)
 {
 }

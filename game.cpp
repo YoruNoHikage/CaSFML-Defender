@@ -97,6 +97,8 @@ void Game::gameLoop()
                 case sf::Event::KeyPressed:
                     if(_currentEvent.key.code == sf::Keyboard::F3)
                         getContext().setDebug(!getContext().getDebug());
+                    else if(_currentEvent.key.code == sf::Keyboard::Escape)
+                        _isExiting = true;
                     break;
             }
 

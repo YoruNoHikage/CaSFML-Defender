@@ -88,6 +88,7 @@ void Level::loadFromFile(const std::string& filename)
                     ///@todo: dynamic hitbox
                     enemy->setHitbox(new BoundingBoxHitbox(enemy->getGlobalBounds()));
                     Log::write(Log::LOG_INFO, "Enemy's hitbox creation : " + toString(enemy->getGlobalBounds()));
+                    Log::write(Log::LOG_INFO, "Enemy's life : " + toString(enemy->getLife()));
 
                     // how to deal with positions ? In the file ?
                     enemy->setPosition(- enemy->getGlobalBounds().width,

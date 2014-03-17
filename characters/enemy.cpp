@@ -3,9 +3,12 @@
 #include "enemy.hpp"
 
 Enemy::Enemy(const sf::Texture& texture) : Character(texture),
+                                           Alive(),
                                            _velocity(0.1f),
-                                           _nearToCastle(false)
+                                           _nearToCastle(false),
+                                           _healthBar()
 {
+    attachChild(&_healthBar);
 }
 
 Enemy::~Enemy()
@@ -31,6 +34,7 @@ void Enemy::updateCurrent(sf::Time elapsedTime)
         attack(elapsedTime);
 
     _hitbox->setPosition(getPosition().x, getPosition().y);
+    _healthBar.setValue(getLife());
 }
 
 void Enemy::goToCastle(sf::Time elapsedTime)
@@ -54,11 +58,6 @@ void Enemy::attack(sf::Time elapsedTime)
         // attack avec l'arme
 }
 
-void Enemy::die()
-{
-    _isAlive = false;
-}
-
 void Enemy::loadAnimationsFromNode(Node& root)
 {
     // The first node has to be "entity"
@@ -69,7 +68,8 @@ void Enemy::loadAnimationsFromNode(Node& root)
     }
 
     // We fill the entity's attributes
-    //_life = root.firstAttributeValue("life");
+    int life = atoi(root.firstAttributeValue("life").c_str());
+    setLife(life);
 
     Node& animationsNode = root.firstChild("animations");
     std::vector<Node*> animations = animationsNode.getChildren("animation");
@@ -93,4 +93,11 @@ void Enemy::loadAnimationsFromNode(Node& root)
     }
 
     setAnimation(Enemy::BLINK);
+
+    ////// Enemy's children //////
+
+    // we set the healthbar
+    _healthBar.setMaxValue(getLife());
+    _healthBar.setPosition(getGlobalBounds().width / 2 - _healthBar.getGlobalBounds().width / 2,
+                           - _healthBar.getGlobalBounds().height * 2);
 }

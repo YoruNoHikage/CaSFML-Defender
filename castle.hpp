@@ -4,7 +4,7 @@
 #include "SpriteNode.hpp"
 #include "Collidable.hpp"
 
-class Castle : public SpriteNode, public Collidable
+class Castle : public SpriteNode, public Collidable, public Alive
 {
     public:
         Castle();
@@ -18,7 +18,6 @@ class Castle : public SpriteNode, public Collidable
         void drawCurrent(sf::RenderTarget& target,sf::RenderStates states) const;
 
     private:
-        int _life;
         bool _isLoaded;
 };
 

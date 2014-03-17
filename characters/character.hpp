@@ -17,8 +17,6 @@ class Character : public DrawableEntity, public Collidable
 
         virtual Weapon* getWeapon();
 
-        bool isAlive();
-
     protected:
 
         virtual void updateCurrent(sf::Time elapsedTime);
@@ -26,7 +24,6 @@ class Character : public DrawableEntity, public Collidable
 
     protected:
 
-        bool _isAlive;
         Weapon *_weapon; // player can change it and enemies can lose it
 };
 

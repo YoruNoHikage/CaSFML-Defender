@@ -104,7 +104,7 @@ void PlayingScreen::checkAllCollisions()
             if((*itr)->collide(**jtr))
             {
                 (*itr)->die();
-                (*jtr)->die();
+                (*jtr)->receiveDamages(1);
                 break; // we break the loop to not kill others enemies
             }
         }
