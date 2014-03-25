@@ -1,17 +1,18 @@
 #ifndef PLAYER_HPP
 #define PLAYER_HPP
 
-#include "../SceneNode.hpp"
-#include "character.hpp"
+#include "DrawableEntity.hpp"
+#include "../weapons/WeaponSelector.hpp"
 
-class Player : public Character
+class Player : public DrawableEntity
 {
     public:
         Player(const sf::Texture& texture);
         ~Player();
 
-        void load(std::string filename, std::string fWeapon);
         void loadFromNode(Node& root);
+
+        void addWeaponToStack(Weapon* weapon);
 
         void attack(sf::Time elapsedTime, sf::Vector2f location);
 
@@ -31,6 +32,8 @@ class Player : public Character
                        _body,
                        _arm,
                        _foot;
+
+        WeaponSelector _weapons;
 };
 
 #endif

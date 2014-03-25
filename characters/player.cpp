@@ -3,24 +3,17 @@
 #include "../game.hpp"
 #include "player.hpp"
 
-Player::Player(const sf::Texture& texture) : Character(texture),
+Player::Player(const sf::Texture& texture) : DrawableEntity(texture),
                                              _head(texture),
                                              _body(texture),
                                              _arm(texture),
-                                             _foot(texture)
+                                             _foot(texture),
+                                             _weapons(_arm) ///@todo: attach the selector to the foreground
 {
 }
 
 Player::~Player()
 {
-}
-
-void Player::load(std::string filename, std::string fWeapon)
-{
-    Character::load(filename, fWeapon);
-
-    detachChild(*_weapon);
-    _arm.attachChild(_weapon);
 }
 
 void Player::loadFromNode(Node& root)
@@ -117,26 +110,35 @@ void Player::updateCurrent(sf::Time elapsedTime)
 
     _body.setRotation(bodyAngle);
     _arm.setRotation(armAngle);
+
+    _weapons.update(elapsedTime);
 }
 
 void Player::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
 {
     // draw nothing because we don't want a player background
+    target.draw(_weapons);
+}
+
+void Player::addWeaponToStack(Weapon* weapon)
+{
+    // Add the weapon to the stack (the selector)
+    _weapons.addWeapon(weapon);
 }
 
 void Player::attack(sf::Time elapsedTime, sf::Vector2f location)
 {
-    getWeapon()->shoot(elapsedTime, location);
+    _weapons.getWeapon().shoot(elapsedTime, location);
 }
 
 sf::FloatRect Player::getGlobalBounds() const
 {
     ///@todo: if there's no animation currently, return the addition of every bounds
-    return Character::getGlobalBounds();
+    return DrawableEntity::getGlobalBounds();
 }
 
 sf::FloatRect Player::getLocalBounds() const
 {
     ///@todo: how to deal with localbounds if there's no animation ?
-    return Character::getLocalBounds();
+    return DrawableEntity::getLocalBounds();
 }

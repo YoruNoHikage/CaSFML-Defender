@@ -138,8 +138,17 @@ void Level::buildLevel(Node& root)
     playerFile.loadFromFile(playerNode.firstAttributeValue("file"));
     _player->loadFromNode(playerFile);
 
-    Node& weaponNode = playerNode.firstChild("weapon"); ///@todo: multiple weapons please
-    _player->load(playerNode.firstAttributeValue("file"), weaponNode.firstAttributeValue("file"));
+    const std::vector<Node*>& weaponsNode = playerNode.getChildren("weapon");
+    for(std::size_t i = 0 ; i < weaponsNode.size() ; i++)
+    {
+        const std::string& filename = weaponsNode[i]->firstAttributeValue("file");
+
+        Weapon* weapon = new Weapon();
+        weapon->load(filename);
+        ///@todo: loadWeaponFromNode
+        _player->addWeaponToStack(weapon);
+        Log::write(Log::LOG_INFO, "Loading new weapon " + filename);
+    }
 
     x = y = 0;
     x = atoi(playerNode.firstAttributeValue("x").c_str());
