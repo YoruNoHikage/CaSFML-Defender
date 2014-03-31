@@ -16,6 +16,8 @@ class SpriteNode : public SceneNode
         virtual sf::FloatRect getGlobalBounds() const;
         virtual sf::FloatRect getLocalBounds() const;
 
+        const sf::Sprite& getSprite() { return _sprite; }
+
     protected:
 
         virtual void updateCurrent(sf::Time elapsedTime);

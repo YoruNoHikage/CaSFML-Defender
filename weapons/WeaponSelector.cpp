@@ -4,25 +4,26 @@
 
 #include "WeaponSelector.hpp"
 
-WeaponSelector::WeaponSelector(SceneNode& weaponParent) : _weapons(),
-                                                                _currentSelection(0),
-                                                                _tmpSelection(0),
-                                                                _backgrounds(sf::Quads),
-                                                                _weaponParent(weaponParent),
-                                                                _elapsedTime(sf::seconds(10)), // used to avoid first transition
-                                                                _isSelectionning(false),
-                                                                _cursorOut(true)
+WeaponSelector::WeaponSelector(SceneNode& weaponParent) : _currentSelection(0),
+                                                          _tmpSelection(0),
+                                                          _backgrounds(sf::Quads),
+                                                          _weaponParent(weaponParent),
+                                                          _elapsedTime(sf::seconds(10)), // used to avoid first transition
+                                                          _isSelectionning(false),
+                                                          _cursorOut(true)
 {
-    setPosition(10, 10);
+    setPosition(_marginBackground, _marginBackground);
 }
 
 WeaponSelector::~WeaponSelector()
 {
-    std::for_each(_weapons.begin(), _weapons.end(), Deallocator<Weapon>());
+    for(std::size_t i = 0 ; i < _thumbnails.size() ; i++)
+        delete _thumbnails[i].weapon;
 }
 
 void WeaponSelector::addWeapon(Weapon* weapon)
 {
+    // Vertices for background
     int count = _backgrounds.getVertexCount();
     _backgrounds.resize(count + 4); // We add 4 vertices, it's Quads
 
@@ -32,41 +33,42 @@ void WeaponSelector::addWeapon(Weapon* weapon)
         _backgrounds[count + i].position = sf::Vector2f(0, 0);
     }
 
-    _weapons.push_back(weapon);
-    if(_weapons.size() == 1)
-        _weaponParent.attachChild(weapon);
+    Thumbnail thumb;
+    thumb.sprite = weapon->getSprite();
+    thumb.weapon = weapon;
+    resizeThumbnailsSprite(thumb);
+
+    _thumbnails.push_back(thumb);
+
+    Log::write(Log::LOG_INFO, "Scale thumbnail : " + toString(thumb.sprite.getScale()));
+
+    if(_thumbnails.size() == 1)
+        _weaponParent.attachChild(_thumbnails[0].weapon);
 }
 
 Weapon& WeaponSelector::getWeapon() const
 {
-    return *_weapons[_currentSelection];
+    return *_thumbnails[_currentSelection].weapon;
 }
 
-void WeaponSelector::activateSelection()
+void WeaponSelector::activateSelection(bool activate)
 {
-    _isSelectionning = true;
+    Log::write(Log::LOG_INFO, "Now (un)selectionning weapon");
+    _isSelectionning = activate;
     _elapsedTime = sf::Time::Zero;
 }
 
 void WeaponSelector::updateCurrent(sf::Time elapsedTime)
 {
     _elapsedTime += elapsedTime;
-    if(sf::Mouse::isButtonPressed(sf::Mouse::Right) && _elapsedTime > sf::milliseconds(100))
-    {
-        Log::write(Log::LOG_INFO, "Now selectionning weapon");
-        _isSelectionning = !_isSelectionning;
-        _elapsedTime = sf::Time::Zero;
-    }
-
-    ///@todo: reverse the vector so it can draw first thumbnail on top
 
     _cursorOut = true;
-    for(std::size_t i = 0 ; i < _weapons.size() ; i++)
+    for(std::size_t i = 0 ; i < _thumbnails.size() ; i++)
     {
         /// Positions ///
 
         int indexVertex = i * 4;
-        int margin = 10, width = 100, height = 100;
+        int margin = _marginBackground, width = _backgroundWidth, height = _backgroundHeight;
         int x = (margin + width) * i, y = 0;
         float currentX = (i+1) * 200.f * _elapsedTime.asSeconds();
 
@@ -88,6 +90,8 @@ void WeaponSelector::updateCurrent(sf::Time elapsedTime)
         _backgrounds[indexVertex + 1].position = sf::Vector2f(x + width, y);
         _backgrounds[indexVertex + 2].position = sf::Vector2f(x + width, y + height);
         _backgrounds[indexVertex + 3].position = sf::Vector2f(x, y + height);
+        _thumbnails[i].sprite.setPosition(x + (width / 2 - _thumbnails[i].sprite.getGlobalBounds().width / 2),
+                                          y + (height / 2 - _thumbnails[i].sprite.getGlobalBounds().height / 2));
 
         updateSelections(i, sf::FloatRect(x, y, width, height));
 
@@ -129,22 +133,57 @@ void WeaponSelector::updateSelections(int index, sf::FloatRect rect)
             _tmpSelection = index;
             _cursorOut = false;
         }
-        else // activate the selection
-            activateSelection();
+    }
+
+    if(sf::Mouse::isButtonPressed(sf::Mouse::Left) && _elapsedTime > sf::milliseconds(100))
+    {
+        if(_backgrounds.getBounds().contains(location)) // if we click inside the selector
+        {
+            if(_isSelectionning) // if player is selectionning, just pick the new weapon
+                changeWeapon(_tmpSelection);
+            activateSelection(!_isSelectionning); // and deactivate selectionning
+        }
+        else if(_isSelectionning) // if we click outside, we are not selectionning anymore
+            activateSelection(false);
     }
 }
 
 void WeaponSelector::changeWeapon(std::size_t selection)
 {
-    _weaponParent.detachChild(*_weapons[_currentSelection]);
+    _weaponParent.detachChild(*_thumbnails[_currentSelection].weapon);
 
     _currentSelection = selection;
 
-    _weaponParent.attachChild(_weapons[_currentSelection]);
+    _weaponParent.attachChild(_thumbnails[_currentSelection].weapon);
+}
+
+void WeaponSelector::resizeThumbnailsSprite(Thumbnail& thumbnail)
+{
+    sf::FloatRect bounds = thumbnail.sprite.getGlobalBounds();
+    float ratio = bounds.width / bounds.height;
+    float scale = 1.f;
+
+    if(ratio > 1.f)
+        scale = (_backgroundWidth - thumbnail.margin * 2) / bounds.width;
+    else
+        scale = (_backgroundHeight - thumbnail.margin * 2) / bounds.height;
+
+    thumbnail.sprite.setScale(scale, scale);
 }
 
 void WeaponSelector::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    // loop for every weapon
-    target.draw(_backgrounds, states);
+    // We draw the weapons
+    for(std::size_t i = 0 ; i < _thumbnails.size() ; i++)
+    {
+        if(i != _currentSelection)
+        {
+            target.draw(&_backgrounds[i * 4], 4, sf::Quads, states);
+            target.draw(_thumbnails[i].sprite, states);
+        }
+    }
+
+    // and the selection on top
+    target.draw(&_backgrounds[_currentSelection * 4], 4, sf::Quads, states);
+    target.draw(_thumbnails[_currentSelection].sprite, states);
 }
