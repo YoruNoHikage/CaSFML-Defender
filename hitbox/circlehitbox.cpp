@@ -28,7 +28,7 @@ CircleHitbox::~CircleHitbox()
 
 bool CircleHitbox::collide(Hitbox* hitbox)
 {
-    hitbox->collide(_circ);
+    return hitbox->collide(_circ);
 }
 
 bool CircleHitbox::collide(int x, int y)

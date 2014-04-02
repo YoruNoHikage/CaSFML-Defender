@@ -2,8 +2,8 @@
 
 #include "scenenode.hpp"
 
-SceneNode::SceneNode() : _parent(NULL),
-                         _children()
+SceneNode::SceneNode() : _children(),
+                         _parent(NULL)
 {
 
 }

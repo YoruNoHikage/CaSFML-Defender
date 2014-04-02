@@ -10,12 +10,15 @@
 template <typename T>
 struct AbstractCreator
 {
+    virtual ~AbstractCreator() {}
     virtual T* operator()(const sf::Texture& texture) const = 0;
 };
 
 template <typename T, typename D>
 struct Creator : public AbstractCreator<T>
 {
+    ~Creator() {}
+
     D* operator()(const sf::Texture& texture) const
     {
         return new D(texture);
