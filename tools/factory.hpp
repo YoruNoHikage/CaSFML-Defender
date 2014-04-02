@@ -6,6 +6,7 @@
 
 #include "log.hpp"
 
+#include <SFML/Graphics/Texture.hpp>
 template <typename T>
 struct AbstractCreator
 {

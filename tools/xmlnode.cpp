@@ -1,5 +1,7 @@
 #include "../config.hpp"
 
+#include "log.hpp"
+
 #include "../tools/rapidxml/rapidxml.hpp"
 #include "../tools/rapidxml/rapidxml_utils.hpp"
 
@@ -47,8 +49,7 @@ void XMLNode::loadFromFile(const std::string& filename)
     }
     catch(std::exception const& e)
     {
-        // Logger class please !
-        std::cerr << "Error : " << e.what() << std::endl;
+        Log::write(Log::LOG_ERROR, "Error : " + toString(e.what()));;
     }
 }
 

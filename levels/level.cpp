@@ -1,5 +1,7 @@
 #include "../config.hpp"
 
+#include "../tools/locator.hpp"
+
 #include "level.hpp"
 #include "../hitbox/boundingboxhitbox.hpp"
 #include "../characters/knight.hpp"

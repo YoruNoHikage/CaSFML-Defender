@@ -1,4 +1,11 @@
 #include "../config.hpp"
+
+#include <cassert>
+
+#include <SFML/Window/Mouse.hpp>
+
+#include "../tools/locator.hpp"
+
 #include "splashscreen.hpp"
 
 /** \brief ctor

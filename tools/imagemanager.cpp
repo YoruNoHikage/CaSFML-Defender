@@ -1,5 +1,7 @@
 #include "../config.hpp"
 
+#include "imagemanager.hpp"
+
 ImageManager::ImageManager()
 {
 }

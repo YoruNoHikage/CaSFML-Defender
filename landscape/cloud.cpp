@@ -1,5 +1,7 @@
 #include "../config.hpp"
 
+#include "../tools/locator.hpp"
+
 #include "cloud.hpp"
 
 Cloud::Cloud() : _velocity((rand() % (10 - (-10) + 1) - 10)),

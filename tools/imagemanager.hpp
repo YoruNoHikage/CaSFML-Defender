@@ -1,6 +1,10 @@
 #ifndef IMAGEMANAGER_HPP
 #define IMAGEMANAGER_HPP
 
+#include <map>
+
+#include <SFML/Graphics/Texture.hpp>
+
 class ImageManager
 {
     public:

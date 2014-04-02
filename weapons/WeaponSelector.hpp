@@ -7,6 +7,7 @@
 #include <SFML/Graphics/VertexArray.hpp>
 
 #include "../SceneNode.hpp"
+#include "weapon.hpp"
 
 class WeaponSelector : public SceneNode
 {

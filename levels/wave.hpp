@@ -1,6 +1,8 @@
 #ifndef WAVE_HPP
 #define WAVE_HPP
 
+#include "../characters/enemy.hpp"
+
 class Wave
 {
     public:

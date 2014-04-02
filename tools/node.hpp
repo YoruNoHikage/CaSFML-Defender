@@ -1,6 +1,8 @@
 #ifndef NODE_HPP
 #define NODE_HPP
 
+#include <vector>
+
 /** \brief Abstract proxy class for parsing languages used in the game
  */
 class Node

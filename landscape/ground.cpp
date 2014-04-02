@@ -1,6 +1,8 @@
 #include "../config.hpp"
 #include "../game.hpp"
 
+#include "../tools/locator.hpp"
+
 #include "../hitbox/boundingboxhitbox.hpp"
 #include "ground.hpp"
 

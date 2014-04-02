@@ -1,6 +1,8 @@
 #ifndef SPLASHSCREEN_HPP
 #define SPLASHSCREEN_HPP
 
+#include <SFML/Graphics/Sprite.hpp>
+
 #include "statemachine.hpp"
 
 class SplashScreen : public IState

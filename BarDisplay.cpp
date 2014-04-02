@@ -1,6 +1,7 @@
 #include "config.hpp"
 #include "BarDisplay.hpp"
 
+#include "tools/locator.hpp"
 #include "tools/imagemanager.hpp"
 
 BarDisplay::BarDisplay() : SpriteNode(),

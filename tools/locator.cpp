@@ -1,5 +1,9 @@
 #include "../config.hpp"
 
+#include <cassert>
+
+#include "locator.hpp"
+
 Locator::Locator()
 {
 }

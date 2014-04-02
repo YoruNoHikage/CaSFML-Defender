@@ -1,7 +1,7 @@
 #ifndef BARDISPLAY_HPP
 #define BARDISPLAY_HPP
 
-#include "SceneNode.hpp"
+#include "SpriteNode.hpp"
 
 #include <SFML/Graphics/Sprite.hpp>
 

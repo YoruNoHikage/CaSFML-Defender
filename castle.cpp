@@ -4,6 +4,9 @@
 #include "hitbox/boundingboxhitbox.hpp"
 #include "castle.hpp"
 
+#include "tools/locator.hpp"
+#include "tools/imagemanager.hpp"
+
 Castle::Castle() : SpriteNode(),
                    Collidable(),
                    Alive(),

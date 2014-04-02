@@ -1,5 +1,7 @@
 #include "../config.hpp"
 
+#include <stdexcept>
+
 #include "enemy.hpp"
 
 Enemy::Enemy(const sf::Texture& texture) : Character(texture),

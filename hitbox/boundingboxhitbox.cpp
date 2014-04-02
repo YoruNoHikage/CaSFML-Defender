@@ -1,5 +1,7 @@
 #include "../config.hpp"
 
+#include <SFML/Graphics/RectangleShape.hpp>
+
 #include "boundingboxhitbox.hpp"
 
 BoundingBoxHitbox::BoundingBoxHitbox(sf::Rect<float> box) : _boundingBox(box)

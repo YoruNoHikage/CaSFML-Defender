@@ -1,5 +1,7 @@
 #include "../config.hpp"
 
+#include "../tools/locator.hpp"
+
 #include "background.hpp"
 
 Background::Background() : _clouds(),

@@ -3,6 +3,8 @@
 
 #include "cloud.hpp"
 
+#include <list>
+
 class Background : public SpriteNode
 {
     public:

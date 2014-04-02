@@ -1,5 +1,7 @@
 #include "../config.hpp"
 
+#include <cmath>
+
 #include "../game.hpp"
 #include "player.hpp"
 

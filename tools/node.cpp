@@ -1,5 +1,7 @@
 #include "../config.hpp"
 
+#include <stdexcept>
+
 #include "node.hpp"
 
 /** \brief dtor

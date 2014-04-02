@@ -1,5 +1,9 @@
 #include "../config.hpp"
 
+#include <cmath>
+
+#include "../tools/locator.hpp"
+
 #include "../game.hpp"
 #include "weapon.hpp"
 #include "shot.hpp"

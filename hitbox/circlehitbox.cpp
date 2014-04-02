@@ -1,5 +1,7 @@
 #include "../config.hpp"
 
+#include <SFML/Graphics/CircleShape.hpp>
+
 #include "circlehitbox.hpp"
 
 CircleHitbox::CircleHitbox(int x, int y, float radius)

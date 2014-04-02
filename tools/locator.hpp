@@ -1,6 +1,8 @@
 #ifndef IMAGEINTERFACE_HPP
 #define IMAGEINTERFACE_HPP
 
+#include "imagemanager.hpp"
+
 class Locator
 {
     public:
