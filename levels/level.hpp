@@ -2,7 +2,7 @@
 #define LEVEL_HPP
 
 #include "../characters/player.hpp"
-#include "../characters/enemymanager.hpp"
+#include "../characters/CharacterManager.hpp"
 #include "../landscape/background.hpp"
 #include "../landscape/ground.hpp"
 #include "../castle.hpp"
@@ -27,6 +27,8 @@ class Level
 
     private:
         void buildLevel(Node& root);
+
+        void loadAnimationsFromFile(DrawableEntity& entity, std::string entityFilename, std::map<std::string, Node*>& files);
 
         sf::RenderWindow& _app;
 

@@ -5,7 +5,11 @@
 
 Character::Character(const sf::Texture& texture) : DrawableEntity(texture),
                                                    Collidable(),
-                                                   _weapon(NULL)
+                                                   Alive(),
+                                                   _weapon(NULL),
+                                                   _direction(1),
+                                                   _velocity(0.1f),
+                                                   _nearToCastle(false)
 {
 }
 
@@ -13,11 +17,6 @@ Character::~Character()
 {
     if(_weapon != NULL)
         delete _weapon;
-}
-
-void Character::load(std::string filename)
-{
-    _weapon = NULL;
 }
 
 void Character::load(std::string filename, std::string fWeapon)
@@ -32,6 +31,11 @@ void Character::updateCurrent(sf::Time elapsedTime)
     DrawableEntity::updateCurrent(elapsedTime);
     if(_weapon != NULL)
         _weapon->update(elapsedTime);
+
+    _hitbox->setPosition(getPosition().x, getPosition().y);
+
+    if(!isNearToCastle())
+        goToCastle(elapsedTime);
 }
 
 void Character::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
@@ -41,11 +45,22 @@ void Character::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) c
         _hitbox->drawDebug(target, states);
 }
 
-void Character::attack(sf::Time elapsedTime)
-{
-}
-
 Weapon* Character::getWeapon()
 {
     return _weapon;
+}
+
+bool Character::isNearToCastle() const
+{
+    return _nearToCastle;
+}
+
+void Character::nearToCastle()
+{
+    _nearToCastle = true;
+}
+
+void Character::goToCastle(sf::Time elapsedTime)
+{
+    move(_velocity * elapsedTime.asMilliseconds(), 0);
 }

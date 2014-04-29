@@ -40,7 +40,7 @@ void PlayingScreen::init()
     Log::write(Log::LOG_INFO, std::string("Charging level " + level));
 
     c.getShots().clear();
-    c.getEnemies().clear();
+    c.getCharacters().clear();
 }
 
 /** \brief Update the playing screen and call the collision function
@@ -70,19 +70,19 @@ void PlayingScreen::update(sf::Time elapsedTime)
             (*itr)->update(elapsedTime);
     }
 
-    /** Updates enemies */
-    std::list<Enemy*> &enemies = Game::getContext().getEnemies();
-    for(std::list<Enemy*>::iterator itr = enemies.begin() ; itr != enemies.end() ; ++itr)
+    /** Updates characters */
+    std::list<Character*> &characters = Game::getContext().getCharacters();
+    for(std::list<Character*>::iterator itr = characters.begin() ; itr != characters.end() ; ++itr)
     {
         if(!(*itr)->isAlive())
         {
             delete *itr;
-            itr = enemies.erase(itr);
+            itr = characters.erase(itr);
         }
         else
             (*itr)->update(elapsedTime);
     }
-    _em.getNewEnemies(elapsedTime);
+    _cm.getNewCharacters(elapsedTime);
 
     checkAllCollisions();
 }
@@ -94,18 +94,18 @@ void PlayingScreen::update(sf::Time elapsedTime)
  */
 void PlayingScreen::checkAllCollisions()
 {
-    // collision between shots and enemies
+    // collision between shots and characters
     std::list<Shot*> &shots = Game::getContext().getShots();
-    std::list<Enemy*> &enemies = Game::getContext().getEnemies();
+    std::list<Character*> &characters = Game::getContext().getCharacters();
     for(std::list<Shot*>::const_iterator itr = shots.begin() ; itr != shots.end() ; ++itr)
     {
-        for(std::list<Enemy*>::iterator jtr = enemies.begin() ; jtr != enemies.end() ; ++jtr)
+        for(std::list<Character*>::iterator jtr = characters.begin() ; jtr != characters.end() ; ++jtr)
         {
             if((*itr)->collide(**jtr))
             {
                 (*itr)->die();
                 (*jtr)->receiveDamages(1);
-                break; // we break the loop to not kill others enemies
+                break; // we break the loop to not kill others characters
             }
         }
 
@@ -113,11 +113,11 @@ void PlayingScreen::checkAllCollisions()
             (*itr)->die();
     }
 
-    for(std::list<Enemy*>::iterator itr = enemies.begin() ; itr != enemies.end() ; ++itr)
+    for(std::list<Character*>::iterator itr = characters.begin() ; itr != characters.end() ; ++itr)
     {
        if(!(*itr)->isNearToCastle())
         {
-            // collision between enemies and the castle
+            // collision between characters and the castle
             if((*itr)->collide(Game::getContext().getLevel().getCastle()))
             {
                 (*itr)->nearToCastle();
@@ -139,12 +139,12 @@ void PlayingScreen::draw(sf::RenderWindow& app)
     Level& lvl = c.getLevel();
 
     std::list<Shot*> &shots = c.getShots();
-    std::list<Enemy*> &enemies = c.getEnemies();
+    std::list<Character*> &characters = c.getCharacters();
 
     app.draw(lvl.getBackground());
     app.draw(lvl.getGround());
     app.draw(lvl.getPlayer());
-    for(std::list<Enemy*>::iterator itr = enemies.begin() ; itr != enemies.end() ; ++itr)
+    for(std::list<Character*>::iterator itr = characters.begin() ; itr != characters.end() ; ++itr)
     {
         app.draw(**itr);
     }

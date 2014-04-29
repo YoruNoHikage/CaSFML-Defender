@@ -63,9 +63,29 @@ void Level::loadFromFile(const std::string& filename)
             Wave* wave = new Wave();
 
             std::vector<Node*> enemyNodes = (*waveItr)->getChildren("enemy");
+            std::vector<Node*> friendNodes = (*waveItr)->getChildren("friend");
             // if empty, there is no wave
             if(!enemyNodes.empty())
             {
+                for(std::vector<Node*>::iterator friendItr = friendNodes.begin() ; friendItr != friendNodes.end() ; ++friendItr)
+                {
+                    sf::Texture& texture = *(Locator::getImageManager()->getTexture(IMAGES_PATH + (*friendItr)->firstAttributeValue("texture")));
+                    Friend* buddy = new Friend(texture);
+
+                    std::string entityFilename = (*friendItr)->firstAttributeValue("file");
+                    loadAnimationsFromFile(*buddy, entityFilename, files);
+
+                    buddy->setHitbox(new BoundingBoxHitbox(buddy->getGlobalBounds()));
+                    Log::write(Log::LOG_INFO, "Friend's hitbox creation : " + toString(buddy->getGlobalBounds()));
+                    Log::write(Log::LOG_INFO, "Friend's life : " + toString(buddy->getLife()));
+
+                    // how to deal with positions ? In the file ?
+                    buddy->setPosition(- buddy->getGlobalBounds().width,
+                                       VIEW_HEIGHT - buddy->getGlobalBounds().height - _ground.getGlobalBounds().height / 2);
+
+                    wave->addFriend(buddy);
+                }
+
                 // Fills with enemies !
                 for(std::vector<Node*>::iterator enemyItr = enemyNodes.begin() ; enemyItr != enemyNodes.end() ; ++enemyItr)
                 {
@@ -75,17 +95,7 @@ void Level::loadFromFile(const std::string& filename)
 
                     // We load the animations corresponding to the class
                     std::string entityFilename = (*enemyItr)->firstAttributeValue("file");
-                    std::map<std::string, Node*>::iterator fItr = files.find(entityFilename);
-                    if(fItr == files.end()) // if the node doesn't exist already, we load it
-                    {
-                        Log::write(Log::LOG_INFO, "Loading entity file : " + entityFilename);
-                        Node* entityNode = new XMLNode();
-                        files.insert(std::make_pair(entityFilename, entityNode));
-                        entityNode->loadFromFile(entityFilename);
-                        enemy->loadAnimationsFromNode(*entityNode);
-                    }
-                    else
-                        enemy->loadAnimationsFromNode(*fItr->second);
+                    loadAnimationsFromFile(*enemy, entityFilename, files);
 
                     ///@todo: dynamic hitbox
                     enemy->setHitbox(new BoundingBoxHitbox(enemy->getGlobalBounds()));
@@ -193,6 +203,21 @@ void Level::buildLevel(Node& root)
                                           + " - position " + toString(_castle.getPosition()) + toString(_castle.getGlobalBounds())));
     Log::write(Log::LOG_INFO, std::string("Castle sprite hitbox : position " + toString(_castle.getHitbox()->getPosition())
                                           + toString(_castle.getGlobalBounds())));
+}
+
+void Level::loadAnimationsFromFile(DrawableEntity& entity, std::string entityFilename, std::map<std::string, Node*>& files)
+{
+    std::map<std::string, Node*>::iterator fItr = files.find(entityFilename);
+    if(fItr == files.end()) // if the node doesn't exist already, we load it
+    {
+        Log::write(Log::LOG_INFO, "Loading entity file : " + entityFilename);
+        Node* entityNode = new XMLNode();
+        files.insert(std::make_pair(entityFilename, entityNode));
+        entityNode->loadFromFile(entityFilename);
+        entity.loadAnimationsFromNode(*entityNode);
+    }
+    else
+        entity.loadAnimationsFromNode(*fItr->second);
 }
 
 Wave* Level::getNextWave()

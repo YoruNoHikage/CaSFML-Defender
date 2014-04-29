@@ -3,7 +3,7 @@
 
 #include "screens/statemachine.hpp"
 #include "characters/player.hpp"
-#include "characters/enemymanager.hpp"
+#include "characters/CharacterManager.hpp"
 #include "landscape/background.hpp"
 #include "landscape/ground.hpp"
 #include "castle.hpp"
@@ -26,7 +26,7 @@ class PlayingScreen : public IState
     private:
         StateMachine& _stateMachine;
 
-        EnemyManager _em;
+        CharacterManager _cm;
 };
 
 #endif // GAMESTATE_HPP

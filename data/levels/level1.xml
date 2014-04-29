@@ -3,20 +3,21 @@
 	<background file="background.png" />
 	<ground file="ground.png" />
 	<player x="1050" y="150" file="data/levels/entities/hero.xml" texture="hero.png">
-		<weapon file="weapon.png" />
+		<weapon file="weapon_placeholder.png" />
 		<weapon file="bow.png" />
 	</player>
 	<castle position="right" offsetx="50" offsety="50" file="castle.png" />
 	<waves>
 		<wave>
-			<enemy class="Knight" speed="2" file="data/levels/entities/knight.xml" texture="enemy.png"/>
-			<enemy class="Knight" speed="2" file="data/levels/entities/knight.xml" texture="enemy.png"/>
-			<enemy class="Knight" speed="2" file="data/levels/entities/knight.xml" texture="enemy.png"/>
+			<friend speed="2" file="data/levels/entities/friend_placeholder.xml" texture="friend_placeholder.png"/>
+			<enemy class="Knight" speed="2" file="data/levels/entities/knight_placeholder.xml" texture="enemy_placeholder.png"/>
+			<enemy class="Knight" speed="2" file="data/levels/entities/knight_placeholder.xml" texture="enemy_placeholder.png"/>
+			<enemy class="Knight" speed="2" file="data/levels/entities/knight_placeholder.xml" texture="enemy_placeholder.png"/>
 		</wave>
 		<wave>
-			<enemy class="Knight" speed="2" file="data/levels/entities/knight.xml" texture="enemy.png"/>
-			<enemy class="Knight" speed="2" file="data/levels/entities/knight.xml" texture="enemy.png"/>
-			<enemy class="Knight" speed="2" file="data/levels/entities/knight.xml" texture="enemy.png"/>
+			<enemy class="Knight" speed="2" file="data/levels/entities/knight_placeholder.xml" texture="enemy_placeholder.png"/>
+			<enemy class="Knight" speed="2" file="data/levels/entities/knight_placeholder.xml" texture="enemy_placeholder.png"/>
+			<enemy class="Knight" speed="2" file="data/levels/entities/knight_placeholder.xml" texture="enemy_placeholder.png"/>
 		</wave>
 	</waves>
 </level>

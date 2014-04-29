@@ -8,15 +8,20 @@ Wave::Wave()
 
 Wave::~Wave()
 {
-    std::for_each(_enemies.begin(), _enemies.end(), Deallocator<Enemy>());
+    std::for_each(_characters.begin(), _characters.end(), Deallocator<Character>());
 }
 
 void Wave::addEnemy(Enemy* enemy)
 {
-    _enemies.push_back(enemy);
+    _characters.push_back(enemy);
 }
 
-std::vector<Enemy*>& Wave::getEnemies()
+void Wave::addFriend(Friend* buddy)
 {
-    return _enemies;
+    _characters.push_back(buddy);
+}
+
+std::vector<Character*>& Wave::getCharacters()
+{
+    return _characters;
 }

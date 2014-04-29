@@ -97,3 +97,36 @@ sf::FloatRect DrawableEntity::getLocalBounds() const
 
     return sf::FloatRect();
 }
+
+void DrawableEntity::loadAnimationsFromNode(Node& root)
+{
+    // The first node has to be "entity"
+    if(root.getName() != "entity")
+    {
+        std::string error = "Error : first node has to be \"entity\"";
+        throw std::runtime_error(error);
+    }
+
+    Node& animationsNode = root.firstChild("animations");
+    std::vector<Node*> animations = animationsNode.getChildren("animation");
+    for(std::vector<Node*>::iterator animItr = animations.begin() ; animItr != animations.end() ; ++animItr)
+    {
+        DrawableEntity::Type type;
+        if((*animItr)->firstAttributeValue("name") == "blink")
+            type = DrawableEntity::BLINK;
+        else
+            continue;
+
+        sf::Time duration(sf::seconds(atof((*animItr)->firstAttributeValue("duration").c_str())));
+
+        Node& areaNode = (*animItr)->firstChild("area");
+        sf::IntRect area = loadAreaFromNode(areaNode);
+
+        Node& spriteAreaNode = (*animItr)->firstChild("spritearea");
+        sf::IntRect spriteArea = loadAreaFromNode(spriteAreaNode);
+
+        createAnimation(type, area, spriteArea, duration);
+    }
+
+    setAnimation(DrawableEntity::BLINK);
+}

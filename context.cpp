@@ -4,7 +4,7 @@
 
 Context::Context() : _mainWindow(),
                      _shots(),
-                     _enemies(),
+                     _characters(),
                      _level(_mainWindow),
                      _isDebug(false)
 {
@@ -13,7 +13,7 @@ Context::Context() : _mainWindow(),
 Context::~Context()
 {
     std::for_each(_shots.begin(), _shots.end(), Deallocator<Shot>());
-    std::for_each(_enemies.begin(), _enemies.end(), Deallocator<Enemy>());
+    std::for_each(_characters.begin(), _characters.end(), Deallocator<Character>());
 }
 
 std::list<Shot*>& Context::getShots()
@@ -26,14 +26,14 @@ void Context::addShot(Shot* shot)
     _shots.push_back(shot);
 }
 
-std::list<Enemy*>& Context::getEnemies()
+std::list<Character*>& Context::getCharacters()
 {
-    return _enemies;
+    return _characters;
 }
 
-void Context::addEnemy(Enemy* enemy)
+void Context::addCharacter(Character* character)
 {
-    _enemies.push_back(enemy);
+    _characters.push_back(character);
 }
 
 bool Context::getDebug()

@@ -12,10 +12,10 @@ class Context {
         sf::RenderWindow& getApp() { return _mainWindow;};
 
         std::list<Shot*>& getShots();
-        std::list<Enemy*>& getEnemies();
+        std::list<Character*>& getCharacters();
 
         void addShot(Shot* shot);
-        void addEnemy(Enemy* enemy);
+        void addCharacter(Character* character);
 
         Level& getLevel() { return _level; };
 
@@ -25,7 +25,7 @@ class Context {
     private:
         sf::RenderWindow _mainWindow;
         std::list<Shot*> _shots;
-        std::list<Enemy*> _enemies; // enemies in game
+        std::list<Character*> _characters; // characters in game
         Level _level;
 
         bool _isDebug;
