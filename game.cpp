@@ -52,7 +52,8 @@ void Game::run()
     settings.antialiasingLevel = 8;
     Log::write(Log::LOG_INFO, "Antialiasing Level set to 8");
 
-    app.create(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Patate en frite", sf::Style::Default, settings);
+    app.create(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "CaSFML-Defender", sf::Style::None, settings); // for debug / screenshots / screencasts
+    app.setPosition(sf::Vector2i(0, 0)); // for screenshots / screencasts
     app.setView(sf::View(sf::FloatRect(0, 0, VIEW_WIDTH, VIEW_HEIGHT)));
     Log::write(Log::LOG_INFO, std::string("Window " + toString(WINDOW_WIDTH) + ";" + toString(WINDOW_HEIGHT)));
     Log::write(Log::LOG_INFO, std::string("View " + toString(VIEW_WIDTH) + ";" + toString(VIEW_HEIGHT)));
