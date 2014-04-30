@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <entity class="Player" life="10">
 	<members>
-		<head x="35" y="0" originx="68" originy="102" left="0" top="0" width="100" height="108" /> <!-- animations for parts ? -->
+		<head x="35" y="0" originx="68" originy="102" left="0" top="0" width="102" height="108" /> <!-- animations for parts ? -->
 		<arm x="35" y="20" originx="55" originy="8" left="0" top="266" width="65" height="15" />
 		<body x="0" y="0" originx="30" originy="50" left="0" top="111" width="63" height="91" />
 		<foot x="0" y="70" originx="20" originy="55" left="39" top="201" width="32" height="64" />
