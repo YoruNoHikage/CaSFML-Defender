@@ -26,6 +26,8 @@ class Level
         Wave* getNextWave();
 
     private:
+        Enemy* createEnemyFromNode(Node& enemyNode, Factory<Enemy>& enemyFactory, std::map<std::string, Node*>& files);
+
         void buildLevel(Node& root);
 
         void loadAnimationsFromFile(DrawableEntity& entity, std::string entityFilename, std::map<std::string, Node*>& files);

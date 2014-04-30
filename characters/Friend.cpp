@@ -29,7 +29,7 @@ void Friend::updateCurrent(sf::Time elapsedTime)
     Character::updateCurrent(elapsedTime);
 }
 
-void Friend::nearToCastle()
+void Friend::nearToCastle(Castle& castle)
 {
     // ouf, saved
 }

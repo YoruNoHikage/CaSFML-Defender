@@ -51,6 +51,9 @@ void PlayingScreen::init()
  */
 void PlayingScreen::update(sf::Time elapsedTime)
 {
+    if(Game::getContext().isGameOver())
+        _stateMachine.change("gameover");
+
     Level& lvl = Game::getContext().getLevel();
 
     lvl.getPlayer().update(elapsedTime);
@@ -118,9 +121,10 @@ void PlayingScreen::checkAllCollisions()
        if(!(*itr)->isNearToCastle())
         {
             // collision between characters and the castle
-            if((*itr)->collide(Game::getContext().getLevel().getCastle()))
+            Castle& castle(Game::getContext().getLevel().getCastle());
+            if((*itr)->collide(castle))
             {
-                (*itr)->nearToCastle();
+                (*itr)->nearToCastle(castle);
             }
         }
     }

@@ -15,7 +15,12 @@ class Enemy : public Character
 
         virtual void attack(sf::Time elapsedTime);
 
+        enum Type {ATTACK = DrawableEntity::BLINK + 1}; // used not to have the same values
+
         virtual void loadAnimationsFromNode(Node& root);
+        virtual void loadWeaponFromNode(Node& root);
+
+        virtual void nearToCastle(Castle& castle);
 
     protected:
 
@@ -23,6 +28,11 @@ class Enemy : public Character
 
     private:
         BarDisplay _healthBar;
+
+        Castle* _targetCastle;
+
+        /// Weapon is currently integrated in the enemy
+        int _damages;
 };
 
 #endif

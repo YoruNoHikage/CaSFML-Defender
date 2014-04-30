@@ -41,8 +41,6 @@ class DrawableEntity : public SceneNode
         enum Type{BLINK}; // this is the basic animations for drawable entities
         virtual void loadAnimationsFromNode(Node& root);
 
-        /// Please add an enumeration like enum AnimationsName{RUNNING, JUMPING, JUMPING2};
-
         virtual sf::IntRect getTextureRect() const;
         virtual sf::FloatRect getGlobalBounds() const;
         virtual sf::FloatRect getLocalBounds() const;

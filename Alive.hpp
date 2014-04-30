@@ -14,8 +14,8 @@ class Alive
                 _life = 0;
         };
 
-        int getLife() { return _life; };
-        bool isAlive() { return _life > 0; };
+        int getLife() const { return _life; };
+        bool isAlive() const { return _life > 0; };
 
     protected:
         void setLife(const int life)

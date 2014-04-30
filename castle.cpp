@@ -12,6 +12,7 @@ Castle::Castle() : SpriteNode(),
                    Alive(),
                    _isLoaded(false)
 {
+    setLife(10); // debug
 }
 
 Castle::~Castle()
@@ -38,7 +39,8 @@ void Castle::updateCurrent(sf::Time elapsedTime)
 {
     SpriteNode::updateCurrent(elapsedTime);
 
-    // nothing to do here
+    if(!isAlive())
+        Game::getContext().gameOver();
 }
 
 void Castle::drawCurrent(sf::RenderTarget& target,sf::RenderStates states) const

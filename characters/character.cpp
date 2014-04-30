@@ -29,8 +29,6 @@ void Character::load(std::string filename, std::string fWeapon)
 void Character::updateCurrent(sf::Time elapsedTime)
 {
     DrawableEntity::updateCurrent(elapsedTime);
-    if(_weapon != NULL)
-        _weapon->update(elapsedTime);
 
     _hitbox->setPosition(getPosition().x, getPosition().y);
 
@@ -55,7 +53,7 @@ bool Character::isNearToCastle() const
     return _nearToCastle;
 }
 
-void Character::nearToCastle()
+void Character::nearToCastle(Castle& castle)
 {
     _nearToCastle = true;
 }

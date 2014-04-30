@@ -11,6 +11,8 @@ class Context {
         ~Context();
         sf::RenderWindow& getApp() { return _mainWindow;};
 
+        void reset();
+
         std::list<Shot*>& getShots();
         std::list<Character*>& getCharacters();
 
@@ -19,16 +21,21 @@ class Context {
 
         Level& getLevel() { return _level; };
 
-        bool getDebug();
-        void setDebug(bool debug);
+        bool getDebug() { return _isDebug; };
+        void setDebug(bool debug) { _isDebug = debug; };
+
+        bool isGameOver() { return _isGameOver; };
+        void gameOver() { _isGameOver = true; }; // game is finished, no matter how
 
     private:
         sf::RenderWindow _mainWindow;
         std::list<Shot*> _shots;
         std::list<Character*> _characters; // characters in game
+
         Level _level;
 
-        bool _isDebug;
+        bool _isDebug,
+             _isGameOver;
 };
 
 #endif

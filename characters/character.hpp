@@ -6,6 +6,8 @@
 #include "../Alive.hpp"
 #include "../weapons/weapon.hpp"
 
+#include "../castle.hpp"
+
 class Character : public DrawableEntity, public Collidable, public Alive
 {
     public:
@@ -17,7 +19,7 @@ class Character : public DrawableEntity, public Collidable, public Alive
         virtual Weapon* getWeapon();
 
         virtual bool isNearToCastle() const;
-        virtual void nearToCastle();
+        virtual void nearToCastle(Castle& castle);
 
     protected:
 

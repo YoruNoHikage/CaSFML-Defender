@@ -14,7 +14,7 @@ class Friend : public Character
 
         virtual void loadAnimationsFromNode(Node& root);
 
-        virtual void nearToCastle();
+        virtual void nearToCastle(Castle& castle);
 
     protected:
 

@@ -5,6 +5,10 @@
 			<area left="0" top="0" width="200" height="100" />
 			<spritearea left="0" top="0" width="100" height="100" />
 		</animation>
+		<animation name="attack" duration="1">
+			<area left="0" top="0" width="200" height="100" />
+			<spritearea left="0" top="0" width="100" height="100" />
+		</animation>
 	</animations>
-	<weapon />
+	<weapon damages="2" />
 </entity>

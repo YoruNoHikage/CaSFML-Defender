@@ -6,6 +6,7 @@
 #include "game.hpp"
 
 #include "screens/splashscreen.hpp"
+#include "screens/GameOver.hpp"
 #include "gamestate.hpp"
 #include "tools/imagemanager.hpp"
 #include "tools/locator.hpp"
@@ -53,7 +54,7 @@ void Game::run()
     Log::write(Log::LOG_INFO, "Antialiasing Level set to 8");
 
     sf::VideoMode videoMode;
-    sf::Uint32 style = sf::Style::Fullscreen;
+    sf::Uint32 style = sf::Style::Default;
 
     if(style == sf::Style::Fullscreen)
         videoMode = sf::VideoMode::getDesktopMode();
@@ -73,9 +74,10 @@ void Game::run()
     app.setVerticalSyncEnabled(true);
 
     // Initialize screens
-    Log::write(Log::LOG_INFO, "Initialize screens");
+    Log::write(Log::LOG_INFO, "Initializing screens");
     _stateMachine.add("splashscreen", new SplashScreen(_stateMachine));
     _stateMachine.add("playingscreen", new PlayingScreen(_stateMachine));
+    _stateMachine.add("gameover", new GameOver(_stateMachine));
 
     _stateMachine.change("splashscreen");
 
@@ -108,8 +110,6 @@ void Game::gameLoop()
                 case sf::Event::KeyPressed:
                     if(_currentEvent.key.code == sf::Keyboard::F3)
                         getContext().setDebug(!getContext().getDebug());
-                    else if(_currentEvent.key.code == sf::Keyboard::Escape)
-                        _isExiting = true;
                     break;
                 case sf::Event::Resized:
                     Log::write(Log::LOG_INFO, "Resized, new size : " + toString(_currentEvent.size.width) + ";"

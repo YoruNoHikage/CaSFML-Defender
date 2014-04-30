@@ -35,14 +35,3 @@ void Context::addCharacter(Character* character)
 {
     _characters.push_back(character);
 }
-
-bool Context::getDebug()
-{
-    return _isDebug;
-}
-
-void Context::setDebug(bool debug)
-{
-    _isDebug = debug;
-}
-

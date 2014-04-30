@@ -111,7 +111,7 @@ void DrawableEntity::loadAnimationsFromNode(Node& root)
     std::vector<Node*> animations = animationsNode.getChildren("animation");
     for(std::vector<Node*>::iterator animItr = animations.begin() ; animItr != animations.end() ; ++animItr)
     {
-        DrawableEntity::Type type;
+        int type;
         if((*animItr)->firstAttributeValue("name") == "blink")
             type = DrawableEntity::BLINK;
         else

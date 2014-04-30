@@ -89,23 +89,7 @@ void Level::loadFromFile(const std::string& filename)
                 // Fills with enemies !
                 for(std::vector<Node*>::iterator enemyItr = enemyNodes.begin() ; enemyItr != enemyNodes.end() ; ++enemyItr)
                 {
-                    // Asks the factory for an instance of the asking class in the XML
-                    sf::Texture& texture = *(Locator::getImageManager()->getTexture(IMAGES_PATH + (*enemyItr)->firstAttributeValue("texture")));
-                    Enemy* enemy = enemyFactory.build((*enemyItr)->firstAttributeValue("class"), texture);
-
-                    // We load the animations corresponding to the class
-                    std::string entityFilename = (*enemyItr)->firstAttributeValue("file");
-                    loadAnimationsFromFile(*enemy, entityFilename, files);
-
-                    ///@todo: dynamic hitbox
-                    enemy->setHitbox(new BoundingBoxHitbox(enemy->getGlobalBounds()));
-                    Log::write(Log::LOG_INFO, "Enemy's hitbox creation : " + toString(enemy->getGlobalBounds()));
-                    Log::write(Log::LOG_INFO, "Enemy's life : " + toString(enemy->getLife()));
-
-                    // how to deal with positions ? In the file ?
-                    enemy->setPosition(- enemy->getGlobalBounds().width,
-                                       VIEW_HEIGHT - enemy->getGlobalBounds().height - _ground.getGlobalBounds().height / 2);
-
+                    Enemy* enemy = createEnemyFromNode(**enemyItr, enemyFactory, files);
                     wave->addEnemy(enemy);
                 }
 
@@ -123,6 +107,28 @@ void Level::loadFromFile(const std::string& filename)
     {
         Log::write(Log::LOG_ERROR, "Error : " + toString(e.what()));
     }
+}
+
+Enemy* Level::createEnemyFromNode(Node& enemyNode, Factory<Enemy>& enemyFactory, std::map<std::string, Node*>& files)
+{
+    // Asks the factory for an instance of the asking class in the XML
+    sf::Texture& texture = *(Locator::getImageManager()->getTexture(IMAGES_PATH + enemyNode.firstAttributeValue("texture")));
+    Enemy* enemy = enemyFactory.build(enemyNode.firstAttributeValue("class"), texture);
+
+    // We load the animations corresponding to the class
+    std::string entityFilename = enemyNode.firstAttributeValue("file");
+    loadAnimationsFromFile(*enemy, entityFilename, files);
+
+    ///@todo: dynamic hitbox
+    enemy->setHitbox(new BoundingBoxHitbox(enemy->getGlobalBounds()));
+    Log::write(Log::LOG_INFO, "Enemy's hitbox creation : " + toString(enemy->getGlobalBounds()));
+    Log::write(Log::LOG_INFO, "Enemy's life : " + toString(enemy->getLife()));
+
+    // how to deal with positions ? In the file ?
+    enemy->setPosition(- enemy->getGlobalBounds().width,
+                       VIEW_HEIGHT - enemy->getGlobalBounds().height - _ground.getGlobalBounds().height / 2);
+
+    return enemy;
 }
 
 void Level::buildLevel(Node& root)
