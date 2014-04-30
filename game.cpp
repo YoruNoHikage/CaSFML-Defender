@@ -52,11 +52,21 @@ void Game::run()
     settings.antialiasingLevel = 8;
     Log::write(Log::LOG_INFO, "Antialiasing Level set to 8");
 
-    app.create(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "CaSFML-Defender", sf::Style::Default, settings); // for debug / screenshots / screencasts
+    sf::VideoMode videoMode;
+    sf::Uint32 style = sf::Style::Fullscreen;
+
+    if(style == sf::Style::Fullscreen)
+        videoMode = sf::VideoMode::getDesktopMode();
+    else
+        videoMode = sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT);
+
+    app.create(videoMode, "CaSFML-Defender", style, settings); // for debug / screenshots / screencasts
     app.setPosition(sf::Vector2i(0, 0)); // for screenshots / screencasts
     app.setView(sf::View(sf::FloatRect(0, 0, VIEW_WIDTH, VIEW_HEIGHT)));
     Log::write(Log::LOG_INFO, std::string("Window " + toString(WINDOW_WIDTH) + ";" + toString(WINDOW_HEIGHT)));
     Log::write(Log::LOG_INFO, std::string("View " + toString(VIEW_WIDTH) + ";" + toString(VIEW_HEIGHT)));
+
+    resizeViewport(videoMode.width, videoMode.height, app);
 
     std::srand(time(NULL));
 
@@ -102,33 +112,10 @@ void Game::gameLoop()
                         _isExiting = true;
                     break;
                 case sf::Event::Resized:
-                    float ratio(static_cast<float>(VIEW_WIDTH) / VIEW_HEIGHT);
-                    int width(_currentEvent.size.width);
-                    int height(_currentEvent.size.height);
-                    sf::View view(app.getView());
-                    sf::FloatRect viewportSize;
+                    Log::write(Log::LOG_INFO, "Resized, new size : " + toString(_currentEvent.size.width) + ";"
+                                                                     + toString(_currentEvent.size.height));
 
-                    Log::write(Log::LOG_INFO, "Resized, new size : " + toString(width) + ";" +toString(height));
-
-                    if(static_cast<float>(width) / height > ratio)
-                    {
-                        float padX((width - (height * ratio)) / 2);
-                        float relative(padX / width);
-
-                        viewportSize = sf::FloatRect(relative, 0.f, 1.f - relative * 2, 1.f);
-                        Log::write(Log::LOG_INFO, toString(viewportSize));
-                    }
-                    else if(static_cast<float>(_currentEvent.size.width) / _currentEvent.size.height < ratio)
-                    {
-                        float padY((height - (width / ratio)) / 2);
-                        float relative(padY / height);
-                        viewportSize = sf::FloatRect(0.f, relative, 1.f, 1.f - relative * 2);
-                    }
-                    else
-                         viewportSize = sf::FloatRect(0.f, 0.f, 1.f, 1.f);
-
-                    view.setViewport(viewportSize);
-                    app.setView(view);
+                    resizeViewport(_currentEvent.size.width, _currentEvent.size.height, app);
                     break;
             }
 
@@ -169,4 +156,31 @@ Context& Game::getContext()
 {
     static Context* context = new Context();
     return *context;
+}
+
+void Game::resizeViewport(int width, int height, sf::RenderWindow& app)
+{
+    float ratio(static_cast<float>(VIEW_WIDTH) / VIEW_HEIGHT);
+    sf::View view(app.getView());
+    sf::FloatRect viewportSize;
+
+    if(static_cast<float>(width) / height > ratio)
+    {
+        float padX((width - (height * ratio)) / 2);
+        float relative(padX / width);
+
+        viewportSize = sf::FloatRect(relative, 0.f, 1.f - relative * 2, 1.f);
+        Log::write(Log::LOG_INFO, toString(viewportSize));
+    }
+    else if(static_cast<float>(_currentEvent.size.width) / _currentEvent.size.height < ratio)
+    {
+        float padY((height - (width / ratio)) / 2);
+        float relative(padY / height);
+        viewportSize = sf::FloatRect(0.f, relative, 1.f, 1.f - relative * 2);
+    }
+    else
+         viewportSize = sf::FloatRect(0.f, 0.f, 1.f, 1.f);
+
+    view.setViewport(viewportSize);
+    app.setView(view);
 }

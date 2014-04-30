@@ -48,6 +48,8 @@ class Game : public sf::NonCopyable
          */
         void updateStats(sf::Time elapsedTime);
 
+        void resizeViewport(int width, int height, sf::RenderWindow& app);
+
         StateMachine _stateMachine;
 
         bool _isExiting;
