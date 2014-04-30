@@ -17,6 +17,8 @@ class PlayingScreen : public IState
         ~PlayingScreen();
 
         void init();
+        void load(std::string levelName);
+
         void update(sf::Time elapsedTime);
         void checkAllCollisions();
         void draw(sf::RenderWindow& app);

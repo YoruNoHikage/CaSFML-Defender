@@ -47,7 +47,7 @@ void SplashScreen::init()
 void SplashScreen::update(sf::Time elapsedTime)
 {
     if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
-        _stateMachine.change("playingscreen");
+        _stateMachine.change("menu");
 }
 
 /** \brief Draw the splashscreen

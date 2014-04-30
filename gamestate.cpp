@@ -33,14 +33,18 @@ void PlayingScreen::init()
     Log::write(Log::LOG_INFO, "Playing Screen initialization");
 
     Context& c = Game::getContext();
-    Level& lvl = Game::getContext().getLevel();
-
-    std::string level("level1.xml");
-    lvl.loadFromFile(LEVELS_PATH + level);
-    Log::write(Log::LOG_INFO, std::string("Charging level " + level));
 
     c.getShots().clear();
     c.getCharacters().clear();
+}
+
+void PlayingScreen::load(std::string levelName)
+{
+    Level& lvl = Game::getContext().getLevel();
+
+    std::string level(levelName);
+    lvl.loadFromFile(LEVELS_PATH + level);
+    Log::write(Log::LOG_INFO, std::string("Charging level " + level));
 }
 
 /** \brief Update the playing screen and call the collision function
@@ -166,6 +170,7 @@ void PlayingScreen::draw(sf::RenderWindow& app)
  */
 void PlayingScreen::onEnter()
 {
+    Game::getContext().reset();
 }
 
 /** \brief Launched when the playingscreen is ended in the state machine

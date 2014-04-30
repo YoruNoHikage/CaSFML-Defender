@@ -33,6 +33,8 @@ void Castle::load(std::string filename)
 
     _hitbox = new BoundingBoxHitbox(getGlobalBounds());
     _hitbox->setPosition(getPosition().x, getPosition().y);
+
+    setLife(10); // debug
 }
 
 void Castle::updateCurrent(sf::Time elapsedTime)

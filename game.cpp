@@ -7,7 +7,9 @@
 
 #include "screens/splashscreen.hpp"
 #include "screens/GameOver.hpp"
+#include "screens/menu.hpp"
 #include "gamestate.hpp"
+
 #include "tools/imagemanager.hpp"
 #include "tools/locator.hpp"
 #include "tools/log.hpp"
@@ -76,7 +78,8 @@ void Game::run()
     // Initialize screens
     Log::write(Log::LOG_INFO, "Initializing screens");
     _stateMachine.add("splashscreen", new SplashScreen(_stateMachine));
-    _stateMachine.add("playingscreen", new PlayingScreen(_stateMachine));
+    _stateMachine.add("menu", new Menu(_stateMachine));
+    //_stateMachine.add("playingscreen", new PlayingScreen(_stateMachine));
     _stateMachine.add("gameover", new GameOver(_stateMachine));
 
     _stateMachine.change("splashscreen");

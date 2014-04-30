@@ -27,7 +27,7 @@ void GameOver::init()
 void GameOver::update(sf::Time elapsedTime)
 {
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
-        _stateMachine.change("playingscreen");
+        _stateMachine.change("menu");
 }
 
 void GameOver::draw(sf::RenderWindow& app)
