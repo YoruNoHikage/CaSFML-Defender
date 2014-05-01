@@ -9,6 +9,19 @@ BarDisplay::BarDisplay() : SpriteNode(),
                            _maxValue(0),
                            _maxRectValue(50)
 {
+    init();
+}
+
+BarDisplay::BarDisplay(unsigned int maxRectValue) : SpriteNode(),
+                                                    _value(0),
+                                                    _maxValue(0),
+                                                    _maxRectValue(maxRectValue)
+{
+    init();
+}
+
+void BarDisplay::init()
+{
     ImageManager *im = Locator::getImageManager();
     sf::Texture* texture = im->getTexture(IMAGES_PATH"healthbar.png");
     if(texture != NULL)

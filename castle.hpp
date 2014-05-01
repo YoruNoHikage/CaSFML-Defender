@@ -3,6 +3,7 @@
 
 #include "characters/DrawableEntity.hpp"
 #include "Collidable.hpp"
+#include "BarDisplay.hpp"
 
 class Castle : public DrawableEntity, public Collidable, public Alive
 {
@@ -20,7 +21,7 @@ class Castle : public DrawableEntity, public Collidable, public Alive
         void drawCurrent(sf::RenderTarget& target,sf::RenderStates states) const;
 
     private:
-        bool _isLoaded;
+        BarDisplay _healthBar;
 };
 
 #endif

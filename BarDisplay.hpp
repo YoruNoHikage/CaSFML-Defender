@@ -9,6 +9,9 @@ class BarDisplay : public SpriteNode
 {
     public:
         BarDisplay();
+        BarDisplay(unsigned int maxRectValue);
+        void init();
+
         ~BarDisplay();
 
         int getValue() { return _value; };

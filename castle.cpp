@@ -10,8 +10,9 @@
 Castle::Castle(const sf::Texture& texture) : DrawableEntity(texture),
                                              Collidable(),
                                              Alive(),
-                                             _isLoaded(false)
+                                             _healthBar(100)
 {
+    attachChild(&_healthBar);
 }
 
 Castle::~Castle()
@@ -48,6 +49,10 @@ void Castle::loadEntityFromNode(Node& root)
     // We fill the entity's attributes
     int life = atoi(root.firstAttributeValue("life").c_str());
     setLife(life);
+
+    _healthBar.setMaxValue(getLife());
+    _healthBar.setPosition(getGlobalBounds().width / 2 - _healthBar.getGlobalBounds().width / 2,
+                           - _healthBar.getGlobalBounds().height * 2);
 }
 
 void Castle::updateCurrent(sf::Time elapsedTime)
@@ -56,6 +61,8 @@ void Castle::updateCurrent(sf::Time elapsedTime)
 
     if(!isAlive())
         Game::getContext().gameOver(false);
+
+    _healthBar.setValue(getLife());
 }
 
 void Castle::drawCurrent(sf::RenderTarget& target,sf::RenderStates states) const
