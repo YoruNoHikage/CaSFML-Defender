@@ -30,11 +30,10 @@ void Ground::load(std::string filename)
 
     setPosition(0, VIEW_HEIGHT - getGlobalBounds().height);
 
-    sf::FloatRect rect(getPosition().x,
-                         getPosition().y + getGlobalBounds().height / 2, // the collision is in the ground's middle
-                         getGlobalBounds().width,
-                         getGlobalBounds().height / 2);
-    _hitbox = new BoundingBoxHitbox(rect);
+    sf::FloatRect rect(0, getGlobalBounds().height / 2, // the collision is in the ground's middle
+                       getGlobalBounds().width,
+                       getGlobalBounds().height / 2);
+    _hitbox = new BoundingBoxHitbox(getPosition(), rect);
 
     Log::write(Log::LOG_INFO, std::string("Loading ground : position " + toString(getPosition()) + toString(getGlobalBounds())));
     Log::write(Log::LOG_INFO, std::string("Ground sprite hitbox : " + toString(rect)));

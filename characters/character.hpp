@@ -15,6 +15,7 @@ class Character : public DrawableEntity, public Collidable, public Alive
         virtual ~Character();
 
         virtual void load(std::string filename, std::string fWeapon);
+        virtual void loadEntityFromNode(Node& root);
 
         virtual Weapon* getWeapon();
 

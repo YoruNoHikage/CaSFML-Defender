@@ -31,8 +31,7 @@ void Castle::load(std::string filename)
         _isLoaded = true;
     }
 
-    _hitbox = new BoundingBoxHitbox(getGlobalBounds());
-    _hitbox->setPosition(getPosition().x, getPosition().y);
+    _hitbox = new BoundingBoxHitbox(getPosition(), getGlobalBounds());
 
     setLife(10); // debug
 }

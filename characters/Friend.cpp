@@ -11,9 +11,9 @@ Friend::~Friend()
 {
 }
 
-void Friend::loadAnimationsFromNode(Node& root)
+void Friend::loadEntityFromNode(Node& root)
 {
-    DrawableEntity::loadAnimationsFromNode(root);
+    Character::loadEntityFromNode(root);
 
     // We fill the entity's attributes
     int life = atoi(root.firstAttributeValue("life").c_str());

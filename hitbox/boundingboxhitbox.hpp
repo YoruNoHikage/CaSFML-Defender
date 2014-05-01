@@ -6,7 +6,7 @@
 class BoundingBoxHitbox : public Hitbox
 {
     public:
-        BoundingBoxHitbox(sf::Rect<float> box);
+        BoundingBoxHitbox(sf::Vector2f pos, sf::Rect<float> box);
         ~BoundingBoxHitbox();
 
         bool collide(Hitbox* hitbox);
@@ -15,12 +15,8 @@ class BoundingBoxHitbox : public Hitbox
         bool collide(sf::Rect<float> rect);
         bool collide(Circle circ);
 
-        void setPosition(int x, int y);
-        sf::Vector2f getPosition() const;
-
         sf::Rect<float> getBoundingBox() const;
 
-        void drawDebug(sf::RenderWindow& window) const;
         void drawDebug(sf::RenderTarget& target, sf::RenderStates states) const;
 
     private:

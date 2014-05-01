@@ -39,7 +39,7 @@ class DrawableEntity : public SceneNode
         void setAnimation(const int name);
 
         enum Type{BLINK}; // this is the basic animations for drawable entities
-        virtual void loadAnimationsFromNode(Node& root);
+        virtual void loadEntityFromNode(Node& root);
 
         virtual sf::IntRect getTextureRect() const;
         virtual sf::FloatRect getGlobalBounds() const;

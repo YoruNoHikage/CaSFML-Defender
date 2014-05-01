@@ -17,9 +17,9 @@ Enemy::~Enemy()
 {
 }
 
-void Enemy::loadAnimationsFromNode(Node& root)
+void Enemy::loadEntityFromNode(Node& root)
 {
-    DrawableEntity::loadAnimationsFromNode(root);
+    Character::loadEntityFromNode(root);
 
     Node& animationsNode = root.firstChild("animations");
     std::vector<Node*> animations = animationsNode.getChildren("animation");
@@ -49,6 +49,7 @@ void Enemy::loadAnimationsFromNode(Node& root)
     // We fill the entity's attributes
     int life = atoi(root.firstAttributeValue("life").c_str());
     setLife(life);
+    Log::write(Log::LOG_INFO, "Friend's life : " + toString(life));
 
     ////// Enemy's children //////
 

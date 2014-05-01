@@ -101,7 +101,7 @@ sf::FloatRect DrawableEntity::getLocalBounds() const
     return sf::FloatRect();
 }
 
-void DrawableEntity::loadAnimationsFromNode(Node& root)
+void DrawableEntity::loadEntityFromNode(Node& root)
 {
     // The first node has to be "entity"
     if(root.getName() != "entity")

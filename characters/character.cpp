@@ -3,6 +3,8 @@
 #include "../game.hpp"
 #include "character.hpp"
 
+#include "../hitbox/boundingboxhitbox.hpp"
+
 Character::Character(const sf::Texture& texture) : DrawableEntity(texture),
                                                    Collidable(),
                                                    Alive(),
@@ -24,6 +26,27 @@ void Character::load(std::string filename, std::string fWeapon)
     _weapon = new Weapon();
     _weapon->load(fWeapon);
     attachChild(_weapon);
+}
+
+void Character::loadEntityFromNode(Node& root)
+{
+    DrawableEntity::loadEntityFromNode(root);
+
+    Hitbox* hitbox(NULL);
+    try
+    {
+        Node& areaNode = root.firstChild("hitbox");
+        sf::FloatRect area = static_cast<sf::FloatRect>(loadAreaFromNode(areaNode));
+        hitbox = new BoundingBoxHitbox(getPosition(), area);
+    }
+    catch(std::runtime_error& e)
+    {
+        Log::write(Log::LOG_WARNING, "No hitbox defined for Entity : " + toString(e.what()));
+        // when there isn't hitbox, we assign the entity's global bounds as a hitbox
+        hitbox = new BoundingBoxHitbox(getPosition(), getGlobalBounds());
+    }
+    setHitbox(hitbox);
+    Log::write(Log::LOG_INFO, "Friend's hitbox creation : " + toString(getGlobalBounds()));
 }
 
 void Character::updateCurrent(sf::Time elapsedTime)

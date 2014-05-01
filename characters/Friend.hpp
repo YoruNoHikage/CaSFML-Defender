@@ -12,7 +12,7 @@ class Friend : public Character
         Friend(const sf::Texture& texture);
         ~Friend();
 
-        virtual void loadAnimationsFromNode(Node& root);
+        virtual void loadEntityFromNode(Node& root);
 
         virtual void nearToCastle(Castle& castle);
 

@@ -11,4 +11,5 @@
 		</animation>
 	</animations>
 	<weapon damages="2" />
+	<hitbox left="25" top="0" width="50" height="100" />
 </entity>

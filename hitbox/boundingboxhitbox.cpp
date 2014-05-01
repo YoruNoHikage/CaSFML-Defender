@@ -4,8 +4,9 @@
 
 #include "boundingboxhitbox.hpp"
 
-BoundingBoxHitbox::BoundingBoxHitbox(sf::Rect<float> box) : _boundingBox(box)
+BoundingBoxHitbox::BoundingBoxHitbox(sf::Vector2f pos, sf::Rect<float> box) : _boundingBox(box)
 {
+    setPosition(pos);
 }
 
 BoundingBoxHitbox::~BoundingBoxHitbox()
@@ -14,17 +15,17 @@ BoundingBoxHitbox::~BoundingBoxHitbox()
 
 bool BoundingBoxHitbox::collide(Hitbox* hitbox)
 {
-    return hitbox->collide(_boundingBox);
+    return hitbox->collide(getBoundingBox());
 }
 
 bool BoundingBoxHitbox::collide(int x, int y)
 {
-    return _boundingBox.contains(x, y);
+    return getBoundingBox().contains(x, y);
 }
 
 bool BoundingBoxHitbox::collide(sf::Rect<float> rect)
 {
-    return _boundingBox.intersects(rect);
+    return getBoundingBox().intersects(rect);
 }
 
 bool BoundingBoxHitbox::collide(Circle circ)
@@ -32,40 +33,19 @@ bool BoundingBoxHitbox::collide(Circle circ)
     return circVsRect(circ, getBoundingBox());
 }
 
-void BoundingBoxHitbox::setPosition(int x, int y)
-{
-    _boundingBox.left = x;
-    _boundingBox.top = y;
-}
-
-sf::Vector2f BoundingBoxHitbox::getPosition() const
-{
-    return sf::Vector2f(_boundingBox.left, _boundingBox.top);
-}
-
 sf::Rect<float> BoundingBoxHitbox::getBoundingBox() const
 {
-    return _boundingBox;
-}
-
-void BoundingBoxHitbox::drawDebug(sf::RenderWindow& window) const
-{
-    sf::RectangleShape debugRect(sf::Vector2f(_boundingBox.width, _boundingBox.height));
-    debugRect.setFillColor(sf::Color(0, 0, 255, 50));
-    debugRect.setOutlineThickness(2);
-    debugRect.setOutlineColor(sf::Color::Blue);
-    debugRect.setPosition(_boundingBox.left, _boundingBox.top);
-
-    window.draw(debugRect);
+    return getTransform().transformRect(_boundingBox);
 }
 
 void BoundingBoxHitbox::drawDebug(sf::RenderTarget& target, sf::RenderStates states) const
 {
-    sf::RectangleShape debugRect(sf::Vector2f(_boundingBox.width, _boundingBox.height));
+    sf::FloatRect box = getBoundingBox();
+    sf::RectangleShape debugRect(sf::Vector2f(box.width, box.height));
     debugRect.setFillColor(sf::Color(0, 0, 255, 50));
     debugRect.setOutlineThickness(2);
     debugRect.setOutlineColor(sf::Color::Blue);
-    debugRect.setPosition(_boundingBox.left, _boundingBox.top);
+    debugRect.setPosition(getBoundingBox().left, getBoundingBox().top);
 
     target.draw(debugRect, sf::RenderStates::Default);
 }

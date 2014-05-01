@@ -30,7 +30,7 @@ class Level
 
         void buildLevel(Node& root);
 
-        void loadAnimationsFromFile(DrawableEntity& entity, std::string entityFilename, std::map<std::string, Node*>& files);
+        void loadEntityFromFile(DrawableEntity& entity, std::string entityFilename, std::map<std::string, Node*>& files);
 
         sf::RenderWindow& _app;
 

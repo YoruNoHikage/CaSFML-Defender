@@ -73,11 +73,11 @@ void Level::loadFromFile(const std::string& filename)
                     Friend* buddy = new Friend(texture);
 
                     std::string entityFilename = (*friendItr)->firstAttributeValue("file");
-                    loadAnimationsFromFile(*buddy, entityFilename, files);
+                    loadEntityFromFile(*buddy, entityFilename, files);
 
-                    buddy->setHitbox(new BoundingBoxHitbox(buddy->getGlobalBounds()));
-                    Log::write(Log::LOG_INFO, "Friend's hitbox creation : " + toString(buddy->getGlobalBounds()));
-                    Log::write(Log::LOG_INFO, "Friend's life : " + toString(buddy->getLife()));
+                    //buddy->setHitbox(new BoundingBoxHitbox(buddy->getGlobalBounds()));
+                    //Log::write(Log::LOG_INFO, "Friend's hitbox creation : " + toString(buddy->getGlobalBounds()));
+                    //Log::write(Log::LOG_INFO, "Friend's life : " + toString(buddy->getLife()));
 
                     // how to deal with positions ? In the file ?
                     buddy->setPosition(- buddy->getGlobalBounds().width,
@@ -117,12 +117,11 @@ Enemy* Level::createEnemyFromNode(Node& enemyNode, Factory<Enemy>& enemyFactory,
 
     // We load the animations corresponding to the class
     std::string entityFilename = enemyNode.firstAttributeValue("file");
-    loadAnimationsFromFile(*enemy, entityFilename, files);
+    loadEntityFromFile(*enemy, entityFilename, files);
 
-    ///@todo: dynamic hitbox
-    enemy->setHitbox(new BoundingBoxHitbox(enemy->getGlobalBounds()));
-    Log::write(Log::LOG_INFO, "Enemy's hitbox creation : " + toString(enemy->getGlobalBounds()));
-    Log::write(Log::LOG_INFO, "Enemy's life : " + toString(enemy->getLife()));
+    //enemy->setHitbox(new BoundingBoxHitbox(enemy->getGlobalBounds()));
+    //Log::write(Log::LOG_INFO, "Enemy's hitbox creation : " + toString(enemy->getGlobalBounds()));
+    //Log::write(Log::LOG_INFO, "Enemy's life : " + toString(enemy->getLife()));
 
     // how to deal with positions ? In the file ?
     enemy->setPosition(- enemy->getGlobalBounds().width,
@@ -212,7 +211,7 @@ void Level::buildLevel(Node& root)
                                           + toString(_castle.getGlobalBounds())));
 }
 
-void Level::loadAnimationsFromFile(DrawableEntity& entity, std::string entityFilename, std::map<std::string, Node*>& files)
+void Level::loadEntityFromFile(DrawableEntity& entity, std::string entityFilename, std::map<std::string, Node*>& files)
 {
     std::map<std::string, Node*>::iterator fItr = files.find(entityFilename);
     if(fItr == files.end()) // if the node doesn't exist already, we load it
@@ -221,10 +220,10 @@ void Level::loadAnimationsFromFile(DrawableEntity& entity, std::string entityFil
         Node* entityNode = new XMLNode();
         files.insert(std::make_pair(entityFilename, entityNode));
         entityNode->loadFromFile(entityFilename);
-        entity.loadAnimationsFromNode(*entityNode);
+        entity.loadEntityFromNode(*entityNode);
     }
     else
-        entity.loadAnimationsFromNode(*fItr->second);
+        entity.loadEntityFromNode(*fItr->second);
 }
 
 Wave* Level::getNextWave()

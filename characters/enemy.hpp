@@ -17,7 +17,7 @@ class Enemy : public Character
 
         enum Type {ATTACK = DrawableEntity::BLINK + 1}; // used not to have the same values
 
-        virtual void loadAnimationsFromNode(Node& root);
+        virtual void loadEntityFromNode(Node& root);
         virtual void loadWeaponFromNode(Node& root);
 
         virtual void nearToCastle(Castle& castle);
