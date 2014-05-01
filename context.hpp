@@ -25,7 +25,8 @@ class Context {
         void setDebug(bool debug) { _isDebug = debug; };
 
         bool isGameOver() { return _isGameOver; };
-        void gameOver() { _isGameOver = true; }; // game is finished, no matter how
+        bool isSuccess() { return _isSuccess; };
+        void gameOver(bool success) { _isGameOver = true; _isSuccess = success; }; // game is finished, with success or not
 
     private:
         sf::RenderWindow _mainWindow;
@@ -35,7 +36,8 @@ class Context {
         Level _level;
 
         bool _isDebug,
-             _isGameOver;
+             _isGameOver,
+             _isSuccess;
 };
 
 #endif

@@ -3,7 +3,8 @@
 #include "CharacterManager.hpp"
 #include "../game.hpp"
 
-CharacterManager::CharacterManager() : _generationTime(sf::seconds(1.f)), _noMoreCharacters(false), _charactersLeft(0)
+CharacterManager::CharacterManager() : _generationTime(sf::seconds(1.f)),
+                                       _hasMoreWaves(false)
 {
 }
 
@@ -16,6 +17,7 @@ void CharacterManager::reset()
 {
     std::for_each(_characters.begin(), _characters.end(), Deallocator<Character>());
     _characters.clear();
+    _hasMoreWaves = false;
 }
 
 void CharacterManager::generateCharacters()
@@ -23,6 +25,7 @@ void CharacterManager::generateCharacters()
     Wave* newWave = Game::getContext().getLevel().getNextWave();
     if(newWave != NULL)
     {
+        _hasMoreWaves = true;
         while(newWave->getCharacters().size() > 0)
         {
             Character* character = newWave->getCharacters().front();
@@ -31,7 +34,7 @@ void CharacterManager::generateCharacters()
         }
     }
     else
-        _noMoreCharacters = true;
+        _hasMoreWaves = false;
 }
 
 void CharacterManager::getNewCharacters(sf::Time elapsedTime)
@@ -55,4 +58,9 @@ void CharacterManager::getNewCharacters(sf::Time elapsedTime)
         if(_characters.size() == 0)
             _waveOver = false;
     }
+}
+
+bool CharacterManager::isAnybodyStillAlive()
+{
+    return _hasMoreWaves || !Game::getContext().getCharacters().empty();
 }

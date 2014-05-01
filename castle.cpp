@@ -42,7 +42,7 @@ void Castle::updateCurrent(sf::Time elapsedTime)
     SpriteNode::updateCurrent(elapsedTime);
 
     if(!isAlive())
-        Game::getContext().gameOver();
+        Game::getContext().gameOver(false);
 }
 
 void Castle::drawCurrent(sf::RenderTarget& target,sf::RenderStates states) const

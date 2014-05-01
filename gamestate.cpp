@@ -56,7 +56,12 @@ void PlayingScreen::load(std::string levelName)
 void PlayingScreen::update(sf::Time elapsedTime)
 {
     if(Game::getContext().isGameOver())
-        _stateMachine.change("gameover");
+    {
+        if(Game::getContext().isSuccess())
+            _stateMachine.change("menu");
+        else
+            _stateMachine.change("gameover");
+    }
 
     Level& lvl = Game::getContext().getLevel();
 
@@ -90,6 +95,9 @@ void PlayingScreen::update(sf::Time elapsedTime)
             (*itr)->update(elapsedTime);
     }
     _cm.getNewCharacters(elapsedTime);
+
+    if(!_cm.isAnybodyStillAlive())
+        Game::getContext().gameOver(true);
 
     checkAllCollisions();
 }

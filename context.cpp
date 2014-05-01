@@ -6,7 +6,9 @@ Context::Context() : _mainWindow(),
                      _shots(),
                      _characters(),
                      _level(_mainWindow),
-                     _isDebug(false)
+                     _isDebug(false),
+                     _isGameOver(false),
+                     _isSuccess(false)
 {
 }
 
@@ -21,6 +23,7 @@ void Context::reset()
     std::for_each(_shots.begin(), _shots.end(), Deallocator<Shot>());
     std::for_each(_characters.begin(), _characters.end(), Deallocator<Character>());
     _isGameOver = false;
+    _isSuccess = false;
 
     _shots.clear();
     _characters.clear();
