@@ -10,7 +10,8 @@
  */
 Level::Level(sf::RenderWindow& app) : _app(app),
                                       _name("<Unamed level>"),
-                                      _player(NULL)
+                                      _player(NULL),
+                                      _castle(NULL)
 {
 }
 
@@ -20,6 +21,7 @@ Level::~Level()
 {
     std::for_each(_waves.begin(), _waves.end(), Deallocator<Wave>());
     delete _player;
+    delete _castle;
 }
 
 /** \brief Load the level's objects from a XML file with a proxy class
@@ -75,10 +77,6 @@ void Level::loadFromFile(const std::string& filename)
                     std::string entityFilename = (*friendItr)->firstAttributeValue("file");
                     loadEntityFromFile(*buddy, entityFilename, files);
 
-                    //buddy->setHitbox(new BoundingBoxHitbox(buddy->getGlobalBounds()));
-                    //Log::write(Log::LOG_INFO, "Friend's hitbox creation : " + toString(buddy->getGlobalBounds()));
-                    //Log::write(Log::LOG_INFO, "Friend's life : " + toString(buddy->getLife()));
-
                     // how to deal with positions ? In the file ?
                     buddy->setPosition(- buddy->getGlobalBounds().width,
                                        VIEW_HEIGHT - buddy->getGlobalBounds().height - _ground.getGlobalBounds().height / 2);
@@ -118,10 +116,6 @@ Enemy* Level::createEnemyFromNode(Node& enemyNode, Factory<Enemy>& enemyFactory,
     // We load the animations corresponding to the class
     std::string entityFilename = enemyNode.firstAttributeValue("file");
     loadEntityFromFile(*enemy, entityFilename, files);
-
-    //enemy->setHitbox(new BoundingBoxHitbox(enemy->getGlobalBounds()));
-    //Log::write(Log::LOG_INFO, "Enemy's hitbox creation : " + toString(enemy->getGlobalBounds()));
-    //Log::write(Log::LOG_INFO, "Enemy's life : " + toString(enemy->getLife()));
 
     // how to deal with positions ? In the file ?
     enemy->setPosition(- enemy->getGlobalBounds().width,
@@ -174,8 +168,12 @@ void Level::buildLevel(Node& root)
 
     // The castle
     Node& castleNode = root.firstChild("castle");
-    _castle.load(castleNode.firstAttributeValue("file"));
-    _castle.setPosition(0, 0);
+    sf::Texture& castleTexture = *(Locator::getImageManager()->getTexture(IMAGES_PATH + castleNode.firstAttributeValue("texture")));
+    _castle = new Castle(castleTexture);
+
+    XMLNode castleFile;
+    castleFile.loadFromFile(castleNode.firstAttributeValue("file"));
+    _castle->loadEntityFromNode(castleFile);
 
     int offsetX = 0, offsetY = 0;
     try
@@ -198,17 +196,17 @@ void Level::buildLevel(Node& root)
     if(position == "left")
         x = std::abs(offsetX);
     else if(position == "middle")
-        x = VIEW_WIDTH / 2 - _castle.getGlobalBounds().width / 2 + offsetX;
+        x = VIEW_WIDTH / 2 - _castle->getGlobalBounds().width / 2 + offsetX;
     else // by default it's right
-        x = VIEW_WIDTH - _castle.getGlobalBounds().width - std::abs(offsetX);
+        x = VIEW_WIDTH - _castle->getGlobalBounds().width - std::abs(offsetX);
 
-    y = VIEW_HEIGHT - _castle.getGlobalBounds().height - std::abs(offsetY);
-    _castle.setPosition(x, y);
-    _castle.getHitbox()->setPosition(x, y);
+    y = VIEW_HEIGHT - _castle->getGlobalBounds().height - std::abs(offsetY);
+    _castle->setPosition(x, y);
+    _castle->getHitbox()->setPosition(x, y);
     Log::write(Log::LOG_INFO, std::string("Loading castle to the " + position + " : offsets : " + toString(offsetX) + ";" + toString(offsetX)
-                                          + " - position " + toString(_castle.getPosition()) + toString(_castle.getGlobalBounds())));
-    Log::write(Log::LOG_INFO, std::string("Castle sprite hitbox : position " + toString(_castle.getHitbox()->getPosition())
-                                          + toString(_castle.getGlobalBounds())));
+                                          + " - position " + toString(_castle->getPosition()) + toString(_castle->getGlobalBounds())));
+    Log::write(Log::LOG_INFO, std::string("Castle sprite hitbox : position " + toString(_castle->getHitbox()->getPosition())
+                                          + toString(_castle->getGlobalBounds())));
 }
 
 void Level::loadEntityFromFile(DrawableEntity& entity, std::string entityFilename, std::map<std::string, Node*>& files)

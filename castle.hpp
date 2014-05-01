@@ -1,16 +1,18 @@
 #ifndef CASTLE_HPP
 #define CASTLE_HPP
 
-#include "SpriteNode.hpp"
+#include "characters/DrawableEntity.hpp"
 #include "Collidable.hpp"
 
-class Castle : public SpriteNode, public Collidable, public Alive
+class Castle : public DrawableEntity, public Collidable, public Alive
 {
     public:
-        Castle();
+        Castle(const sf::Texture& texture);
         ~Castle();
 
         void load(std::string filename);
+
+        virtual void loadEntityFromNode(Node& root);
 
     protected:
 

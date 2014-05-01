@@ -7,12 +7,11 @@
 #include "tools/locator.hpp"
 #include "tools/imagemanager.hpp"
 
-Castle::Castle() : SpriteNode(),
-                   Collidable(),
-                   Alive(),
-                   _isLoaded(false)
+Castle::Castle(const sf::Texture& texture) : DrawableEntity(texture),
+                                             Collidable(),
+                                             Alive(),
+                                             _isLoaded(false)
 {
-    setLife(10); // debug
 }
 
 Castle::~Castle()
@@ -21,24 +20,39 @@ Castle::~Castle()
 
 void Castle::load(std::string filename)
 {
-    ImageManager *im = Locator::getImageManager();
-    sf::Texture* texture = im->getTexture(IMAGES_PATH + filename);
-    if(texture == NULL)
-        _isLoaded = false;
-    else
+}
+
+void Castle::loadEntityFromNode(Node& root)
+{
+    DrawableEntity::loadEntityFromNode(root);
+
+    // add new animations
+
+    Hitbox* hitbox(NULL);
+    try
     {
-        _sprite.setTexture(*texture, true); // We want to reset the textureRect so we set reset to true
-        _isLoaded = true;
+        Node& areaNode = root.firstChild("hitbox");
+        sf::FloatRect area = static_cast<sf::FloatRect>(loadAreaFromNode(areaNode));
+        hitbox = new BoundingBoxHitbox(getPosition(), area);
+        Log::write(Log::LOG_INFO, "Castle's hitbox creation : " + toString(area));
     }
+    catch(std::runtime_error& e)
+    {
+        Log::write(Log::LOG_WARNING, "No hitbox defined for Castle : " + toString(e.what()));
+        // when there isn't hitbox, we assign the entity's global bounds as a hitbox
+        hitbox = new BoundingBoxHitbox(getPosition(), getGlobalBounds());
+        Log::write(Log::LOG_INFO, "Castle's hitbox creation : " + toString(getGlobalBounds()));
+    }
+    setHitbox(hitbox);
 
-    _hitbox = new BoundingBoxHitbox(getPosition(), getGlobalBounds());
-
-    setLife(10); // debug
+    // We fill the entity's attributes
+    int life = atoi(root.firstAttributeValue("life").c_str());
+    setLife(life);
 }
 
 void Castle::updateCurrent(sf::Time elapsedTime)
 {
-    SpriteNode::updateCurrent(elapsedTime);
+    DrawableEntity::updateCurrent(elapsedTime);
 
     if(!isAlive())
         Game::getContext().gameOver(false);
@@ -46,7 +60,7 @@ void Castle::updateCurrent(sf::Time elapsedTime)
 
 void Castle::drawCurrent(sf::RenderTarget& target,sf::RenderStates states) const
 {
-    SpriteNode::drawCurrent(target, states);
+    DrawableEntity::drawCurrent(target, states);
     if(_hitbox && Game::getContext().getDebug())
         _hitbox->drawDebug(target, states);
 }

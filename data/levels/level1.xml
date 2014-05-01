@@ -6,7 +6,7 @@
 		<weapon file="weapon_placeholder.png" />
 		<weapon file="bow.png" />
 	</player>
-	<castle position="right" offsetx="50" offsety="50" file="castle.png" />
+	<castle position="right" offsetx="50" offsety="50" file="data/levels/entities/castles/castle_placeholder.xml" texture="castle.png" />
 	<waves>
 		<wave>
 			<friend speed="2" file="data/levels/entities/friend_placeholder.xml" texture="friend_placeholder.png"/>

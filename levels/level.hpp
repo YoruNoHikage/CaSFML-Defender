@@ -20,7 +20,7 @@ class Level
 
         Player& getPlayer() { return *_player; };
         Background& getBackground() { return _background; };
-        Castle& getCastle() { return _castle; };
+        Castle& getCastle() { return *_castle; };
         Ground& getGround() { return _ground; };
 
         Wave* getNextWave();
@@ -38,7 +38,7 @@ class Level
 
         Player* _player;
         Background _background;
-        Castle _castle;
+        Castle* _castle;
         Ground _ground;
 
         std::vector<Wave*> _waves;

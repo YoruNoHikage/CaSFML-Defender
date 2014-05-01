@@ -160,11 +160,11 @@ void PlayingScreen::draw(sf::RenderWindow& app)
     app.draw(lvl.getBackground());
     app.draw(lvl.getGround());
     app.draw(lvl.getPlayer());
+    app.draw(lvl.getCastle());
     for(std::list<Character*>::iterator itr = characters.begin() ; itr != characters.end() ; ++itr)
     {
         app.draw(**itr);
     }
-    app.draw(lvl.getCastle());
     for(std::list<Shot*>::const_iterator itr = shots.begin() ; itr != shots.end() ; ++itr)
     {
         app.draw(**itr);
