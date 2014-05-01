@@ -6,5 +6,5 @@
 			<spritearea left="0" top="0" width="100" height="100" />
 		</animation>
 	</animations>
-	<weapon />
+	<hitbox left="25" top="0" width="50" height="100" />
 </entity>

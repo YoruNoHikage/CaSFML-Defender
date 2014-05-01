@@ -38,15 +38,16 @@ void Character::loadEntityFromNode(Node& root)
         Node& areaNode = root.firstChild("hitbox");
         sf::FloatRect area = static_cast<sf::FloatRect>(loadAreaFromNode(areaNode));
         hitbox = new BoundingBoxHitbox(getPosition(), area);
+        Log::write(Log::LOG_INFO, "Entity's hitbox creation : " + toString(area));
     }
     catch(std::runtime_error& e)
     {
         Log::write(Log::LOG_WARNING, "No hitbox defined for Entity : " + toString(e.what()));
         // when there isn't hitbox, we assign the entity's global bounds as a hitbox
         hitbox = new BoundingBoxHitbox(getPosition(), getGlobalBounds());
+        Log::write(Log::LOG_INFO, "Entity's hitbox creation : " + toString(getGlobalBounds()));
     }
     setHitbox(hitbox);
-    Log::write(Log::LOG_INFO, "Friend's hitbox creation : " + toString(getGlobalBounds()));
 }
 
 void Character::updateCurrent(sf::Time elapsedTime)

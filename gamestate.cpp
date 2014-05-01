@@ -119,7 +119,7 @@ void PlayingScreen::checkAllCollisions()
             if((*itr)->collide(**jtr))
             {
                 (*itr)->die();
-                (*jtr)->receiveDamages(1);
+                (*jtr)->receiveDamages(1);///@todo: shots damages
                 break; // we break the loop to not kill others characters
             }
         }
