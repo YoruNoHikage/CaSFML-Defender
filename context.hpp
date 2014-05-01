@@ -24,6 +24,8 @@ class Context {
         bool getDebug() { return _isDebug; };
         void setDebug(bool debug) { _isDebug = debug; };
 
+        void friendSaved() {}; ///@todo: stats
+
         bool isGameOver() { return _isGameOver; };
         bool isSuccess() { return _isSuccess; };
         void gameOver(bool success) { _isGameOver = true; _isSuccess = success; }; // game is finished, with success or not

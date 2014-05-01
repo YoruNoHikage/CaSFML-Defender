@@ -1,6 +1,9 @@
 #include "Friend.hpp"
 
-Friend::Friend(const sf::Texture& texture) : Character(texture)
+#include "../game.hpp"
+
+Friend::Friend(const sf::Texture& texture) : Character(texture),
+                                             _saved(false)
 {
 }
 
@@ -31,5 +34,9 @@ void Friend::updateCurrent(sf::Time elapsedTime)
 
 void Friend::nearToCastle(Castle& castle)
 {
-    // ouf, saved
+    Character::nearToCastle(castle);
+
+    _saved = true;
+    Game::getContext().friendSaved();
+    setLife(0); ///@todo: better solution than this
 }

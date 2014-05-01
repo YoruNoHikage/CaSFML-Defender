@@ -16,12 +16,14 @@ class Friend : public Character
 
         virtual void nearToCastle(Castle& castle);
 
+        bool isSaved() { return _saved; };
+
     protected:
 
         virtual void updateCurrent(sf::Time elapsedTime);
 
     private:
-
+        bool _saved;
 };
 
 
