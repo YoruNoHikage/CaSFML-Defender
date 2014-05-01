@@ -11,6 +11,8 @@ class CharacterManager
         CharacterManager();
         ~CharacterManager();
 
+        void reset();
+
         void generateCharacters(); // for survival mode
         void getNewCharacters(sf::Time elapsedTime);
 

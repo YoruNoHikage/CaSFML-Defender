@@ -35,7 +35,7 @@ void SplashScreen::init()
     _splashTexture = im->getTexture(IMAGES_PATH"splashscreen.png");
     assert(_splashTexture != NULL);
 
-    _splash.setTexture(*_splashTexture);
+    _splash.setTexture(*_splashTexture, true);
 }
 
 /** \brief Update the splashscreen (event detection)

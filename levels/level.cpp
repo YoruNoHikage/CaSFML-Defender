@@ -176,6 +176,7 @@ void Level::buildLevel(Node& root)
     // The castle
     Node& castleNode = root.firstChild("castle");
     _castle.load(castleNode.firstAttributeValue("file"));
+    _castle.setPosition(0, 0);
 
     int offsetX = 0, offsetY = 0;
     try

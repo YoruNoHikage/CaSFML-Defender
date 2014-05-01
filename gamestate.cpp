@@ -171,6 +171,7 @@ void PlayingScreen::draw(sf::RenderWindow& app)
 void PlayingScreen::onEnter()
 {
     Game::getContext().reset();
+    _cm.reset();
 }
 
 /** \brief Launched when the playingscreen is ended in the state machine

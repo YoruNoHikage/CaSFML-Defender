@@ -21,7 +21,7 @@ void GameOver::init()
     _texture = im->getTexture(IMAGES_PATH"gameover.png");
     assert(_texture != NULL);
 
-    _sprite.setTexture(*_texture);
+    _sprite.setTexture(*_texture, true);
 }
 
 void GameOver::update(sf::Time elapsedTime)

@@ -12,6 +12,12 @@ CharacterManager::~CharacterManager()
     std::for_each(_characters.begin(), _characters.end(), Deallocator<Character>());
 }
 
+void CharacterManager::reset()
+{
+    std::for_each(_characters.begin(), _characters.end(), Deallocator<Character>());
+    _characters.clear();
+}
+
 void CharacterManager::generateCharacters()
 {
     Wave* newWave = Game::getContext().getLevel().getNextWave();

@@ -24,7 +24,7 @@ void Ground::load(std::string filename)
         _isLoaded = false;
     else
     {
-        _sprite.setTexture(*texture);
+        _sprite.setTexture(*texture, true); // We want to reset the textureRect so we set reset to true
         _isLoaded = true;
     }
 

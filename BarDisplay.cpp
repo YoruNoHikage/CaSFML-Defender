@@ -13,7 +13,7 @@ BarDisplay::BarDisplay() : SpriteNode(),
     sf::Texture* texture = im->getTexture(IMAGES_PATH"healthbar.png");
     if(texture != NULL)
     {
-        _sprite.setTexture(*texture);
+        _sprite.setTexture(*texture, true);
         _sprite.setTextureRect(sf::IntRect(0, 0, _maxRectValue, 10));
     }
 }

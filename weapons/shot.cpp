@@ -38,7 +38,7 @@ void Shot::load(std::string filename)
         _isLoaded = false;
     else
     {
-        _sprite.setTexture(*texture);
+        _sprite.setTexture(*texture, true);
         _isLoaded = true;
     }
 
