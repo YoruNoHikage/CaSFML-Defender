@@ -33,6 +33,8 @@ class Enemy : public Character
 
         /// Weapon is currently integrated in the enemy
         int _damages;
+        sf::Time _attackDuration,
+                 _timeSinceLastAttack;
 };
 
 #endif

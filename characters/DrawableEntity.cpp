@@ -23,8 +23,11 @@ void DrawableEntity::createAnimation(const int name, const sf::IntRect& animatio
 
 void DrawableEntity::setAnimation(const int name)
 {
-    _animations[_currentAnimation].reset();
-    _currentAnimation = name;
+    if(name != _currentAnimation)
+    {
+        _animations[_currentAnimation].reset();
+        _currentAnimation = name;
+    }
 }
 
 sf::IntRect DrawableEntity::loadAreaFromNode(Node& node) const

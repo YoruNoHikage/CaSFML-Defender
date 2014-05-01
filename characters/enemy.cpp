@@ -6,7 +6,9 @@
 
 Enemy::Enemy(const sf::Texture& texture) : Character(texture),
                                            _healthBar(),
-                                           _damages(1)
+                                           _damages(1),
+                                           _attackDuration(sf::seconds(1)),
+                                           _timeSinceLastAttack(sf::Time::Zero)
 {
     attachChild(&_healthBar);
 }
@@ -30,6 +32,8 @@ void Enemy::loadAnimationsFromNode(Node& root)
             continue;
 
         sf::Time duration(sf::seconds(atof((*animItr)->firstAttributeValue("duration").c_str())));
+        if(type == Enemy::ATTACK)
+            _attackDuration = duration;
 
         Node& areaNode = (*animItr)->firstChild("area");
         sf::IntRect area = loadAreaFromNode(areaNode);
@@ -76,7 +80,12 @@ void Enemy::updateCurrent(sf::Time elapsedTime)
     if(isNearToCastle())
     {
         setAnimation(Enemy::ATTACK);
-        attack(elapsedTime);
+        _timeSinceLastAttack += elapsedTime;
+        if(_timeSinceLastAttack >= _attackDuration)
+        {
+            attack(elapsedTime);
+            _timeSinceLastAttack = sf::Time::Zero;
+        }
     }
 
     _healthBar.setValue(getLife());
